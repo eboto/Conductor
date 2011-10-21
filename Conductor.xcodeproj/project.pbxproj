@@ -6,14 +6,181 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		DB83D19E1451F1B200D94890 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
+		DB83D1A41451F1B200D94890 /* Conductor.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1A31451F1B200D94890 /* Conductor.m */; };
+		DB83D1AC1451F1B200D94890 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D1AB1451F1B200D94890 /* SenTestingKit.framework */; };
+		DB83D1AE1451F1B200D94890 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D1AD1451F1B200D94890 /* UIKit.framework */; };
+		DB83D1AF1451F1B200D94890 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
+		DB83D1B21451F1B200D94890 /* libConductor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19A1451F1B200D94890 /* libConductor.a */; };
+		DB83D1B81451F1B200D94890 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB83D1B61451F1B200D94890 /* InfoPlist.strings */; };
+		DB83D1BB1451F1B200D94890 /* ConductorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1BA1451F1B200D94890 /* ConductorTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DB83D1B01451F1B200D94890 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DB83D18F1451F19E00D94890 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DB83D1991451F1B200D94890;
+			remoteInfo = Conductor;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DB83D19A1451F1B200D94890 /* libConductor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libConductor.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB83D19D1451F1B200D94890 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DB83D1A11451F1B200D94890 /* Conductor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Conductor-Prefix.pch"; sourceTree = "<group>"; };
+		DB83D1A21451F1B200D94890 /* Conductor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Conductor.h; sourceTree = "<group>"; };
+		DB83D1A31451F1B200D94890 /* Conductor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Conductor.m; sourceTree = "<group>"; };
+		DB83D1AA1451F1B200D94890 /* ConductorTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConductorTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB83D1AB1451F1B200D94890 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		DB83D1AD1451F1B200D94890 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		DB83D1B51451F1B200D94890 /* ConductorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ConductorTests-Info.plist"; sourceTree = "<group>"; };
+		DB83D1B71451F1B200D94890 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DB83D1B91451F1B200D94890 /* ConductorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConductorTests.h; sourceTree = "<group>"; };
+		DB83D1BA1451F1B200D94890 /* ConductorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConductorTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DB83D1971451F1B200D94890 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB83D19E1451F1B200D94890 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB83D1A61451F1B200D94890 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB83D1AC1451F1B200D94890 /* SenTestingKit.framework in Frameworks */,
+				DB83D1AE1451F1B200D94890 /* UIKit.framework in Frameworks */,
+				DB83D1AF1451F1B200D94890 /* Foundation.framework in Frameworks */,
+				DB83D1B21451F1B200D94890 /* libConductor.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
 		DB83D18D1451F19E00D94890 = {
 			isa = PBXGroup;
 			children = (
+				DB83D19F1451F1B200D94890 /* Conductor */,
+				DB83D1B31451F1B200D94890 /* ConductorTests */,
+				DB83D19C1451F1B200D94890 /* Frameworks */,
+				DB83D19B1451F1B200D94890 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
+		DB83D19B1451F1B200D94890 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DB83D19A1451F1B200D94890 /* libConductor.a */,
+				DB83D1AA1451F1B200D94890 /* ConductorTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DB83D19C1451F1B200D94890 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DB83D19D1451F1B200D94890 /* Foundation.framework */,
+				DB83D1AB1451F1B200D94890 /* SenTestingKit.framework */,
+				DB83D1AD1451F1B200D94890 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DB83D19F1451F1B200D94890 /* Conductor */ = {
+			isa = PBXGroup;
+			children = (
+				DB83D1A21451F1B200D94890 /* Conductor.h */,
+				DB83D1A31451F1B200D94890 /* Conductor.m */,
+				DB83D1A01451F1B200D94890 /* Supporting Files */,
+			);
+			path = Conductor;
+			sourceTree = "<group>";
+		};
+		DB83D1A01451F1B200D94890 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DB83D1A11451F1B200D94890 /* Conductor-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DB83D1B31451F1B200D94890 /* ConductorTests */ = {
+			isa = PBXGroup;
+			children = (
+				DB83D1B91451F1B200D94890 /* ConductorTests.h */,
+				DB83D1BA1451F1B200D94890 /* ConductorTests.m */,
+				DB83D1B41451F1B200D94890 /* Supporting Files */,
+			);
+			path = ConductorTests;
+			sourceTree = "<group>";
+		};
+		DB83D1B41451F1B200D94890 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DB83D1B51451F1B200D94890 /* ConductorTests-Info.plist */,
+				DB83D1B61451F1B200D94890 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		DB83D1981451F1B200D94890 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		DB83D1991451F1B200D94890 /* Conductor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DB83D1BC1451F1B200D94890 /* Build configuration list for PBXNativeTarget "Conductor" */;
+			buildPhases = (
+				DB83D1961451F1B200D94890 /* Sources */,
+				DB83D1971451F1B200D94890 /* Frameworks */,
+				DB83D1981451F1B200D94890 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Conductor;
+			productName = Conductor;
+			productReference = DB83D19A1451F1B200D94890 /* libConductor.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		DB83D1A91451F1B200D94890 /* ConductorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DB83D1BF1451F1B200D94890 /* Build configuration list for PBXNativeTarget "ConductorTests" */;
+			buildPhases = (
+				DB83D1A51451F1B200D94890 /* Sources */,
+				DB83D1A61451F1B200D94890 /* Frameworks */,
+				DB83D1A71451F1B200D94890 /* Resources */,
+				DB83D1A81451F1B200D94890 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DB83D1B11451F1B200D94890 /* PBXTargetDependency */,
+			);
+			name = ConductorTests;
+			productName = ConductorTests;
+			productReference = DB83D1AA1451F1B200D94890 /* ConductorTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		DB83D18F1451F19E00D94890 /* Project object */ = {
@@ -30,12 +197,80 @@
 				en,
 			);
 			mainGroup = DB83D18D1451F19E00D94890;
+			productRefGroup = DB83D19B1451F1B200D94890 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				DB83D1991451F1B200D94890 /* Conductor */,
+				DB83D1A91451F1B200D94890 /* ConductorTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DB83D1A71451F1B200D94890 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB83D1B81451F1B200D94890 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DB83D1A81451F1B200D94890 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DB83D1961451F1B200D94890 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB83D1A41451F1B200D94890 /* Conductor.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB83D1A51451F1B200D94890 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB83D1BB1451F1B200D94890 /* ConductorTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DB83D1B11451F1B200D94890 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DB83D1991451F1B200D94890 /* Conductor */;
+			targetProxy = DB83D1B01451F1B200D94890 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DB83D1B61451F1B200D94890 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DB83D1B71451F1B200D94890 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		DB83D1941451F19F00D94890 /* Debug */ = {
@@ -50,6 +285,120 @@
 			};
 			name = Release;
 		};
+		DB83D1BD1451F1B200D94890 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				DSTROOT = /tmp/Conductor.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Conductor/Conductor-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = include/Conductor/Private;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/Conductor;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		DB83D1BE1451F1B200D94890 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DSTROOT = /tmp/Conductor.dst;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Conductor/Conductor-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
+				PRIVATE_HEADERS_FOLDER_PATH = include/Conductor/Private;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = include/Conductor;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DB83D1C01451F1B200D94890 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Conductor/Conductor-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "ConductorTests/ConductorTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		DB83D1C11451F1B200D94890 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Conductor/Conductor-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "ConductorTests/ConductorTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -61,6 +410,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		DB83D1BC1451F1B200D94890 /* Build configuration list for PBXNativeTarget "Conductor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB83D1BD1451F1B200D94890 /* Debug */,
+				DB83D1BE1451F1B200D94890 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		DB83D1BF1451F1B200D94890 /* Build configuration list for PBXNativeTarget "ConductorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB83D1C01451F1B200D94890 /* Debug */,
+				DB83D1C11451F1B200D94890 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
