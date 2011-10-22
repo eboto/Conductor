@@ -7,7 +7,10 @@
 //
 
 #import <SenTestingKit/SenTestingKit.h>
+#import "CDOperationQueue.h"
 
-@interface ConductorTests : SenTestCase
+@interface ConductorTests : SenTestCase {
+    CDOperationQueue *testOperationQueue;
+}
 
 @end

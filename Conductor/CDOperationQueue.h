@@ -28,6 +28,9 @@
 
 - (CDOperation *)getOperationWithIdentifier:(id)identifier;
 
+- (void)updatePriorityOfOperationWithIdentifier:(id)identifier 
+                                  toNewPriority:(NSOperationQueuePriority)priority;
+
 - (BOOL)isRunning;
 
 @end

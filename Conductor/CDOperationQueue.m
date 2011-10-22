@@ -17,20 +17,12 @@
 @synthesize name;
 
 - (void)dealloc {
-    [queue release];
-    [name release];
-    [operations release];
+    [queue release], queue = nil;
+    [name release], name = nil;
+    [operations release], operations = nil;
     
     [super dealloc];
 }
-
-//- (id)init {
-//    self = [super init];
-//    if (self) {
-//        
-//    }
-//    return self;
-//}
 
 - (void)addOperation:(NSOperation *)operation {
     [self addOperation:operation atPriority:operation.queuePriority];
@@ -58,7 +50,7 @@
 
 - (void)operationDidFinish:(CDOperation *)operation {
     // Cleanup after operation is finished
-    [operation removeObserver:self forKeyPath:@"isFinished"];    
+    [operation removeObserver:self forKeyPath:@"isFinished"];  
     [self.operations removeObjectForKey:operation.identifier];
 }
 
@@ -82,8 +74,8 @@
 
 #pragma mark - Priority
 
-- (void)updateOperationWithIdentifier:(id)identifier 
-                           toPriority:(NSOperationQueuePriority)priority {
+- (void)updatePriorityOfOperationWithIdentifier:(id)identifier 
+                           toNewPriority:(NSOperationQueuePriority)priority {
     CDOperation *op = [self getOperationWithIdentifier:identifier];
     [op setQueuePriority:priority];
 }

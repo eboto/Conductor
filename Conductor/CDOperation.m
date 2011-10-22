@@ -49,7 +49,7 @@ static inline NSString * StringForCDOperationState(CDOperationState state) {
             state = _state;
 
 - (void)dealloc {
-    [identifier_ release];
+    [identifier_ release], identifier_ = nil;
     
     [super dealloc];
 }
@@ -76,7 +76,7 @@ static inline NSString * StringForCDOperationState(CDOperationState state) {
     self.state = CDOperationStateExecuting;
 }
 
-- (void)done {
+- (void)finish {
     self.state = CDOperationStateFinished;
 }
 

@@ -25,4 +25,10 @@
  */
 - (id)initWithIdentifier:(id)identifier;
 
+/**
+ * Call this when the main operation is finished running.  Subclasses can use
+ * this to run any necessary cleanup when finished.
+ */
+- (void)finish;
+
 @end

@@ -19,6 +19,7 @@
 		DB83D1DB1451F89E00D94890 /* CDOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1D91451F89E00D94890 /* CDOperationQueue.m */; };
 		DB83D1DE1451FB1900D94890 /* CDOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DB83D1DC1451FB1900D94890 /* CDOperation.h */; };
 		DB83D1DF1451FB1900D94890 /* CDOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1DD1451FB1900D94890 /* CDOperation.m */; };
+		DBFADED214524E6E00FD43FF /* CDTestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFADED114524E6E00FD43FF /* CDTestOperation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		DB83D1D91451F89E00D94890 /* CDOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationQueue.m; sourceTree = "<group>"; };
 		DB83D1DC1451FB1900D94890 /* CDOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperation.h; sourceTree = "<group>"; };
 		DB83D1DD1451FB1900D94890 /* CDOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperation.m; sourceTree = "<group>"; };
+		DBFADED014524E6E00FD43FF /* CDTestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDTestOperation.h; sourceTree = "<group>"; };
+		DBFADED114524E6E00FD43FF /* CDTestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDTestOperation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +132,8 @@
 			children = (
 				DB83D1B91451F1B200D94890 /* ConductorTests.h */,
 				DB83D1BA1451F1B200D94890 /* ConductorTests.m */,
+				DBFADED014524E6E00FD43FF /* CDTestOperation.h */,
+				DBFADED114524E6E00FD43FF /* CDTestOperation.m */,
 				DB83D1B41451F1B200D94890 /* Supporting Files */,
 			);
 			path = ConductorTests;
@@ -264,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB83D1BB1451F1B200D94890 /* ConductorTests.m in Sources */,
+				DBFADED214524E6E00FD43FF /* CDTestOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,6 +440,7 @@
 				DB83D1BE1451F1B200D94890 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DB83D1BF1451F1B200D94890 /* Build configuration list for PBXNativeTarget "ConductorTests" */ = {
 			isa = XCConfigurationList;
@@ -442,6 +449,7 @@
 				DB83D1C11451F1B200D94890 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
