@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CDOperationQueue.h"
 
 @interface Conductor : NSObject {
 @private
@@ -17,7 +18,16 @@
 
 - (void)addOperation:(NSOperation *)operation;
 
-- (void)addOperation:(NSOperation *)operation toQueue
+- (void)addOperation:(NSOperation *)operation 
+          atPriority:(NSOperationQueuePriority)priority;
 
+- (void)addOperation:(NSOperation *)operation 
+          atPriority:(NSOperationQueuePriority)priority 
+        toQueueNamed:(NSString *)queueName;
+
+- (void)cancelAllOperations;
+- (void)cancelAllOperationsInQueueNamed:(NSString *)queueName;
+
+- (CDOperationQueue *)getQueueNamed:(NSString *)queueNamed;
 
 @end

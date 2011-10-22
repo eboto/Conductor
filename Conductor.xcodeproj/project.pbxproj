@@ -15,6 +15,10 @@
 		DB83D1B21451F1B200D94890 /* libConductor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19A1451F1B200D94890 /* libConductor.a */; };
 		DB83D1B81451F1B200D94890 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB83D1B61451F1B200D94890 /* InfoPlist.strings */; };
 		DB83D1BB1451F1B200D94890 /* ConductorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1BA1451F1B200D94890 /* ConductorTests.m */; };
+		DB83D1DA1451F89E00D94890 /* CDOperationQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = DB83D1D81451F89E00D94890 /* CDOperationQueue.h */; };
+		DB83D1DB1451F89E00D94890 /* CDOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1D91451F89E00D94890 /* CDOperationQueue.m */; };
+		DB83D1DE1451FB1900D94890 /* CDOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DB83D1DC1451FB1900D94890 /* CDOperation.h */; };
+		DB83D1DF1451FB1900D94890 /* CDOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1DD1451FB1900D94890 /* CDOperation.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +44,10 @@
 		DB83D1B71451F1B200D94890 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DB83D1B91451F1B200D94890 /* ConductorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConductorTests.h; sourceTree = "<group>"; };
 		DB83D1BA1451F1B200D94890 /* ConductorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConductorTests.m; sourceTree = "<group>"; };
+		DB83D1D81451F89E00D94890 /* CDOperationQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperationQueue.h; sourceTree = "<group>"; };
+		DB83D1D91451F89E00D94890 /* CDOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationQueue.m; sourceTree = "<group>"; };
+		DB83D1DC1451FB1900D94890 /* CDOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperation.h; sourceTree = "<group>"; };
+		DB83D1DD1451FB1900D94890 /* CDOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +107,10 @@
 			children = (
 				DB83D1A21451F1B200D94890 /* Conductor.h */,
 				DB83D1A31451F1B200D94890 /* Conductor.m */,
+				DB83D1D81451F89E00D94890 /* CDOperationQueue.h */,
+				DB83D1D91451F89E00D94890 /* CDOperationQueue.m */,
+				DB83D1DC1451FB1900D94890 /* CDOperation.h */,
+				DB83D1DD1451FB1900D94890 /* CDOperation.m */,
 				DB83D1A01451F1B200D94890 /* Supporting Files */,
 			);
 			path = Conductor;
@@ -138,6 +150,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB83D1DA1451F89E00D94890 /* CDOperationQueue.h in Headers */,
+				DB83D1DE1451FB1900D94890 /* CDOperation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +254,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB83D1A41451F1B200D94890 /* Conductor.m in Sources */,
+				DB83D1DB1451F89E00D94890 /* CDOperationQueue.m in Sources */,
+				DB83D1DF1451FB1900D94890 /* CDOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
