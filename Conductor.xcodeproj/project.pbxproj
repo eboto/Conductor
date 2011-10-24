@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB30DAA81456097E00660691 /* Conductor+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DB30DAA61456097E00660691 /* Conductor+Private.h */; };
+		DB30DAA91456097E00660691 /* Conductor+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = DB30DAA71456097E00660691 /* Conductor+Private.m */; };
 		DB83D19E1451F1B200D94890 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
 		DB83D1A41451F1B200D94890 /* Conductor.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1A31451F1B200D94890 /* Conductor.m */; };
 		DB83D1AC1451F1B200D94890 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D1AB1451F1B200D94890 /* SenTestingKit.framework */; };
@@ -33,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DB30DAA61456097E00660691 /* Conductor+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Conductor+Private.h"; sourceTree = "<group>"; };
+		DB30DAA71456097E00660691 /* Conductor+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Conductor+Private.m"; sourceTree = "<group>"; };
 		DB83D19A1451F1B200D94890 /* libConductor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libConductor.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB83D19D1451F1B200D94890 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DB83D1A11451F1B200D94890 /* Conductor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Conductor-Prefix.pch"; sourceTree = "<group>"; };
@@ -110,6 +114,8 @@
 			children = (
 				DB83D1A21451F1B200D94890 /* Conductor.h */,
 				DB83D1A31451F1B200D94890 /* Conductor.m */,
+				DB30DAA61456097E00660691 /* Conductor+Private.h */,
+				DB30DAA71456097E00660691 /* Conductor+Private.m */,
 				DB83D1D81451F89E00D94890 /* CDOperationQueue.h */,
 				DB83D1D91451F89E00D94890 /* CDOperationQueue.m */,
 				DB83D1DC1451FB1900D94890 /* CDOperation.h */,
@@ -157,6 +163,7 @@
 			files = (
 				DB83D1DA1451F89E00D94890 /* CDOperationQueue.h in Headers */,
 				DB83D1DE1451FB1900D94890 /* CDOperation.h in Headers */,
+				DB30DAA81456097E00660691 /* Conductor+Private.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +268,7 @@
 				DB83D1A41451F1B200D94890 /* Conductor.m in Sources */,
 				DB83D1DB1451F89E00D94890 /* CDOperationQueue.m in Sources */,
 				DB83D1DF1451FB1900D94890 /* CDOperation.m in Sources */,
+				DB30DAA91456097E00660691 /* Conductor+Private.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,6 +397,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "ConductorTests/ConductorTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = octest;
@@ -414,6 +423,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "ConductorTests/ConductorTests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

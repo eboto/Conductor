@@ -3,7 +3,7 @@
 //  Conductor
 //
 //  Created by Andrew Smith on 10/21/11.
-//  Copyright (c) 2011 Posterous. All rights reserved.
+//  Copyright (c) 2011 Andrew B. Smith. All rights reserved.
 //
 
 #import "CDOperation.h"
@@ -70,9 +70,20 @@ static inline NSString * StringForCDOperationState(CDOperationState state) {
     return self;
 }
 
++ (id)operationWithIdentifier:(id)identifier{
+    return [[[self alloc] initWithIdentifier:identifier] autorelease];
+}
+
++ (id)operation {
+    return [[[self alloc] init] autorelease];
+}
+
 #pragma mark - 
 
 - (void)start {
+    
+    // Don't forget to wrap your operation in an autorelease pool
+    
     self.state = CDOperationStateExecuting;
 }
 
@@ -116,8 +127,12 @@ static inline NSString * StringForCDOperationState(CDOperationState state) {
 }
 
 - (id)identifier {
-    if (!identifier_) return self.description;
-    return identifier_;
+    if (identifier_) return [[identifier_ retain] autorelease];
+    
+    NSInteger time = CFAbsoluteTimeGetCurrent();
+    identifier_ = [[NSString stringWithFormat:@"%@_%d", NSStringFromClass([self class]), time] retain];
+    
+    return [[identifier_ retain] autorelease];
 }
 
 

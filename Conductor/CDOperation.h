@@ -3,7 +3,7 @@
 //  Conductor
 //
 //  Created by Andrew Smith on 10/21/11.
-//  Copyright (c) 2011 Posterous. All rights reserved.
+//  Copyright (c) 2011 Andrew B. Smith. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -24,6 +24,17 @@
  * @see identifier
  */
 - (id)initWithIdentifier:(id)identifier;
+
+/**
+ * Factory for adding an identifier to your operation.
+ * @see initWithIdentifier:
+ */
++ (id)operationWithIdentifier:(id)identifier;
+
+/**
+ * Factory for creating a new operation
+ */
++ (id)operation;
 
 /**
  * Call this when the main operation is finished running.  Subclasses can use

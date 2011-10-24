@@ -3,7 +3,7 @@
 //  Conductor
 //
 //  Created by Andrew Smith on 10/21/11.
-//  Copyright (c) 2011 Posterous. All rights reserved.
+//  Copyright (c) 2011 Andrew B. Smith. All rights reserved.
 //
 
 #import "CDOperationQueue.h"
@@ -24,6 +24,14 @@
     [super dealloc];
 }
 
++ (id)queueWithName:(NSString *)queueName {
+    CDOperationQueue *q = [[[self alloc] init] autorelease];
+    q.name = queueName;
+    return q;
+}
+
+#pragma mark -
+
 - (void)addOperation:(NSOperation *)operation {
     [self addOperation:operation atPriority:operation.queuePriority];
 }
@@ -31,6 +39,7 @@
 - (void)addOperation:(NSOperation *)operation 
           atPriority:(NSOperationQueuePriority)priority {
     
+    // Observe
     if ([operation isKindOfClass:[CDOperation class]]) {
         
         // Add operation to operations dict
@@ -44,8 +53,15 @@
                 context:NULL];
     }
     
+    // set priority
+    [operation setQueuePriority:priority];
+    
     // Add operation to queue and start
     [self.queue addOperation:operation];
+}
+
+- (void)cancelAllOperations {
+    [self.queue cancelAllOperations];
 }
 
 - (void)operationDidFinish:(CDOperation *)operation {
@@ -74,10 +90,17 @@
 
 #pragma mark - Priority
 
-- (void)updatePriorityOfOperationWithIdentifier:(id)identifier 
-                           toNewPriority:(NSOperationQueuePriority)priority {
+- (BOOL)updatePriorityOfOperationWithIdentifier:(id)identifier 
+                                  toNewPriority:(NSOperationQueuePriority)priority {
     CDOperation *op = [self getOperationWithIdentifier:identifier];
-    [op setQueuePriority:priority];
+    
+    // These tests are probably not necessry, just thrown in for extra safety
+    if (op && ![op isExecuting] && ![op isCancelled] && ![op isFinished]) {
+        [op setQueuePriority:priority];
+        return YES;
+    }
+    
+    return NO;
 }
 
 #pragma mark - Accessors
