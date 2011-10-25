@@ -7,7 +7,6 @@
 //
 
 #import "Conductor.h"
-#import "Conductor+Private.h"
 
 
 @implementation Conductor
@@ -102,6 +101,47 @@
     if (queues) return [[queues retain] autorelease];
     queues = [[NSMutableDictionary alloc] init];
     return [[queues retain] autorelease];
+}
+
+#pragma mark - Private
+
+- (NSString *)queueNameForOperation:(NSOperation *)operation {
+    if (!operation) return nil;
+    NSString *className = NSStringFromClass([operation class]);
+    return [NSString stringWithFormat:@"%@_operation_queue", className];
+}
+
+- (CDOperationQueue *)queueForOperation:(NSOperation *)operation
+                           shouldCreate:(BOOL)create {
+    
+    NSString *queueName = [self queueNameForOperation:operation];
+    return [self queueForQueueName:queueName shouldCreate:create];
+}
+
+- (CDOperationQueue *)getQueueNamed:(NSString *)queueNamed {
+    if (!queueNamed) return nil;
+    return [self.queues objectForKey:queueNamed];
+}
+
+- (CDOperationQueue *)queueForQueueName:(NSString *)queueName 
+                           shouldCreate:(BOOL)create {
+    if (!queueName) return nil;
+    
+    id queue = [self.queues objectForKey:queueName];
+    
+    if (!queue && create) {
+        queue = [self createQueueWithName:queueName];
+    }
+    
+    return (CDOperationQueue *)queue;
+}
+
+
+- (CDOperationQueue *)createQueueWithName:(NSString *)queueName {
+    if (!queueName) return nil;
+    CDOperationQueue *queue = [CDOperationQueue queueWithName:queueName];
+    [self.queues setObject:queue forKey:queueName];
+    return queue;
 }
 
 @end

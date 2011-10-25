@@ -8,8 +8,6 @@
 
 #import "ConductorTests.h"
 
-#import "Conductor+Private.h"
-
 #import "CDOperation.h"
 #import "CDTestOperation.h"
 

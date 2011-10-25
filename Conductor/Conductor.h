@@ -74,4 +74,26 @@
  */
 - (NSArray *)allQueueNames;
 
+#pragma mark Private
+
+/**
+ * Returns the queue name for the specific operation type
+ */
+- (NSString *)queueNameForOperation:(NSOperation *)operation;
+
+/**
+ * Returns the queue for the specific operation type, nil if no queue already
+ * exists.  If create == YES, the queue will also be created.
+ */
+- (CDOperationQueue *)queueForOperation:(NSOperation *)operation 
+                           shouldCreate:(BOOL)create;
+
+/**
+ * Returns the queue for the given name
+ */
+- (CDOperationQueue *)queueForQueueName:(NSString *)queueName 
+                           shouldCreate:(BOOL)create;
+
+- (CDOperationQueue *)createQueueWithName:(NSString *)queueName;
+
 @end
