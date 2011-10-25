@@ -3,7 +3,7 @@
 //  Conductor
 //
 //  Created by Andrew Smith on 10/24/11.
-//  Copyright (c) 2011 Posterous. All rights reserved.
+//  Copyright (c) 2011 Andrew B. Smith. All rights reserved.
 //
 
 #import "Conductor+Private.h"

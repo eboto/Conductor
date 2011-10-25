@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DB30DAA81456097E00660691 /* Conductor+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DB30DAA61456097E00660691 /* Conductor+Private.h */; };
+		DB30DAA81456097E00660691 /* Conductor+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DB30DAA61456097E00660691 /* Conductor+Private.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB30DAA91456097E00660691 /* Conductor+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = DB30DAA71456097E00660691 /* Conductor+Private.m */; };
 		DB83D19E1451F1B200D94890 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
 		DB83D1A41451F1B200D94890 /* Conductor.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1A31451F1B200D94890 /* Conductor.m */; };
@@ -17,10 +17,11 @@
 		DB83D1B21451F1B200D94890 /* libConductor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19A1451F1B200D94890 /* libConductor.a */; };
 		DB83D1B81451F1B200D94890 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB83D1B61451F1B200D94890 /* InfoPlist.strings */; };
 		DB83D1BB1451F1B200D94890 /* ConductorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1BA1451F1B200D94890 /* ConductorTests.m */; };
-		DB83D1DA1451F89E00D94890 /* CDOperationQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = DB83D1D81451F89E00D94890 /* CDOperationQueue.h */; };
+		DB83D1DA1451F89E00D94890 /* CDOperationQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = DB83D1D81451F89E00D94890 /* CDOperationQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB83D1DB1451F89E00D94890 /* CDOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1D91451F89E00D94890 /* CDOperationQueue.m */; };
-		DB83D1DE1451FB1900D94890 /* CDOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DB83D1DC1451FB1900D94890 /* CDOperation.h */; };
+		DB83D1DE1451FB1900D94890 /* CDOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DB83D1DC1451FB1900D94890 /* CDOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB83D1DF1451FB1900D94890 /* CDOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1DD1451FB1900D94890 /* CDOperation.m */; };
+		DBA5F95514560E1D00EBFF68 /* Conductor.h in Headers */ = {isa = PBXBuildFile; fileRef = DB83D1A21451F1B200D94890 /* Conductor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBFADED214524E6E00FD43FF /* CDTestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFADED114524E6E00FD43FF /* CDTestOperation.m */; };
 /* End PBXBuildFile section */
 
@@ -164,6 +165,7 @@
 				DB83D1DA1451F89E00D94890 /* CDOperationQueue.h in Headers */,
 				DB83D1DE1451FB1900D94890 /* CDOperation.h in Headers */,
 				DB30DAA81456097E00660691 /* Conductor+Private.h in Headers */,
+				DBA5F95514560E1D00EBFF68 /* Conductor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,7 +215,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0420;
-				ORGANIZATIONNAME = Posterous;
+				ORGANIZATIONNAME = "Andrew B. Smith";
 			};
 			buildConfigurationList = DB83D1921451F19E00D94890 /* Build configuration list for PBXProject "Conductor" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -306,12 +308,14 @@
 		DB83D1941451F19F00D94890 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
 		DB83D1951451F19F00D94890 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
