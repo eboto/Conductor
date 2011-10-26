@@ -300,6 +300,7 @@
 		DB83D1941451F19F00D94890 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -307,6 +308,7 @@
 		DB83D1951451F19F00D94890 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Release;
