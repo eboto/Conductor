@@ -10,7 +10,6 @@
 		DB83D19E1451F1B200D94890 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
 		DB83D1A41451F1B200D94890 /* Conductor.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1A31451F1B200D94890 /* Conductor.m */; };
 		DB83D1AC1451F1B200D94890 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D1AB1451F1B200D94890 /* SenTestingKit.framework */; };
-		DB83D1AE1451F1B200D94890 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D1AD1451F1B200D94890 /* UIKit.framework */; };
 		DB83D1AF1451F1B200D94890 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
 		DB83D1B21451F1B200D94890 /* libConductor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19A1451F1B200D94890 /* libConductor.a */; };
 		DB83D1B81451F1B200D94890 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DB83D1B61451F1B200D94890 /* InfoPlist.strings */; };
@@ -41,7 +40,6 @@
 		DB83D1A31451F1B200D94890 /* Conductor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Conductor.m; sourceTree = "<group>"; };
 		DB83D1AA1451F1B200D94890 /* ConductorTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConductorTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB83D1AB1451F1B200D94890 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		DB83D1AD1451F1B200D94890 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		DB83D1B51451F1B200D94890 /* ConductorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ConductorTests-Info.plist"; sourceTree = "<group>"; };
 		DB83D1B71451F1B200D94890 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DB83D1B91451F1B200D94890 /* ConductorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConductorTests.h; sourceTree = "<group>"; };
@@ -68,7 +66,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB83D1AC1451F1B200D94890 /* SenTestingKit.framework in Frameworks */,
-				DB83D1AE1451F1B200D94890 /* UIKit.framework in Frameworks */,
 				DB83D1AF1451F1B200D94890 /* Foundation.framework in Frameworks */,
 				DB83D1B21451F1B200D94890 /* libConductor.a in Frameworks */,
 			);
@@ -101,7 +98,6 @@
 			children = (
 				DB83D19D1451F1B200D94890 /* Foundation.framework */,
 				DB83D1AB1451F1B200D94890 /* SenTestingKit.framework */,
-				DB83D1AD1451F1B200D94890 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
