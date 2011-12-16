@@ -31,7 +31,7 @@
     NSMutableDictionary *queues;
 }
 
-@property (nonatomic, readonly) NSMutableDictionary *queues;
+@property (weak, nonatomic, readonly) NSMutableDictionary *queues;
 
 /**
  Singleton Conductor instance

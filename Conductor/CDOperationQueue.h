@@ -37,7 +37,7 @@
 /**
  * Holds the operation queue
  */
-@property (nonatomic, readonly) NSOperationQueue *queue;
+@property (weak, nonatomic, readonly) NSOperationQueue *queue;
 
 /**
  * User set name of the queue
@@ -48,7 +48,7 @@
  * Dictionary of all CDOperations in the queue, where the key is the operations 
  * identifier and the object is the operation
  */
-@property (nonatomic, readonly) NSMutableDictionary *operations;
+@property (weak, nonatomic, readonly) NSMutableDictionary *operations;
 
 + (id)queueWithName:(NSString *)queueName;
 

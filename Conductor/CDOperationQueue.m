@@ -34,15 +34,13 @@
 @synthesize name;
 
 - (void)dealloc {
-    [queue release], queue = nil;
-    [name release], name = nil;
-    [operations release], operations = nil;
+    queue = nil;
+    operations = nil;
     
-    [super dealloc];
 }
 
 + (id)queueWithName:(NSString *)queueName {
-    CDOperationQueue *q = [[[self alloc] init] autorelease];
+    CDOperationQueue *q = [[self alloc] init];
     q.name = queueName;
     return q;
 }
@@ -123,15 +121,15 @@
 #pragma mark - Accessors
 
 - (NSOperationQueue *)queue {
-    if (queue) return [[queue retain] autorelease];
+    if (queue) return queue;
     queue = [[NSOperationQueue alloc] init];
-    return [[queue retain] autorelease];
+    return queue;
 }
 
 - (NSMutableDictionary *)operations {
-    if (operations) return [[operations retain] autorelease];
+    if (operations) return operations;
     operations = [[NSMutableDictionary alloc] init];
-    return [[operations retain] autorelease];
+    return operations;
 }
 
 - (BOOL)isRunning {

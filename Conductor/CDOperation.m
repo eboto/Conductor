@@ -65,11 +65,6 @@ static inline NSString * StringForCDOperationState(CDOperationState state) {
 @synthesize identifier = identifier_,
             state = _state;
 
-- (void)dealloc {
-    [identifier_ release], identifier_ = nil;
-    
-    [super dealloc];
-}
 
 - (id)init {
     self = [super init];
@@ -88,11 +83,11 @@ static inline NSString * StringForCDOperationState(CDOperationState state) {
 }
 
 + (id)operationWithIdentifier:(id)identifier{
-    return [[[self alloc] initWithIdentifier:identifier] autorelease];
+    return [[self alloc] initWithIdentifier:identifier];
 }
 
 + (id)operation {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
 #pragma mark - 
@@ -144,12 +139,12 @@ static inline NSString * StringForCDOperationState(CDOperationState state) {
 }
 
 - (id)identifier {
-    if (identifier_) return [[identifier_ retain] autorelease];
+    if (identifier_) return identifier_;
     
     NSInteger time = CFAbsoluteTimeGetCurrent();
-    identifier_ = [[NSString stringWithFormat:@"%@_%d", NSStringFromClass([self class]), time] retain];
+    identifier_ = [NSString stringWithFormat:@"%@_%d", NSStringFromClass([self class]), time];
     
-    return [[identifier_ retain] autorelease];
+    return identifier_;
 }
 
 

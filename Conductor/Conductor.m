@@ -115,9 +115,9 @@
 #pragma mark - Accessors
 
 - (NSMutableDictionary *)queues {
-    if (queues) return [[queues retain] autorelease];
+    if (queues) return queues;
     queues = [[NSMutableDictionary alloc] init];
-    return [[queues retain] autorelease];
+    return queues;
 }
 
 #pragma mark - Private
