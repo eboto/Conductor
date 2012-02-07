@@ -27,14 +27,7 @@
 
 #pragma mark - State
 
-typedef enum {
-    CDOperationStateReady,
-    CDOperationStateExecuting,
-    CDOperationStateFinished,
-    CDOperationStateCancelled,
-} CDOperationState;
-
-static inline NSString * StringForCDOperationState(CDOperationState state) {
+static inline NSString *StringForCDOperationState(CDOperationState state) {
     switch (state) {
         case CDOperationStateReady:
             return @"isReady";
@@ -125,6 +118,10 @@ static inline NSString * StringForCDOperationState(CDOperationState state) {
     // Ensures KVO complience for changes in NSOperation object state
     
     if (self.state == state) {
+        return;
+    }
+    
+    if (self.isCancelled) {
         return;
     }
     

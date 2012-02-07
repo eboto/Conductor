@@ -79,6 +79,14 @@
     [self.queue cancelAllOperations];
 }
 
+- (void)setSuspended:(BOOL)suspend {
+    [self.queue setSuspended:suspend];
+}
+
+- (BOOL)isSuspended {
+    return self.queue.isSuspended;
+}
+
 - (void)operationDidFinish:(CDOperation *)operation {
     // Cleanup after operation is finished
     [operation removeObserver:self forKeyPath:@"isFinished"];  

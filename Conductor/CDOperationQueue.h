@@ -65,6 +65,10 @@
 
 - (void)cancelAllOperations;
 
+- (void)setSuspended:(BOOL)suspend;
+
+- (BOOL)isSuspended;
+
 /**
  * Retrieve an operation with a given identifier.  Returns nil if operation has
  * already finished.

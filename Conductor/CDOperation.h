@@ -25,6 +25,13 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+    CDOperationStateReady,
+    CDOperationStateExecuting,
+    CDOperationStateFinished,
+    CDOperationStateCancelled,
+} CDOperationState;
+
 @interface CDOperation : NSOperation {
 @private
     id identifier_;

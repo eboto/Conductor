@@ -89,6 +89,26 @@
 - (void)cancelAllOperationsInQueueNamed:(NSString *)queueName;
 
 /**
+ Suspends all the operation queues.
+ */
+- (void)suspendAllQueues;
+
+/**
+ Suspends a specific queue
+ */
+- (void)suspendQueueNamed:(NSString *)queueName;
+
+/**
+ Resumes any suspended queues
+ */
+- (void)resumeAllQueues;
+
+/**
+ Resumes a specific queue
+ */
+- (void)resumeQueueNamed:(NSString *)queueName;
+
+/**
  * List of all queue names
  */
 - (NSArray *)allQueueNames;
@@ -108,10 +128,18 @@
                            shouldCreate:(BOOL)create;
 
 /**
+ Returns the queue for the operation.
+ */
+- (CDOperationQueue *)getQueueForOperation:(NSOperation *)operation;
+
+
+/**
  * Returns the queue for the given name
  */
 - (CDOperationQueue *)queueForQueueName:(NSString *)queueName 
                            shouldCreate:(BOOL)create;
+
+- (CDOperationQueue *)getQueueNamed:(NSString *)queueNamed;
 
 - (CDOperationQueue *)createQueueWithName:(NSString *)queueName;
 

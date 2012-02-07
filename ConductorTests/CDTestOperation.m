@@ -32,7 +32,7 @@
     
         [super start];
     
-        sleep(0.2); //sleep for 2 seconds
+        sleep(0.4); //sleep for 2 seconds
     
         [self finish];
     }

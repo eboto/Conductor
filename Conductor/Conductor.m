@@ -56,7 +56,7 @@
 
 - (void)addOperation:(CDOperation *)operation 
         toQueueNamed:(NSString *)queueName {
-    
+        
     [self addOperation:operation 
           toQueueNamed:queueName 
             atPriority:operation.queuePriority];
@@ -93,10 +93,11 @@
     return didUpdate;
 }
 
+#pragma mark - Queue States
+
 - (void)cancelAllOperations {
     for (NSString *queueName in self.queues) {
-        CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];
-        [queue cancelAllOperations];
+        [self cancelAllOperationsInQueueNamed:queueName];
     }
 }
 
@@ -104,6 +105,30 @@
     if (!queueName) return;
     CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];;
     [queue cancelAllOperations];
+}
+
+- (void)suspendAllQueues {
+    for (NSString *queueName in self.queues) {
+        [self suspendQueueNamed:queueName];
+    }
+}
+
+- (void)suspendQueueNamed:(NSString *)queueName {
+    if (!queueName) return;
+    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];;
+    [queue setSuspended:YES];
+}
+
+- (void)resumeAllQueues {
+    for (NSString *queueName in self.queues) {
+        [self resumeQueueNamed:queueName];
+    }    
+}
+
+- (void)resumeQueueNamed:(NSString *)queueName {
+    if (!queueName) return;
+    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];;
+    [queue setSuspended:NO];    
 }
 
 #pragma mark - Queue
@@ -135,9 +160,13 @@
     return [self queueForQueueName:queueName shouldCreate:create];
 }
 
+- (CDOperationQueue *)getQueueForOperation:(NSOperation *)operation {
+    NSString *queueName = [self queueNameForOperation:operation];
+    return [self getQueueNamed:queueName];    
+}
+
 - (CDOperationQueue *)getQueueNamed:(NSString *)queueNamed {
-    if (!queueNamed) return nil;
-    return [self.queues objectForKey:queueNamed];
+    return [self queueForQueueName:queueNamed shouldCreate:NO];
 }
 
 - (CDOperationQueue *)queueForQueueName:(NSString *)queueName 

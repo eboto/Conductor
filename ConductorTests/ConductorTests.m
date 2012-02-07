@@ -278,7 +278,7 @@
     
     [conductor addOperation:op];
     
-    STAssertNotNil([conductor queueForOperation:op shouldCreate:NO], @"Conductor should have queue for operation");
+    STAssertNotNil([conductor getQueueForOperation:op], @"Conductor should have queue for operation");
     
     NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
     while (hasFinished == NO) {
@@ -304,7 +304,7 @@
     
     [conductor addOperation:op toQueueNamed:@"CustomQueueName"];
             
-    STAssertNotNil([conductor queueForQueueName:@"CustomQueueName" shouldCreate:NO], @"Conductor should have queue for operation");
+    STAssertNotNil([conductor getQueueNamed:@"CustomQueueName"], @"Conductor should have queue for operation");
     
     NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
     while (hasFinished == NO) {
@@ -317,8 +317,103 @@
 
 - (void)testConductorUpdateQueuePriority {
     
+}
+
+- (void)testConductorCancelAllOperations {
+        
+    CDTestOperation *op = [CDTestOperation operation];
     
+    [conductor addOperation:op toQueueNamed:@"CustomQueueName"];
     
+    [conductor cancelAllOperations];
+
+    STAssertTrue(op.isCancelled, @"Operation should be cancelled");
+}
+
+- (void)testConductureCancelAllOperationsInQueueNamed {
+    CDTestOperation *op = [CDTestOperation operation];
+    
+    [conductor addOperation:op toQueueNamed:@"CustomQueueName"];
+    
+    [conductor cancelAllOperationsInQueueNamed:@"CustomQueueName"];
+    
+    STAssertTrue(op.isCancelled, @"Operation should be cancelled");
+}
+
+- (void)testConductorSuspendAllQueues {
+    CDTestOperation *op = [CDTestOperation operation];
+    
+    [conductor addOperation:op toQueueNamed:@"CustomQueueName"];
+    
+    [conductor suspendAllQueues];
+    
+    CDOperationQueue *queue = [conductor getQueueNamed:@"CustomQueueName"];
+    
+    STAssertTrue(queue.isSuspended, @"Operation queue should be suspended");
+}
+
+- (void)testConductorSuspendQueueNamed {
+    CDTestOperation *op = [CDTestOperation operation];
+    
+    [conductor addOperation:op toQueueNamed:@"CustomQueueName"];
+    
+    [conductor suspendQueueNamed:@"CustomQueueName"];
+    
+    CDOperationQueue *queue = [conductor getQueueNamed:@"CustomQueueName"];
+    
+    STAssertTrue(queue.isSuspended, @"Operation queue should be suspended");    
+}
+
+- (void)testConductorResumeAllQueues {
+    __block BOOL hasFinished = NO;
+    
+    void (^completionBlock)(void) = ^(void) {
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            hasFinished = YES;        
+        });
+    };         
+    
+    CDTestOperation *op = [CDTestOperation operation];
+    op.completionBlock = completionBlock;
+    
+    [conductor addOperation:op toQueueNamed:@"CustomQueueName"];
+    
+    [conductor suspendAllQueues];
+    [conductor resumeAllQueues];
+        
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
+    while (hasFinished == NO) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:loopUntil];
+    }    
+    
+    STAssertTrue(hasFinished, @"Conductor should add and complete test operation");
+}
+
+- (void)testConductorResumeQueueNamed {
+    __block BOOL hasFinished = NO;
+    
+    void (^completionBlock)(void) = ^(void) {
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            hasFinished = YES;        
+        });
+    };         
+    
+    CDTestOperation *op = [CDTestOperation operation];
+    op.completionBlock = completionBlock;
+    
+    [conductor addOperation:op toQueueNamed:@"CustomQueueName"];
+    
+    [conductor suspendQueueNamed:@"CustomQueueName"];
+    [conductor resumeQueueNamed:@"CustomQueueName"];
+    
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
+    while (hasFinished == NO) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:loopUntil];
+    }    
+    
+    STAssertTrue(hasFinished, @"Conductor should add and complete test operation");
 }
 
 @end
