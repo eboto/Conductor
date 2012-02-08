@@ -30,7 +30,6 @@
 @interface CDOperationQueue : NSObject {
 @private
     NSOperationQueue *queue;
-    NSString *name;
     NSMutableDictionary *operations;
 }
 
@@ -42,7 +41,7 @@
 /**
  * User set name of the queue
  */
-@property (nonatomic, copy) NSString *name;
+@property (nonatomic, readonly) NSString *name;
 
 /**
  * Dictionary of all CDOperations in the queue, where the key is the operations 

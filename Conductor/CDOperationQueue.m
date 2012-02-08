@@ -31,17 +31,14 @@
 
 @implementation CDOperationQueue
 
-@synthesize name;
-
 - (void)dealloc {
     queue = nil;
     operations = nil;
-    
 }
 
 + (id)queueWithName:(NSString *)queueName {
     CDOperationQueue *q = [[self alloc] init];
-    q.name = queueName;
+    q.queue.name = [queueName copy];
     return q;
 }
 
@@ -127,6 +124,10 @@
 }
 
 #pragma mark - Accessors
+
+- (NSString *)name {
+    return self.queue.name;
+}
 
 - (NSOperationQueue *)queue {
     if (queue) return queue;
