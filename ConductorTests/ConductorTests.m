@@ -319,6 +319,33 @@
     
 }
 
+- (void)testConductorIsRunning {
+    
+    __block BOOL hasFinished = NO;
+    
+    void (^completionBlock)(void) = ^(void) {
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            hasFinished = YES;        
+        });
+    };         
+    
+    CDTestOperation *op = [CDTestOperation operation];
+    op.completionBlock = completionBlock;
+    
+    [conductor addOperation:op];
+    
+    STAssertTrue([conductor isRunning], @"Conductor should be running");
+    
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
+    while (hasFinished == NO) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:loopUntil];
+    }    
+    
+    STAssertFalse([conductor isRunning], @"Operation should not be running");
+
+}
+
 - (void)testConductorCancelAllOperations {
         
     CDTestOperation *op = [CDTestOperation operation];

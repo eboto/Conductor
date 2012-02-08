@@ -28,10 +28,10 @@
 
 @interface Conductor : NSObject {
 @private
-    NSMutableDictionary *queues;
+    NSMutableDictionary *queuesDict;
 }
 
-@property (weak, nonatomic, readonly) NSMutableDictionary *queues;
+@property (weak, nonatomic, readonly) NSMutableDictionary *queuesDict;
 
 /**
  Singleton Conductor instance
@@ -112,6 +112,11 @@
  * List of all queue names
  */
 - (NSArray *)allQueueNames;
+
+/**
+ Queries all queues to see if any are running.
+ */
+- (BOOL)isRunning;
 
 #pragma mark Private
 

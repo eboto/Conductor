@@ -83,7 +83,7 @@
     
     __block BOOL didUpdate = NO;
     
-    [self.queues enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
+    [self.queuesDict enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
         if ([queue updatePriorityOfOperationWithIdentifier:queue toNewPriority:priority]) {
             didUpdate = YES;
             *stop = YES;
@@ -96,7 +96,7 @@
 #pragma mark - Queue States
 
 - (void)cancelAllOperations {
-    for (NSString *queueName in self.queues) {
+    for (NSString *queueName in self.queuesDict) {
         [self cancelAllOperationsInQueueNamed:queueName];
     }
 }
@@ -108,7 +108,7 @@
 }
 
 - (void)suspendAllQueues {
-    for (NSString *queueName in self.queues) {
+    for (NSString *queueName in self.queuesDict) {
         [self suspendQueueNamed:queueName];
     }
 }
@@ -120,7 +120,7 @@
 }
 
 - (void)resumeAllQueues {
-    for (NSString *queueName in self.queues) {
+    for (NSString *queueName in self.queuesDict) {
         [self resumeQueueNamed:queueName];
     }    
 }
@@ -134,15 +134,29 @@
 #pragma mark - Queue
 
 - (NSArray *)allQueueNames {
-    return [self.queues allKeys];
+    return [self.queuesDict allKeys];
 }
 
 #pragma mark - Accessors
 
-- (NSMutableDictionary *)queues {
-    if (queues) return queues;
-    queues = [[NSMutableDictionary alloc] init];
-    return queues;
+- (NSMutableDictionary *)queuesDict {
+    if (queuesDict) return queuesDict;
+    queuesDict = [[NSMutableDictionary alloc] init];
+    return queuesDict;
+}
+
+- (BOOL)isRunning {
+
+    __block BOOL isRunning = NO;
+
+    [self.queuesDict enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
+        if (queue.isRunning) {
+            isRunning = YES;
+            *stop = YES;
+        }
+    }];
+
+    return isRunning;
 }
 
 #pragma mark - Private
@@ -173,7 +187,7 @@
                            shouldCreate:(BOOL)create {
     if (!queueName) return nil;
     
-    id queue = [self.queues objectForKey:queueName];
+    id queue = [self.queuesDict objectForKey:queueName];
     
     if (!queue && create) {
         queue = [self createQueueWithName:queueName];
@@ -186,7 +200,7 @@
 - (CDOperationQueue *)createQueueWithName:(NSString *)queueName {
     if (!queueName) return nil;
     CDOperationQueue *queue = [CDOperationQueue queueWithName:queueName];
-    [self.queues setObject:queue forKey:queueName];
+    [self.queuesDict setObject:queue forKey:queueName];
     return queue;
 }
 
