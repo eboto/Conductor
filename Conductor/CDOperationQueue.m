@@ -25,20 +25,29 @@
 
 #import "CDOperationQueue.h"
 
-@interface CDOperationQueue (Private)
+@interface CDOperationQueue ()
+@property (nonatomic, readwrite, strong) NSOperationQueue *queue;
+@property (nonatomic, readwrite, strong) NSMutableDictionary *operations;
 - (void)operationDidFinish:(CDOperation *)operation;
 @end
 
 @implementation CDOperationQueue
 
-- (void)dealloc {
-    queue = nil;
-    operations = nil;
+@synthesize queue,
+            operations;
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.queue = [[NSOperationQueue alloc] init];
+        self.operations = [[NSMutableDictionary alloc] init];
+    }
+    return self;
 }
 
 + (id)queueWithName:(NSString *)queueName {
     CDOperationQueue *q = [[self alloc] init];
-    q.queue.name = [queueName copy];
+    q.queue.name = queueName;
     return q;
 }
 
@@ -62,7 +71,7 @@
         [op addObserver:self
              forKeyPath:@"isFinished" 
                 options:NSKeyValueObservingOptionNew 
-                context:NULL];
+                context:nil];
     }
     
     // set priority
@@ -101,7 +110,7 @@
                       ofObject:(id)object 
                         change:(NSDictionary *)change 
                        context:(void *)context {
-    
+        
     if ([keyPath isEqualToString:@"isFinished"] && [object isKindOfClass:[CDOperation class]]) {
         CDOperation *op = (CDOperation *)object;
         [self operationDidFinish:op];
@@ -127,18 +136,6 @@
 
 - (NSString *)name {
     return self.queue.name;
-}
-
-- (NSOperationQueue *)queue {
-    if (queue) return queue;
-    queue = [[NSOperationQueue alloc] init];
-    return queue;
-}
-
-- (NSMutableDictionary *)operations {
-    if (operations) return operations;
-    operations = [[NSMutableDictionary alloc] init];
-    return operations;
 }
 
 - (BOOL)isRunning {

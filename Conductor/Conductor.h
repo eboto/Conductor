@@ -26,12 +26,9 @@
 #import <Foundation/Foundation.h>
 #import "CDOperationQueue.h"
 
-@interface Conductor : NSObject {
-@private
-    NSMutableDictionary *queuesDict;
-}
+@interface Conductor : NSObject {}
 
-@property (weak, nonatomic, readonly) NSMutableDictionary *queuesDict;
+@property (nonatomic, readonly, strong) NSMutableDictionary *queuesDict;
 
 /**
  Singleton Conductor instance

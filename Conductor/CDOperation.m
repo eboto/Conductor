@@ -58,7 +58,6 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
 @synthesize identifier = identifier_,
             state = _state;
 
-
 - (id)init {
     self = [super init];
     if (self) {

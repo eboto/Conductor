@@ -27,27 +27,23 @@
 
 #import "CDOperation.h"
 
-@interface CDOperationQueue : NSObject {
-@private
-    NSOperationQueue *queue;
-    NSMutableDictionary *operations;
-}
+@interface CDOperationQueue : NSObject {}
 
 /**
  * Holds the operation queue
  */
-@property (weak, nonatomic, readonly) NSOperationQueue *queue;
-
-/**
- * User set name of the queue
- */
-@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, readonly, strong) NSOperationQueue *queue;
 
 /**
  * Dictionary of all CDOperations in the queue, where the key is the operations 
  * identifier and the object is the operation
  */
-@property (weak, nonatomic, readonly) NSMutableDictionary *operations;
+@property (nonatomic, readonly, strong) NSMutableDictionary *operations;
+
+/**
+ The name of the internal NSOperationQueue
+ */
+@property (nonatomic, readonly) NSString *name;
 
 + (id)queueWithName:(NSString *)queueName;
 

@@ -25,8 +25,21 @@
 
 #import "Conductor.h"
 
+@interface Conductor ()
+@property (nonatomic, readwrite, strong) NSMutableDictionary *queuesDict;
+@end
 
 @implementation Conductor
+
+@synthesize queuesDict;
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.queuesDict = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
 
 + (id)sharedInstance {
     static dispatch_once_t pred = 0;
@@ -139,12 +152,6 @@
 
 #pragma mark - Accessors
 
-- (NSMutableDictionary *)queuesDict {
-    if (queuesDict) return queuesDict;
-    queuesDict = [[NSMutableDictionary alloc] init];
-    return queuesDict;
-}
-
 - (BOOL)isRunning {
 
     __block BOOL isRunning = NO;
@@ -195,7 +202,6 @@
     
     return (CDOperationQueue *)queue;
 }
-
 
 - (CDOperationQueue *)createQueueWithName:(NSString *)queueName {
     if (!queueName) return nil;
