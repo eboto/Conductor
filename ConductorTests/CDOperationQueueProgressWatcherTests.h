@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Andrew B. Smith. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import "ConductorTests.h"
 
-@interface CDOperationQueueProgressWatcherTests : SenTestCase
+@interface CDOperationQueueProgressWatcherTests : ConductorTests
 
 @end
