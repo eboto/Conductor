@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB6BABC6154F69FC004842D2 /* CDOperationQueueProgressWatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressWatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DB6BABC7154F69FC004842D2 /* CDOperationQueueProgressWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressWatcher.m */; };
 		DB83D19E1451F1B200D94890 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
 		DB83D1A41451F1B200D94890 /* Conductor.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1A31451F1B200D94890 /* Conductor.m */; };
 		DB83D1AC1451F1B200D94890 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D1AB1451F1B200D94890 /* SenTestingKit.framework */; };
@@ -33,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperationQueueProgressWatcher.h; sourceTree = "<group>"; };
+		DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationQueueProgressWatcher.m; sourceTree = "<group>"; };
 		DB83D19A1451F1B200D94890 /* libConductor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libConductor.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB83D19D1451F1B200D94890 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DB83D1A11451F1B200D94890 /* Conductor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Conductor-Prefix.pch"; sourceTree = "<group>"; };
@@ -111,6 +115,8 @@
 				DB83D1D91451F89E00D94890 /* CDOperationQueue.m */,
 				DB83D1DC1451FB1900D94890 /* CDOperation.h */,
 				DB83D1DD1451FB1900D94890 /* CDOperation.m */,
+				DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressWatcher.h */,
+				DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressWatcher.m */,
 				DB83D1A01451F1B200D94890 /* Supporting Files */,
 			);
 			path = Conductor;
@@ -155,6 +161,7 @@
 				DB83D1DA1451F89E00D94890 /* CDOperationQueue.h in Headers */,
 				DB83D1DE1451FB1900D94890 /* CDOperation.h in Headers */,
 				DBA5F95514560E1D00EBFF68 /* Conductor.h in Headers */,
+				DB6BABC6154F69FC004842D2 /* CDOperationQueueProgressWatcher.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,6 +266,7 @@
 				DB83D1A41451F1B200D94890 /* Conductor.m in Sources */,
 				DB83D1DB1451F89E00D94890 /* CDOperationQueue.m in Sources */,
 				DB83D1DF1451FB1900D94890 /* CDOperation.m in Sources */,
+				DB6BABC7154F69FC004842D2 /* CDOperationQueueProgressWatcher.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

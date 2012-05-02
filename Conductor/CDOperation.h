@@ -32,10 +32,7 @@ typedef enum {
     CDOperationStateCancelled,
 } CDOperationState;
 
-@interface CDOperation : NSOperation {
-@private
-    id identifier_;
-}
+@interface CDOperation : NSOperation {}
 
 /**
  * Key used to track operation in CDOperationQueue.  If no identifier is provided,

@@ -116,7 +116,7 @@
 
 - (void)cancelAllOperationsInQueueNamed:(NSString *)queueName {
     if (!queueName) return;
-    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];;
+    CDOperationQueue *queue = [self getQueueNamed:queueName];;
     [queue cancelAllOperations];
 }
 
@@ -128,7 +128,7 @@
 
 - (void)suspendQueueNamed:(NSString *)queueName {
     if (!queueName) return;
-    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];;
+    CDOperationQueue *queue = [self getQueueNamed:queueName];;
     [queue setSuspended:YES];
 }
 
@@ -140,8 +140,28 @@
 
 - (void)resumeQueueNamed:(NSString *)queueName {
     if (!queueName) return;
-    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];;
+    CDOperationQueue *queue = [self getQueueNamed:queueName];;
     [queue setSuspended:NO];    
+}
+
+#pragma mark - Queue Progress
+
+- (void)addProgressWatcherToQueueNamed:(NSString *)queueName 
+                     withProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock 
+                    andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock {
+    
+    CDOperationQueue *queue = [self getQueueNamed:queueName];;
+    if (!queue) return;
+
+    [queue addProgressWatcherWithProgressBlock:progressBlock 
+                            andCompletionBlock:completionBlock];
+}
+
+- (void)removeProgressWatcherForQueueNamed:(NSString *)queueName {
+    CDOperationQueue *queue = [self getQueueNamed:queueName];;
+    if (!queue) return;
+
+    [queue removeProgressWatcher];
 }
 
 #pragma mark - Queue

@@ -26,6 +26,15 @@
 #import <Foundation/Foundation.h>
 
 #import "CDOperation.h"
+#import "CDOperationQueueProgressWatcher.h"
+
+typedef enum {
+    CDOperationQueueStateReady,
+    CDOperationQueueStateExecuting,
+    CDOperationQueueStateFinished,
+    CDOperationQueueStateSuspended,
+    CDOperationQueueStateCancelled,
+} CDOperationQueueState;
 
 @interface CDOperationQueue : NSObject {}
 
@@ -45,6 +54,14 @@
  */
 @property (nonatomic, readonly) NSString *name;
 
+/**
+ The number of operations in the queue.  Wrapper around the operationsCount
+ of the internal NSOperationQueue
+ */
+@property (nonatomic, readonly) NSInteger operationsCount;
+
+@property (nonatomic, strong) CDOperationQueueProgressWatcher *progressWatcher;
+
 + (id)queueWithName:(NSString *)queueName;
 
 /**
@@ -60,8 +77,14 @@
 
 - (void)cancelAllOperations;
 
+/**
+ Pauses internal NSOperationQueue
+ */
 - (void)setSuspended:(BOOL)suspend;
 
+/**
+ Queries suspended state of internal NSOperationQueue
+ */
 - (BOOL)isSuspended;
 
 /**
@@ -81,5 +104,13 @@
  * Returns YES if there are operations in the queue
  */
 - (BOOL)isRunning;
+
+/**
+ 
+ */
+- (void)addProgressWatcherWithProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock
+                         andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock;
+
+- (void)removeProgressWatcher;
 
 @end

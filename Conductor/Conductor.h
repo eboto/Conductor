@@ -24,7 +24,9 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "CDOperationQueue.h"
+#import "CDOperationQueueProgressWatcher.h"
 
 @interface Conductor : NSObject {}
 
@@ -115,7 +117,10 @@
  */
 - (BOOL)isRunning;
 
-#pragma mark Private
+/**
+ Adds a progress watcher to a specific Queue
+ */
+
 
 /**
  * Returns the queue name for the specific operation type

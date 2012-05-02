@@ -25,16 +25,42 @@
 
 #import "CDOperationQueue.h"
 
+static inline NSString *StringForCDOperationQueueState(CDOperationQueueState state) {
+    switch (state) {
+        case CDOperationQueueStateReady:
+            return @"isReady";
+            break;
+        case CDOperationQueueStateExecuting:
+            return @"isExecuting";
+            break;
+        case CDOperationQueueStateFinished:
+            return @"isFinished";
+            break;
+        case CDOperationQueueStateCancelled:
+            return @"isCancelled";
+            break;
+        default:
+            return nil;
+            break;
+    }
+}
+
 @interface CDOperationQueue ()
+
 @property (nonatomic, readwrite, strong) NSOperationQueue *queue;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *operations;
+@property (nonatomic, assign) CDOperationQueueState state;
+
 - (void)operationDidFinish:(CDOperation *)operation;
+
 @end
 
 @implementation CDOperationQueue
 
 @synthesize queue,
-            operations;
+            operations,
+            progressWatcher,
+            state = _state;
 
 - (id)init {
     self = [super init];
@@ -51,7 +77,7 @@
     return q;
 }
 
-#pragma mark -
+#pragma mark - Operations API
 
 - (void)addOperation:(NSOperation *)operation {
     [self addOperation:operation atPriority:operation.queuePriority];
@@ -60,14 +86,14 @@
 - (void)addOperation:(NSOperation *)operation 
           atPriority:(NSOperationQueuePriority)priority {
     
-    // Observe
+    // Observe if CDOperation class, otherwise skip the awesome
     if ([operation isKindOfClass:[CDOperation class]]) {
         
         // Add operation to operations dict
         CDOperation *op = (CDOperation *)operation;
         [self.operations setObject:op forKey:op.identifier];
         
-        // KVO operation is finished
+        // KVO operation isFinished
         [op addObserver:self
              forKeyPath:@"isFinished" 
                 options:NSKeyValueObservingOptionNew 
@@ -85,18 +111,18 @@
     [self.queue cancelAllOperations];
 }
 
-- (void)setSuspended:(BOOL)suspend {
-    [self.queue setSuspended:suspend];
-}
-
-- (BOOL)isSuspended {
-    return self.queue.isSuspended;
-}
-
 - (void)operationDidFinish:(CDOperation *)operation {
     // Cleanup after operation is finished
     [operation removeObserver:self forKeyPath:@"isFinished"];  
     [self.operations removeObjectForKey:operation.identifier];
+    
+    if (!self.progressWatcher) return;
+    
+    [self.progressWatcher runProgressBlock];
+    
+    if (!self.isRunning) {
+        [self.progressWatcher runCompletionBlock];
+    }
 }
 
 - (CDOperation *)getOperationWithIdentifier:(id)identifier {
@@ -132,10 +158,55 @@
     return NO;
 }
 
+#pragma mark - Progress
+
+- (void)addProgressWatcherWithProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock
+                         andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock {
+    
+    CDOperationQueueProgressWatcher *watcher = [CDOperationQueueProgressWatcher progressWatcherWithProgressBlock:progressBlock
+                                                                                              andCompletionBlock:completionBlock];
+    self.progressWatcher = watcher;
+}
+
+- (void)removeProgressWatcher {
+    self.progressWatcher = nil;
+}
+
+#pragma mark - State
+
+- (void)setState:(CDOperationQueueState)state {
+    // Ensures KVO complience for changes in NSOperation object state
+    
+    if (self.state == state) {
+        return;
+    }
+    
+    NSString *oldStateString = StringForCDOperationQueueState(self.state);
+    NSString *newStateString = StringForCDOperationQueueState(state);
+    
+    [self willChangeValueForKey:newStateString];
+    [self willChangeValueForKey:oldStateString];
+    _state = state;
+    [self didChangeValueForKey:oldStateString];
+    [self didChangeValueForKey:newStateString];
+}
+
 #pragma mark - Accessors
+
+- (void)setSuspended:(BOOL)suspend {
+    [self.queue setSuspended:suspend];
+}
+
+- (BOOL)isSuspended {
+    return self.queue.isSuspended;
+}
 
 - (NSString *)name {
     return self.queue.name;
+}
+
+- (NSInteger)operationsCount {
+    return self.queue.operationCount;
 }
 
 - (BOOL)isRunning {
