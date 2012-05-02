@@ -10,33 +10,46 @@
 
 @implementation CDOperationQueueProgressWatcher
 
-@synthesize progressBlock,
+@synthesize startingOperationCount,
+            progressBlock,
             completionBlock;
 
-//+ (CDOperationQueueProgressWatcher *)addWatcherToQueue:(CDOperationQueue *)queue
-//                                     withProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock 
-//                                    andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock {
-//    
-//    CDOperationQueueProgressWatcher *watcher = [[self alloc] init];
-//    watcher.progressBlock = progressBlock;
-//    watcher.completionBlock = completionBlock;
-//    
-//    return watcher;
-//}
++ (CDOperationQueueProgressWatcher *)progressWatcherWithStartingOperationCount:(NSInteger)operationCount
+                                                                 progressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock 
+                                                            andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock {
+    
+    CDOperationQueueProgressWatcher *watcher = [[self alloc] init];
+    watcher.startingOperationCount = operationCount;
+    watcher.progressBlock = progressBlock;
+    watcher.completionBlock = completionBlock;
+    
+    return watcher;
+}
 
-- (void)runProgressBlock {
+- (void)runProgressBlockWithCurrentOperationCount:(NSInteger)operationCount {
     if (!self.progressBlock) return;
     
-    float remainingOperations = 0.5;// self.watchedQueue ? self.watchedQueue.operationsCount : 0.0;
+    NSAssert(self.startingOperationCount <= 0, @"Starting operation count was 0 or less than 0!  Initialize the watcher with a operation count of larger than 0.");
+    if (self.startingOperationCount <= 0) return;
+
+    // Calculate percentage progress
+    float progress = (float)startingOperationCount - (float)operationCount / (float)startingOperationCount;
     
+    // If operation count is larger than starting operation count, mark progress
+    // as 0.  This shouldn't happen, the starting operation count should be updated
+    // as operations are added.
+    if (progress < 0) progress = 0.0;
     
-    
-    self.progressBlock(remainingOperations);
+    self.progressBlock(progress);
 }
 
 - (void)runCompletionBlock {
     if (self.completionBlock) return;
     self.completionBlock();
+}
+
+- (void)addToStartingOperationCount:(NSInteger)numberToAdd {
+    self.startingOperationCount += numberToAdd;
 }
 
 @end

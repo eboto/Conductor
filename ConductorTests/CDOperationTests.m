@@ -1,0 +1,69 @@
+//
+//  CDOperationTests.m
+//  Conductor
+//
+//  Created by Andrew Smith on 5/2/12.
+//  Copyright (c) 2012 Andrew B. Smith. All rights reserved.
+//
+
+#import "CDOperationTests.h"
+
+#import "CDOperation.h"
+#import "CDTestOperation.h"
+
+@implementation CDOperationTests
+
+- (void)testCreateOperationWithIdentifier {
+    CDOperation *op = [CDOperation operationWithIdentifier:@"1234"];
+    STAssertEqualObjects(op.identifier, @"1234", @"Operation should have correct identifier");
+}
+
+- (void)testCreateOperationWithoutIdentifier {
+    CDOperation *op = [CDOperation operation];
+    STAssertNotNil(op.identifier, @"Operation should have an identifier");
+}
+
+- (void)testRunTestOperation {
+    
+    __block BOOL hasFinished = NO;
+    
+    void (^completionBlock)(void) = ^(void) {
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            hasFinished = YES;        
+        });
+    };         
+    
+    CDTestOperation *op = [CDTestOperation operation];
+    op.completionBlock = completionBlock;
+    
+    NSOperationQueue *queue = [[[NSOperationQueue alloc] init] autorelease];
+    [queue addOperation:op];
+    
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.2];
+    while (hasFinished == NO) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:loopUntil];
+    }    
+    
+    STAssertTrue(hasFinished, @"Test operation should run");
+    STAssertTrue(op.isFinished, @"Test operation should be finished");
+}
+
+- (void)testCancelOperation {       
+    
+    CDTestOperation *op = [CDTestOperation operation];
+    
+    NSOperationQueue *queue = [[[NSOperationQueue alloc] init] autorelease];
+    [queue addOperation:op];
+    [queue cancelAllOperations];
+    
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.2];
+    while (queue.operationCount == 0) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:loopUntil];
+    }    
+    
+    STAssertTrue(op.isCancelled, @"Test operation should be cancelled");
+}
+
+@end

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		DB4F2D911551D6A200216AB9 /* CDLongRunningTestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D901551D6A200216AB9 /* CDLongRunningTestOperation.m */; };
+		DB4F2D941551E54400216AB9 /* CDOperationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D931551E54400216AB9 /* CDOperationTests.m */; };
+		DB4F2D971551E57700216AB9 /* CDOperationQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D961551E57700216AB9 /* CDOperationQueueTests.m */; };
+		DB4F2D9B1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D9A1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m */; };
 		DB6BABC6154F69FC004842D2 /* CDOperationQueueProgressWatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressWatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB6BABC7154F69FC004842D2 /* CDOperationQueueProgressWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressWatcher.m */; };
 		DB83D19E1451F1B200D94890 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
@@ -38,6 +41,12 @@
 /* Begin PBXFileReference section */
 		DB4F2D8F1551D6A200216AB9 /* CDLongRunningTestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDLongRunningTestOperation.h; sourceTree = "<group>"; };
 		DB4F2D901551D6A200216AB9 /* CDLongRunningTestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDLongRunningTestOperation.m; sourceTree = "<group>"; };
+		DB4F2D921551E54400216AB9 /* CDOperationTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperationTests.h; sourceTree = "<group>"; };
+		DB4F2D931551E54400216AB9 /* CDOperationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationTests.m; sourceTree = "<group>"; };
+		DB4F2D951551E57700216AB9 /* CDOperationQueueTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperationQueueTests.h; sourceTree = "<group>"; };
+		DB4F2D961551E57700216AB9 /* CDOperationQueueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationQueueTests.m; sourceTree = "<group>"; };
+		DB4F2D991551F60200216AB9 /* CDOperationQueueProgressWatcherTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperationQueueProgressWatcherTests.h; sourceTree = "<group>"; };
+		DB4F2D9A1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationQueueProgressWatcherTests.m; sourceTree = "<group>"; };
 		DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperationQueueProgressWatcher.h; sourceTree = "<group>"; };
 		DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationQueueProgressWatcher.m; sourceTree = "<group>"; };
 		DB83D19A1451F1B200D94890 /* libConductor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libConductor.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +90,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DB4F2D981551E5FD00216AB9 /* Test Classes */ = {
+			isa = PBXGroup;
+			children = (
+				DBFADED014524E6E00FD43FF /* CDTestOperation.h */,
+				DBFADED114524E6E00FD43FF /* CDTestOperation.m */,
+				DB4F2D8F1551D6A200216AB9 /* CDLongRunningTestOperation.h */,
+				DB4F2D901551D6A200216AB9 /* CDLongRunningTestOperation.m */,
+			);
+			name = "Test Classes";
+			sourceTree = "<group>";
+		};
 		DB83D18D1451F19E00D94890 = {
 			isa = PBXGroup;
 			children = (
@@ -138,10 +158,13 @@
 			children = (
 				DB83D1B91451F1B200D94890 /* ConductorTests.h */,
 				DB83D1BA1451F1B200D94890 /* ConductorTests.m */,
-				DBFADED014524E6E00FD43FF /* CDTestOperation.h */,
-				DBFADED114524E6E00FD43FF /* CDTestOperation.m */,
-				DB4F2D8F1551D6A200216AB9 /* CDLongRunningTestOperation.h */,
-				DB4F2D901551D6A200216AB9 /* CDLongRunningTestOperation.m */,
+				DB4F2D951551E57700216AB9 /* CDOperationQueueTests.h */,
+				DB4F2D961551E57700216AB9 /* CDOperationQueueTests.m */,
+				DB4F2D921551E54400216AB9 /* CDOperationTests.h */,
+				DB4F2D931551E54400216AB9 /* CDOperationTests.m */,
+				DB4F2D991551F60200216AB9 /* CDOperationQueueProgressWatcherTests.h */,
+				DB4F2D9A1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m */,
+				DB4F2D981551E5FD00216AB9 /* Test Classes */,
 				DB83D1B41451F1B200D94890 /* Supporting Files */,
 			);
 			path = ConductorTests;
@@ -282,6 +305,9 @@
 				DB83D1BB1451F1B200D94890 /* ConductorTests.m in Sources */,
 				DBFADED214524E6E00FD43FF /* CDTestOperation.m in Sources */,
 				DB4F2D911551D6A200216AB9 /* CDLongRunningTestOperation.m in Sources */,
+				DB4F2D941551E54400216AB9 /* CDOperationTests.m in Sources */,
+				DB4F2D971551E57700216AB9 /* CDOperationQueueTests.m in Sources */,
+				DB4F2D9B1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

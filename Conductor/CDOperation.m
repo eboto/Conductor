@@ -95,6 +95,11 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
     self.state = CDOperationStateFinished;
 }
 
+- (void)cancel {
+    self.state = CDOperationStateCancelled;
+    [super cancel];
+}
+
 - (BOOL)isReady {
     return (self.state == CDOperationStateReady);
 }
@@ -117,10 +122,6 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
     // Ensures KVO complience for changes in NSOperation object state
     
     if (self.state == state) {
-        return;
-    }
-    
-    if (self.isCancelled) {
         return;
     }
     

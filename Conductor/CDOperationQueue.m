@@ -80,6 +80,16 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
     return q;
 }
 
+- (void)queueDidFinish {
+    
+    if (self.progressWatcher) {
+        [self.progressWatcher runCompletionBlock];
+    };
+    
+    // Update finished state last to trigger KVO
+    self.state = CDOperationQueueStateFinished;
+}
+
 #pragma mark - Operations API
 
 - (void)addOperation:(NSOperation *)operation {
@@ -92,16 +102,25 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
     // Update queue State
     self.state = CDOperationQueueStateExecuting;
     
-    // Observe if CDOperation class, otherwise skip the awesome
+    // KVO if CDOperation class, otherwise skip the awesome.  Why wouldn't you
+    // want the awesome though?  Consider subclassing CDOperation.
     if ([operation isKindOfClass:[CDOperation class]]) {
         
         // Add operation to operations dict
         CDOperation *op = (CDOperation *)operation;
         [self.operations setObject:op forKey:op.identifier];
         
-        // KVO operation isFinished
+        // KVO operation isFinished.  Allows cleanup after operation is
+        // finished, as well as queue progress updates.
         [op addObserver:self
              forKeyPath:@"isFinished" 
+                options:NSKeyValueObservingOptionNew 
+                context:nil];
+        
+        // KVO operation isCancelled. Allows cleanup after operation is
+        // cancelled, as well as queue progress updates.
+        [op addObserver:self
+             forKeyPath:@"isCancelled" 
                 options:NSKeyValueObservingOptionNew 
                 context:nil];
     }
@@ -109,8 +128,23 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
     // set priority
     [operation setQueuePriority:priority];
     
+    // Update progress watcher count
+    if (self.progressWatcher) {
+        [self.progressWatcher addToStartingOperationCount:1];
+    }
+    
     // Add operation to queue and start
     [self.queue addOperation:operation];
+}
+
+- (void)removeOperation:(CDOperation *)operation {
+    [operation removeObserver:self forKeyPath:@"isCancelled"];  
+    [operation removeObserver:self forKeyPath:@"isFinished"];
+    [self.operations removeObjectForKey:operation.identifier];
+    
+    if (self.progressWatcher) {
+        [self.progressWatcher runProgressBlockWithCurrentOperationCount:self.operationCount];
+    }
 }
 
 - (void)cancelAllOperations {
@@ -121,13 +155,7 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 }
 
 - (void)operationDidFinish:(CDOperation *)operation {
-    // Cleanup after operation is finished
-    [operation removeObserver:self forKeyPath:@"isFinished"];  
-    [self.operations removeObjectForKey:operation.identifier];
-    
-    if (self.progressWatcher) {
-        [self.progressWatcher runProgressBlock];
-    }
+    [self removeOperation:operation];
     
     if (self.operationCount == 0) {
         [self queueDidFinish];
@@ -135,14 +163,8 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
     
 }
 
-- (void)queueDidFinish {
-    
-    if (self.progressWatcher) {
-        [self.progressWatcher runCompletionBlock];
-    };
-    
-    // Update finished state last to trigger KVO
-    self.state = CDOperationQueueStateFinished;
+- (void)operationDidCancel:(CDOperation *)operation {
+    [self removeOperation:operation];
 }
 
 #pragma mark - KVO
@@ -156,26 +178,11 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
         CDOperation *op = (CDOperation *)object;
         [self operationDidFinish:op];
     }
-}
-
-- (BOOL)isReady {
-    return (self.state == CDOperationQueueStateReady);
-}
-
-- (BOOL)isExecuting {
-    return (self.state == CDOperationQueueStateExecuting);
-}
-
-- (BOOL)isFinished {
-    return (self.state == CDOperationQueueStateFinished);
-}
-
-- (BOOL)isSuspended {
-    return (self.state == CDOperationQueueStateSuspended);
-}
-
-- (BOOL)isCancelled {
-    return (self.state == CDOperationQueueStateCancelled);
+    
+    if ([keyPath isEqualToString:@"isCancelled"] && [object isKindOfClass:[CDOperation class]]) {
+        CDOperation *op = (CDOperation *)object;
+        [self operationDidCancel:op];
+    }
 }
 
 #pragma mark - Priority
@@ -198,8 +205,9 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 - (void)addProgressWatcherWithProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock
                          andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock {
     
-    CDOperationQueueProgressWatcher *watcher = [CDOperationQueueProgressWatcher progressWatcherWithProgressBlock:progressBlock
-                                                                                              andCompletionBlock:completionBlock];
+    CDOperationQueueProgressWatcher *watcher = [CDOperationQueueProgressWatcher progressWatcherWithStartingOperationCount:self.operationCount
+                                                                                                            progressBlock:progressBlock
+                                                                                                       andCompletionBlock:completionBlock];
     self.progressWatcher = watcher;
 }
 
@@ -224,6 +232,26 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
     _state = state;
     [self didChangeValueForKey:oldStateString];
     [self didChangeValueForKey:newStateString];
+}
+
+- (BOOL)isReady {
+    return (self.state == CDOperationQueueStateReady);
+}
+
+- (BOOL)isExecuting {
+    return (self.state == CDOperationQueueStateExecuting);
+}
+
+- (BOOL)isFinished {
+    return (self.state == CDOperationQueueStateFinished);
+}
+
+- (BOOL)isSuspended {
+    return (self.state == CDOperationQueueStateSuspended);
+}
+
+- (BOOL)isCancelled {
+    return (self.state == CDOperationQueueStateCancelled);
 }
 
 #pragma mark - Accessors

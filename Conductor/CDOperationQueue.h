@@ -75,12 +75,22 @@ typedef enum {
 - (void)addOperation:(NSOperation *)operation 
           atPriority:(NSOperationQueuePriority)priority;
 
-- (void)cancelAllOperations;
+/**
+ * Update the priority of a given operation, as long as it currently running or
+ * already finished.
+ */
+- (BOOL)updatePriorityOfOperationWithIdentifier:(id)identifier 
+                                  toNewPriority:(NSOperationQueuePriority)priority;
 
 /**
  Pauses internal NSOperationQueue
  */
 - (void)setSuspended:(BOOL)suspend;
+
+/**
+ Cancel all operations in internal NSOperatioQueue
+ */
+- (void)cancelAllOperations;
 
 /**
  State queries
@@ -96,13 +106,6 @@ typedef enum {
  * already finished.
  */
 - (CDOperation *)getOperationWithIdentifier:(id)identifier;
-
-/**
- * Update the priority of a given operation, as long as it currently running or
- * already finished.
- */
-- (BOOL)updatePriorityOfOperationWithIdentifier:(id)identifier 
-                                  toNewPriority:(NSOperationQueuePriority)priority;
 
 /**
  
