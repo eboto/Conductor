@@ -39,6 +39,8 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
         case CDOperationQueueStateCancelled:
             return @"isCancelled";
             break;
+        case CDOperationQueueStateSuspended:
+            return @"isSuspended";
         default:
             return nil;
             break;
@@ -65,8 +67,9 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 - (id)init {
     self = [super init];
     if (self) {
-        self.queue = [[NSOperationQueue alloc] init];
+        self.queue      = [[NSOperationQueue alloc] init];
         self.operations = [[NSMutableDictionary alloc] init];
+        self.state      = CDOperationQueueStateReady;
     }
     return self;
 }
@@ -85,6 +88,9 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 
 - (void)addOperation:(NSOperation *)operation 
           atPriority:(NSOperationQueuePriority)priority {
+    
+    // Update queue State
+    self.state = CDOperationQueueStateExecuting;
     
     // Observe if CDOperation class, otherwise skip the awesome
     if ([operation isKindOfClass:[CDOperation class]]) {
@@ -109,6 +115,9 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 
 - (void)cancelAllOperations {
     [self.queue cancelAllOperations];
+
+    // Update cancelled state to trigger KVO
+    self.state = CDOperationQueueStateCancelled;
 }
 
 - (void)operationDidFinish:(CDOperation *)operation {
@@ -116,18 +125,24 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
     [operation removeObserver:self forKeyPath:@"isFinished"];  
     [self.operations removeObjectForKey:operation.identifier];
     
-    if (!self.progressWatcher) return;
-    
-    [self.progressWatcher runProgressBlock];
-    
-    if (!self.isRunning) {
-        [self.progressWatcher runCompletionBlock];
+    if (self.progressWatcher) {
+        [self.progressWatcher runProgressBlock];
     }
+    
+    if (self.operationCount == 0) {
+        [self queueDidFinish];
+    }
+    
 }
 
-- (CDOperation *)getOperationWithIdentifier:(id)identifier {
-    CDOperation *op = [self.operations objectForKey:identifier];
-    return op;
+- (void)queueDidFinish {
+    
+    if (self.progressWatcher) {
+        [self.progressWatcher runCompletionBlock];
+    };
+    
+    // Update finished state last to trigger KVO
+    self.state = CDOperationQueueStateFinished;
 }
 
 #pragma mark - KVO
@@ -141,6 +156,26 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
         CDOperation *op = (CDOperation *)object;
         [self operationDidFinish:op];
     }
+}
+
+- (BOOL)isReady {
+    return (self.state == CDOperationQueueStateReady);
+}
+
+- (BOOL)isExecuting {
+    return (self.state == CDOperationQueueStateExecuting);
+}
+
+- (BOOL)isFinished {
+    return (self.state == CDOperationQueueStateFinished);
+}
+
+- (BOOL)isSuspended {
+    return (self.state == CDOperationQueueStateSuspended);
+}
+
+- (BOOL)isCancelled {
+    return (self.state == CDOperationQueueStateCancelled);
 }
 
 #pragma mark - Priority
@@ -195,22 +230,27 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 
 - (void)setSuspended:(BOOL)suspend {
     [self.queue setSuspended:suspend];
-}
-
-- (BOOL)isSuspended {
-    return self.queue.isSuspended;
+    
+    if (suspend) {
+        self.state = CDOperationQueueStateSuspended;
+    } else if (self.queue.operationCount > 0) {
+        self.state = CDOperationQueueStateExecuting;
+    } else {
+        self.state = CDOperationQueueStateReady;
+    }
 }
 
 - (NSString *)name {
-    return self.queue.name;
+    return self.queue ? self.queue.name : nil;
 }
 
-- (NSInteger)operationsCount {
-    return self.queue.operationCount;
+- (NSInteger)operationCount {
+    return self.queue ? self.queue.operationCount : 0;
 }
 
-- (BOOL)isRunning {
-    return (self.queue.operationCount > 0);
+- (CDOperation *)getOperationWithIdentifier:(id)identifier {
+    CDOperation *op = [self.operations objectForKey:identifier];
+    return op;
 }
 
 @end

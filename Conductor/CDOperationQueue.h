@@ -58,7 +58,7 @@ typedef enum {
  The number of operations in the queue.  Wrapper around the operationsCount
  of the internal NSOperationQueue
  */
-@property (nonatomic, readonly) NSInteger operationsCount;
+@property (nonatomic, readonly) NSInteger operationCount;
 
 @property (nonatomic, strong) CDOperationQueueProgressWatcher *progressWatcher;
 
@@ -83,9 +83,13 @@ typedef enum {
 - (void)setSuspended:(BOOL)suspend;
 
 /**
- Queries suspended state of internal NSOperationQueue
+ State queries
  */
+- (BOOL)isReady;
+- (BOOL)isExecuting;
+- (BOOL)isFinished;
 - (BOOL)isSuspended;
+- (BOOL)isCancelled;
 
 /**
  * Retrieve an operation with a given identifier.  Returns nil if operation has
@@ -99,11 +103,6 @@ typedef enum {
  */
 - (BOOL)updatePriorityOfOperationWithIdentifier:(id)identifier 
                                   toNewPriority:(NSOperationQueuePriority)priority;
-
-/**
- * Returns YES if there are operations in the queue
- */
-- (BOOL)isRunning;
 
 /**
  

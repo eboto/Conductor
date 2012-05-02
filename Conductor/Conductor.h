@@ -30,7 +30,7 @@
 
 @interface Conductor : NSObject {}
 
-@property (nonatomic, readonly, strong) NSMutableDictionary *queuesDict;
+@property (nonatomic, readonly, strong) NSMutableDictionary *queues;
 
 /**
  Singleton Conductor instance
@@ -115,12 +115,13 @@
 /**
  Queries all queues to see if any are running.
  */
-- (BOOL)isRunning;
+- (BOOL)isExecuting;
 
 /**
- Adds a progress watcher to a specific Queue
+ Queries whether the conductor instance has queues.  Mostly useful for async
+ tests.
  */
-
+- (BOOL)hasQueues;
 
 /**
  * Returns the queue name for the specific operation type

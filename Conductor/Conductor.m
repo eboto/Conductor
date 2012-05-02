@@ -26,17 +26,21 @@
 #import "Conductor.h"
 
 @interface Conductor ()
-@property (nonatomic, readwrite, strong) NSMutableDictionary *queuesDict;
+@property (nonatomic, readwrite, strong) NSMutableDictionary *queues;
 @end
 
 @implementation Conductor
 
-@synthesize queuesDict;
+@synthesize queues;
+
+- (void)dealloc {
+    [self cancelAllOperations];
+}
 
 - (id)init {
     self = [super init];
     if (self) {
-        self.queuesDict = [[NSMutableDictionary alloc] init];
+        self.queues = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -88,6 +92,19 @@
         queue = [self queueForOperation:operation shouldCreate:YES];
     }
         
+    // KVO queue isFinished
+    [queue addObserver:self
+            forKeyPath:@"isFinished" 
+               options:NSKeyValueObservingOptionNew 
+               context:nil];
+    
+    // KVO queue isCancelled
+    [queue addObserver:self
+            forKeyPath:@"isCancelled" 
+               options:NSKeyValueObservingOptionNew 
+               context:nil];
+    
+    // Add and start operation
     [queue addOperation:operation atPriority:priority];
 }
 
@@ -96,7 +113,7 @@
     
     __block BOOL didUpdate = NO;
     
-    [self.queuesDict enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
+    [self.queues enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
         if ([queue updatePriorityOfOperationWithIdentifier:queue toNewPriority:priority]) {
             didUpdate = YES;
             *stop = YES;
@@ -109,19 +126,19 @@
 #pragma mark - Queue States
 
 - (void)cancelAllOperations {
-    for (NSString *queueName in self.queuesDict) {
+    for (NSString *queueName in self.queues) {
         [self cancelAllOperationsInQueueNamed:queueName];
     }
 }
 
 - (void)cancelAllOperationsInQueueNamed:(NSString *)queueName {
     if (!queueName) return;
-    CDOperationQueue *queue = [self getQueueNamed:queueName];;
+    CDOperationQueue *queue = [self getQueueNamed:queueName];
     [queue cancelAllOperations];
 }
 
 - (void)suspendAllQueues {
-    for (NSString *queueName in self.queuesDict) {
+    for (NSString *queueName in self.queues) {
         [self suspendQueueNamed:queueName];
     }
 }
@@ -133,7 +150,7 @@
 }
 
 - (void)resumeAllQueues {
-    for (NSString *queueName in self.queuesDict) {
+    for (NSString *queueName in self.queues) {
         [self resumeQueueNamed:queueName];
     }    
 }
@@ -142,6 +159,20 @@
     if (!queueName) return;
     CDOperationQueue *queue = [self getQueueNamed:queueName];;
     [queue setSuspended:NO];    
+}
+
+- (void)removeQueue:(CDOperationQueue *)queue {
+    [queue removeObserver:self forKeyPath:@"isCancelled"];
+    [queue removeObserver:self forKeyPath:@"isFinished"];
+    [self.queues removeObjectForKey:queue.name];
+}
+
+- (void)queueDidFinish:(CDOperationQueue *)queue {
+    [self removeQueue:queue];
+}
+
+- (void)queueDidCancel:(CDOperationQueue *)queue {
+    [self removeQueue:queue];
 }
 
 #pragma mark - Queue Progress
@@ -167,23 +198,48 @@
 #pragma mark - Queue
 
 - (NSArray *)allQueueNames {
-    return [self.queuesDict allKeys];
+    return [self.queues allKeys];
+}
+
+- (BOOL)hasQueues {
+    return (self.queues.count > 0);
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath 
+                      ofObject:(id)object 
+                        change:(NSDictionary *)change 
+                       context:(void *)context {
+    
+    // isFinished
+    if ([keyPath isEqualToString:@"isFinished"] && [object isKindOfClass:[CDOperationQueue class]]) {
+        CDOperationQueue *queue = (CDOperationQueue *)object;
+        [self queueDidFinish:queue];
+    }
+    
+    // isCancelled
+    if ([keyPath isEqualToString:@"isCancelled"] && [object isKindOfClass:[CDOperationQueue class]]) {
+        CDOperationQueue *queue = (CDOperationQueue *)object;
+        [self queueDidCancel:queue];
+    }
+    
 }
 
 #pragma mark - Accessors
 
-- (BOOL)isRunning {
+- (BOOL)isExecuting {
 
-    __block BOOL isRunning = NO;
+    __block BOOL isExecuting = NO;
 
-    [self.queuesDict enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
-        if (queue.isRunning) {
-            isRunning = YES;
+    [self.queues enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
+        if (queue.isExecuting) {
+            isExecuting = YES;
             *stop = YES;
         }
     }];
 
-    return isRunning;
+    return isExecuting;
 }
 
 #pragma mark - Private
@@ -214,7 +270,7 @@
                            shouldCreate:(BOOL)create {
     if (!queueName) return nil;
     
-    id queue = [self.queuesDict objectForKey:queueName];
+    id queue = [self.queues objectForKey:queueName];
     
     if (!queue && create) {
         queue = [self createQueueWithName:queueName];
@@ -226,7 +282,7 @@
 - (CDOperationQueue *)createQueueWithName:(NSString *)queueName {
     if (!queueName) return nil;
     CDOperationQueue *queue = [CDOperationQueue queueWithName:queueName];
-    [self.queuesDict setObject:queue forKey:queueName];
+    [self.queues setObject:queue forKey:queueName];
     return queue;
 }
 

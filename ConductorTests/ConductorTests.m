@@ -27,6 +27,7 @@
 
 #import "CDOperation.h"
 #import "CDTestOperation.h"
+#import "CDLongRunningTestOperation.h"
 
 @implementation ConductorTests
 
@@ -74,7 +75,7 @@
     NSOperationQueue *queue = [[[NSOperationQueue alloc] init] autorelease];
     [queue addOperation:op];
 
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1];
     while (hasFinished == NO) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];
@@ -100,7 +101,7 @@
     
     [testOperationQueue addOperation:op];
 
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1];
     while (hasFinished == NO) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];
@@ -124,7 +125,7 @@
     
     [testOperationQueue addOperation:op atPriority:NSOperationQueuePriorityVeryLow];
     
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1];
     while (hasFinished == NO) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];
@@ -151,7 +152,7 @@
     [testOperationQueue updatePriorityOfOperationWithIdentifier:op.identifier 
                                                   toNewPriority:NSOperationQueuePriorityVeryLow];
     
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1];
     while (hasFinished == NO) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];
@@ -198,7 +199,7 @@
     [testOperationQueue updatePriorityOfOperationWithIdentifier:@"1" 
                                                   toNewPriority:NSOperationQueuePriorityVeryLow];
     
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1];
     while (hasFinished == NO) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];
@@ -225,7 +226,7 @@
     
     [testOperationQueue addOperation:op];
     
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1];
     while (hasFinished == NO) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];
@@ -250,15 +251,19 @@
     
     [testOperationQueue addOperation:op];
     
-    STAssertTrue(testOperationQueue.isRunning, @"Operation queue should be running");
+    STAssertTrue(testOperationQueue.isExecuting, @"Operation queue should be running");
     
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
-    while (hasFinished == NO) {
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1];
+    while (testOperationQueue.isExecuting) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];
     }    
     
-    STAssertFalse(testOperationQueue.isRunning, @"Operation queue should not be running");
+    STAssertFalse(testOperationQueue.isExecuting, @"Operation queue should not be running");
+}
+
+- (void)testOperationShouldRemoveItselfWhenComplete {
+    
 }
 
 #pragma mark - Conductor
@@ -280,8 +285,8 @@
     
     STAssertNotNil([conductor getQueueForOperation:op], @"Conductor should have queue for operation");
     
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
-    while (hasFinished == NO) {
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1];
+    while (conductor.hasQueues) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];
     }    
@@ -306,8 +311,8 @@
             
     STAssertNotNil([conductor getQueueNamed:@"CustomQueueName"], @"Conductor should have queue for operation");
     
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
-    while (hasFinished == NO) {
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1];
+    while (conductor.hasQueues) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];
     }    
@@ -321,28 +326,19 @@
 
 - (void)testConductorIsRunning {
     
-    __block BOOL hasFinished = NO;
-    
-    void (^completionBlock)(void) = ^(void) {
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            hasFinished = YES;        
-        });
-    };         
-    
     CDTestOperation *op = [CDTestOperation operation];
-    op.completionBlock = completionBlock;
     
     [conductor addOperation:op];
     
-    STAssertTrue([conductor isRunning], @"Conductor should be running");
+    STAssertTrue([conductor isExecuting], @"Conductor should be running");
     
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
-    while (hasFinished == NO) {
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1];
+    while ([conductor isExecuting]) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];
     }    
     
-    STAssertFalse([conductor isRunning], @"Operation should not be running");
+    STAssertFalse([conductor isExecuting], @"Conductor should not be executing");
 
 }
 
@@ -358,7 +354,7 @@
 }
 
 - (void)testConductureCancelAllOperationsInQueueNamed {
-    CDTestOperation *op = [CDTestOperation operation];
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation operation];
     
     [conductor addOperation:op toQueueNamed:@"CustomQueueName"];
     
@@ -368,7 +364,7 @@
 }
 
 - (void)testConductorSuspendAllQueues {
-    CDTestOperation *op = [CDTestOperation operation];
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation operation];
     
     [conductor addOperation:op toQueueNamed:@"CustomQueueName"];
     
@@ -380,7 +376,7 @@
 }
 
 - (void)testConductorSuspendQueueNamed {
-    CDTestOperation *op = [CDTestOperation operation];
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation operation];
     
     [conductor addOperation:op toQueueNamed:@"CustomQueueName"];
     
@@ -408,8 +404,8 @@
     [conductor suspendAllQueues];
     [conductor resumeAllQueues];
         
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
-    while (hasFinished == NO) {
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1];
+    while (conductor.hasQueues) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];
     }    
@@ -434,7 +430,7 @@
     [conductor suspendQueueNamed:@"CustomQueueName"];
     [conductor resumeQueueNamed:@"CustomQueueName"];
     
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:5];
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1];
     while (hasFinished == NO) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];
