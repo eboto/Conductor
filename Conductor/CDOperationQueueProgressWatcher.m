@@ -31,7 +31,7 @@
     
     NSAssert(!(self.startingOperationCount <= 0), @"Starting operation count was 0 or less than 0!  Initialize the watcher with a operation count of larger than 0.");
     if (self.startingOperationCount <= 0) return;
-
+    
     // Calculate percentage progress
     float progress = (float)(self.startingOperationCount - operationCount) / (float)self.startingOperationCount;
     

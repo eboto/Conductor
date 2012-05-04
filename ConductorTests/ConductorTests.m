@@ -31,22 +31,6 @@
 
 @implementation ConductorTests
 
-- (void)setUp {
-    [super setUp];
-    
-    testOperationQueue = [[CDOperationQueue alloc] init];
-    [testOperationQueue.queue setMaxConcurrentOperationCount:1];
-
-    conductor = [[Conductor alloc] init];
-}
-
-- (void)tearDown {    
-    [super tearDown];
-
-    [testOperationQueue release], testOperationQueue = nil;
-    [conductor release], conductor = nil;
-}
-
 - (void)testConductorAddOperation {
     
     __block BOOL hasFinished = NO;
@@ -118,17 +102,16 @@
     }    
     
     STAssertFalse([conductor isExecuting], @"Conductor should not be executing");
-
 }
 
 - (void)testConductorCancelAllOperations {
         
-    CDTestOperation *op = [CDTestOperation operation];
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation operation];
     
     [conductor addOperation:op toQueueNamed:@"CustomQueueName"];
     
     [conductor cancelAllOperations];
-
+        
     STAssertTrue(op.isCancelled, @"Operation should be cancelled");
 }
 

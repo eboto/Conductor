@@ -11,6 +11,8 @@
 		DB4F2D941551E54400216AB9 /* CDOperationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D931551E54400216AB9 /* CDOperationTests.m */; };
 		DB4F2D971551E57700216AB9 /* CDOperationQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D961551E57700216AB9 /* CDOperationQueueTests.m */; };
 		DB4F2D9B1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D9A1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m */; };
+		DB4F2D9D155320EF00216AB9 /* ConductorLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4F2D9C155320EF00216AB9 /* ConductorLogging.h */; };
+		DB4F2DA01553329900216AB9 /* CDTest.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D9F1553329900216AB9 /* CDTest.m */; };
 		DB6BABC6154F69FC004842D2 /* CDOperationQueueProgressWatcher.h in Headers */ = {isa = PBXBuildFile; fileRef = DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressWatcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB6BABC7154F69FC004842D2 /* CDOperationQueueProgressWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressWatcher.m */; };
 		DB83D19E1451F1B200D94890 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
@@ -47,6 +49,9 @@
 		DB4F2D961551E57700216AB9 /* CDOperationQueueTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationQueueTests.m; sourceTree = "<group>"; };
 		DB4F2D991551F60200216AB9 /* CDOperationQueueProgressWatcherTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperationQueueProgressWatcherTests.h; sourceTree = "<group>"; };
 		DB4F2D9A1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationQueueProgressWatcherTests.m; sourceTree = "<group>"; };
+		DB4F2D9C155320EF00216AB9 /* ConductorLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConductorLogging.h; sourceTree = "<group>"; };
+		DB4F2D9E1553329900216AB9 /* CDTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDTest.h; sourceTree = "<group>"; };
+		DB4F2D9F1553329900216AB9 /* CDTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDTest.m; sourceTree = "<group>"; };
 		DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperationQueueProgressWatcher.h; sourceTree = "<group>"; };
 		DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationQueueProgressWatcher.m; sourceTree = "<group>"; };
 		DB83D19A1451F1B200D94890 /* libConductor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libConductor.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,6 +145,7 @@
 				DB83D1DD1451FB1900D94890 /* CDOperation.m */,
 				DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressWatcher.h */,
 				DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressWatcher.m */,
+				DB4F2D9C155320EF00216AB9 /* ConductorLogging.h */,
 				DB83D1A01451F1B200D94890 /* Supporting Files */,
 			);
 			path = Conductor;
@@ -156,6 +162,8 @@
 		DB83D1B31451F1B200D94890 /* ConductorTests */ = {
 			isa = PBXGroup;
 			children = (
+				DB4F2D9E1553329900216AB9 /* CDTest.h */,
+				DB4F2D9F1553329900216AB9 /* CDTest.m */,
 				DB83D1B91451F1B200D94890 /* ConductorTests.h */,
 				DB83D1BA1451F1B200D94890 /* ConductorTests.m */,
 				DB4F2D951551E57700216AB9 /* CDOperationQueueTests.h */,
@@ -190,6 +198,7 @@
 				DB83D1DE1451FB1900D94890 /* CDOperation.h in Headers */,
 				DBA5F95514560E1D00EBFF68 /* Conductor.h in Headers */,
 				DB6BABC6154F69FC004842D2 /* CDOperationQueueProgressWatcher.h in Headers */,
+				DB4F2D9D155320EF00216AB9 /* ConductorLogging.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +317,7 @@
 				DB4F2D941551E54400216AB9 /* CDOperationTests.m in Sources */,
 				DB4F2D971551E57700216AB9 /* CDOperationQueueTests.m in Sources */,
 				DB4F2D9B1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m in Sources */,
+				DB4F2DA01553329900216AB9 /* CDTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

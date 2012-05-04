@@ -36,9 +36,6 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
         case CDOperationQueueStateFinished:
             return @"isFinished";
             break;
-        case CDOperationQueueStateCancelled:
-            return @"isCancelled";
-            break;
         case CDOperationQueueStateSuspended:
             return @"isSuspended";
         default:
@@ -67,7 +64,7 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 - (id)init {
     self = [super init];
     if (self) {
-        self.queue      = [[NSOperationQueue alloc] init];
+        self.queue      = [[NSOperationQueue alloc] init];        
         self.operations = [[NSMutableDictionary alloc] init];
         self.state      = CDOperationQueueStateReady;
     }
@@ -98,7 +95,7 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 
 - (void)addOperation:(NSOperation *)operation 
           atPriority:(NSOperationQueuePriority)priority {
-    
+        
     // Update queue State
     self.state = CDOperationQueueStateExecuting;
     
@@ -111,16 +108,9 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
         [self.operations setObject:op forKey:op.identifier];
         
         // KVO operation isFinished.  Allows cleanup after operation is
-        // finished, as well as queue progress updates.
+        // finished or canceled, as well as queue progress updates.
         [op addObserver:self
              forKeyPath:@"isFinished" 
-                options:NSKeyValueObservingOptionNew 
-                context:nil];
-        
-        // KVO operation isCancelled. Allows cleanup after operation is
-        // cancelled, as well as queue progress updates.
-        [op addObserver:self
-             forKeyPath:@"isCancelled" 
                 options:NSKeyValueObservingOptionNew 
                 context:nil];
     }
@@ -138,7 +128,10 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 }
 
 - (void)removeOperation:(CDOperation *)operation {
-    [operation removeObserver:self forKeyPath:@"isCancelled"];  
+    if (![self.operations objectForKey:operation.identifier]) return;
+    
+    ConductorLogTrace(@"Removing operation %@ from queue %@", operation.identifier, self.name);
+    
     [operation removeObserver:self forKeyPath:@"isFinished"];
     [self.operations removeObjectForKey:operation.identifier];
     
@@ -148,10 +141,18 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 }
 
 - (void)cancelAllOperations {
+    // We don't want to KVO any operations anymore, because
+    // we are cancelling.
+    for (CDOperation *operation in self.queue.operations) {
+        [self removeOperation:operation];
+    }
+    
     [self.queue cancelAllOperations];
-
-    // Update cancelled state to trigger KVO
-    self.state = CDOperationQueueStateCancelled;
+        
+    // Allow NSOperation queue to start operations and clear themselves out.
+    // They will all be marked as canceled, and if you build your sublcass
+    // correctly, they will exit properly.
+    [self setSuspended:NO];
 }
 
 - (void)operationDidFinish:(CDOperation *)operation {
@@ -161,10 +162,6 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
         [self queueDidFinish];
     }
     
-}
-
-- (void)operationDidCancel:(CDOperation *)operation {
-    [self removeOperation:operation];
 }
 
 #pragma mark - KVO
@@ -178,11 +175,7 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
         CDOperation *op = (CDOperation *)object;
         [self operationDidFinish:op];
     }
-    
-    if ([keyPath isEqualToString:@"isCancelled"] && [object isKindOfClass:[CDOperation class]]) {
-        CDOperation *op = (CDOperation *)object;
-        [self operationDidCancel:op];
-    }
+
 }
 
 #pragma mark - Priority
@@ -250,18 +243,16 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
     return (self.state == CDOperationQueueStateSuspended);
 }
 
-- (BOOL)isCancelled {
-    return (self.state == CDOperationQueueStateCancelled);
-}
-
 #pragma mark - Accessors
 
 - (void)setSuspended:(BOOL)suspend {
     [self.queue setSuspended:suspend];
     
     if (suspend) {
+        ConductorLogTrace(@"Suspending queue \"%@\"", self.name);
         self.state = CDOperationQueueStateSuspended;
     } else if (self.queue.operationCount > 0) {
+        ConductorLogTrace(@"Resuming queue \"%@\"", self.name);
         self.state = CDOperationQueueStateExecuting;
     } else {
         self.state = CDOperationQueueStateReady;

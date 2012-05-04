@@ -29,7 +29,6 @@ typedef enum {
     CDOperationStateReady,
     CDOperationStateExecuting,
     CDOperationStateFinished,
-    CDOperationStateCancelled,
 } CDOperationState;
 
 @interface CDOperation : NSOperation {}

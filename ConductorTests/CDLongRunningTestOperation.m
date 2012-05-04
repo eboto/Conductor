@@ -14,9 +14,15 @@
     @autoreleasepool {    
         
         [super start];
-        
-        sleep(20); //sleep for 20 seconds
-        
+                
+        NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1.0];
+        NSInteger counter = 0;
+        while (!self.isCancelled || counter < 20) {
+            counter += 1;
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                     beforeDate:loopUntil];
+        }
+
         [self finish];
     }
 }

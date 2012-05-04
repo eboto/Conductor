@@ -25,13 +25,8 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-#import "Conductor.h"
+#import "CDTest.h"
 
-#import "CDOperationQueue.h"
-
-@interface ConductorTests : SenTestCase {
-    CDOperationQueue *testOperationQueue;
-    Conductor *conductor;
-}
+@interface ConductorTests : CDTest
 
 @end

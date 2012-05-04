@@ -84,6 +84,8 @@
         toQueueNamed:(NSString *)queueName 
           atPriority:(NSOperationQueuePriority)priority {
     
+    ConductorLogTrace(@"Adding operation to queue %@", queueName);
+    
     CDOperationQueue *queue = nil;
     
     if (queueName) {
@@ -98,14 +100,15 @@
                options:NSKeyValueObservingOptionNew 
                context:nil];
     
-    // KVO queue isCancelled
-    [queue addObserver:self
-            forKeyPath:@"isCancelled" 
-               options:NSKeyValueObservingOptionNew 
-               context:nil];
-    
     // Add and start operation
     [queue addOperation:operation atPriority:priority];
+}
+
+- (void)removeQueue:(CDOperationQueue *)queue {
+    if (![self.queues objectForKey:queue.name]) return;
+    ConductorLogTrace(@"Removing queue %@", queue.name);
+    [queue removeObserver:self forKeyPath:@"isFinished"];
+    [self.queues removeObjectForKey:queue.name];
 }
 
 - (BOOL)updatePriorityOfOperationWithIdentifier:(NSString *)identifier 
@@ -126,6 +129,7 @@
 #pragma mark - Queue States
 
 - (void)cancelAllOperations {
+    ConductorLogTrace(@"Cancel all operations");
     for (NSString *queueName in self.queues) {
         [self cancelAllOperationsInQueueNamed:queueName];
     }
@@ -133,11 +137,14 @@
 
 - (void)cancelAllOperationsInQueueNamed:(NSString *)queueName {
     if (!queueName) return;
+    ConductorLogTrace(@"Cancel all operations in queue %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];
+    [self removeQueue:queue];
     [queue cancelAllOperations];
 }
 
 - (void)suspendAllQueues {
+    ConductorLogTrace(@"Suspend all queues");
     for (NSString *queueName in self.queues) {
         [self suspendQueueNamed:queueName];
     }
@@ -145,11 +152,13 @@
 
 - (void)suspendQueueNamed:(NSString *)queueName {
     if (!queueName) return;
+    ConductorLogTrace(@"Suspend queue %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];;
     [queue setSuspended:YES];
 }
 
 - (void)resumeAllQueues {
+    ConductorLogTrace(@"Resume all queues");
     for (NSString *queueName in self.queues) {
         [self resumeQueueNamed:queueName];
     }    
@@ -157,21 +166,12 @@
 
 - (void)resumeQueueNamed:(NSString *)queueName {
     if (!queueName) return;
+    ConductorLogTrace(@"Resume queue %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];;
     [queue setSuspended:NO];    
 }
 
-- (void)removeQueue:(CDOperationQueue *)queue {
-    [queue removeObserver:self forKeyPath:@"isCancelled"];
-    [queue removeObserver:self forKeyPath:@"isFinished"];
-    [self.queues removeObjectForKey:queue.name];
-}
-
 - (void)queueDidFinish:(CDOperationQueue *)queue {
-    [self removeQueue:queue];
-}
-
-- (void)queueDidCancel:(CDOperationQueue *)queue {
     [self removeQueue:queue];
 }
 
@@ -181,9 +181,10 @@
                      withProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock 
                     andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock {
     
-    CDOperationQueue *queue = [self getQueueNamed:queueName];;
-    if (!queue) return;
-
+    ConductorLogTrace(@"Adding progress watcher to queue %@", queueName);
+    
+    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:YES];
+    
     [queue addProgressWatcherWithProgressBlock:progressBlock 
                             andCompletionBlock:completionBlock];
 }
@@ -192,6 +193,8 @@
     CDOperationQueue *queue = [self getQueueNamed:queueName];;
     if (!queue) return;
 
+    ConductorLogTrace(@"Removing progress watcher from queue %@", queueName);
+    
     [queue removeProgressWatcher];
 }
 
@@ -216,12 +219,6 @@
     if ([keyPath isEqualToString:@"isFinished"] && [object isKindOfClass:[CDOperationQueue class]]) {
         CDOperationQueue *queue = (CDOperationQueue *)object;
         [self queueDidFinish:queue];
-    }
-    
-    // isCancelled
-    if ([keyPath isEqualToString:@"isCancelled"] && [object isKindOfClass:[CDOperationQueue class]]) {
-        CDOperationQueue *queue = (CDOperationQueue *)object;
-        [self queueDidCancel:queue];
     }
     
 }

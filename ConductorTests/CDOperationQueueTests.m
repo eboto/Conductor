@@ -14,21 +14,21 @@
 
 @implementation CDOperationQueueTests
 
-- (void)setUp {
-    [super setUp];
-    
-    testOperationQueue = [[CDOperationQueue alloc] init];
-    [testOperationQueue.queue setMaxConcurrentOperationCount:1];
-    
-    conductor = [[Conductor alloc] init];
-}
-
-- (void)tearDown {    
-    [super tearDown];
-    
-    [testOperationQueue release], testOperationQueue = nil;
-    [conductor release], conductor = nil;
-}
+//- (void)setUp {
+//    [super setUp];
+//    
+//    testOperationQueue = [[CDOperationQueue alloc] init];
+//    [testOperationQueue.queue setMaxConcurrentOperationCount:1];
+//    
+//    conductor = [[Conductor alloc] init];
+//}
+//
+//- (void)tearDown {    
+//    [super tearDown];
+//    
+//    [testOperationQueue release], testOperationQueue = nil;
+//    [conductor release], conductor = nil;
+//}
 
 - (void)testCreateQueueWithName {
     CDOperationQueue *queue = [CDOperationQueue queueWithName:@"MyQueueName"];
@@ -138,6 +138,9 @@
     CDTestOperation *finishFirst = [CDTestOperation operationWithIdentifier:@"3"];
     finishFirst.completionBlock = finishFirstBlock;
     
+    // pause queue to add operations first, so they dont finish too fast
+    [testOperationQueue setSuspended:YES];
+    
     [testOperationQueue addOperation:finishLast];
     [testOperationQueue addOperation:op];
     [testOperationQueue addOperation:finishFirst];
@@ -147,6 +150,9 @@
     
     [testOperationQueue updatePriorityOfOperationWithIdentifier:@"1" 
                                                   toNewPriority:NSOperationQueuePriorityVeryLow];
+    
+    // Resume queue now that stuff is added and operations are in
+    [testOperationQueue setSuspended:NO];
     
     NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.2];
     while (hasFinished == NO) {
@@ -181,8 +187,7 @@
                                  beforeDate:loopUntil];
     }    
     
-    NSInteger count = testOperationQueue.operations.count;
-    STAssertEquals(count, 0, @"Operation queue should be empty");
+    STAssertEquals([testOperationQueue operationCount], 0, @"Operation queue should be empty");
 }
 
 #pragma mark - Operation Count
@@ -269,17 +274,6 @@
     [testOperationQueue setSuspended:YES];
     
     STAssertTrue(testOperationQueue.isSuspended, @"Operation queue should be finished");
-}
-
-- (void)testOperationQueueShouldReportCancelled {
-    CDLongRunningTestOperation *op = [CDLongRunningTestOperation operation];    
-    [testOperationQueue addOperation:op];
-    
-    STAssertFalse(testOperationQueue.isSuspended, @"Operation queue should not be cancelled");
-    
-    [testOperationQueue cancelAllOperations];
-    
-    STAssertTrue(testOperationQueue.isCancelled, @"Operation queue should be finished");
 }
 
 - (void)testOperationQueueShouldResumeAfterSuspended {

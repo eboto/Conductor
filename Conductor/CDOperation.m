@@ -24,6 +24,7 @@
 //
 
 #import "CDOperation.h"
+#import <mach/mach_time.h>
 
 #pragma mark - State
 
@@ -37,9 +38,6 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
             break;
         case CDOperationStateFinished:
             return @"isFinished";
-            break;
-        case CDOperationStateCancelled:
-            return @"isCancelled";
             break;
         default:
             return nil;
@@ -85,19 +83,26 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
 #pragma mark - 
 
 - (void)start {
+    ConductorLogTrace(@"Started operation: %@", self.identifier);
     
+    if (self.isCancelled) {
+        [self finish];
+        return;
+    }
+
     // Don't forget to wrap your operation in an autorelease pool
     
     self.state = CDOperationStateExecuting;
 }
 
 - (void)finish {
+    ConductorLogTrace(@"Finished operation: %@", self.identifier);
     self.state = CDOperationStateFinished;
 }
 
 - (void)cancel {
-    self.state = CDOperationStateCancelled;
     [super cancel];
+    ConductorLogTrace(@"Canceled operation: %@", self.identifier);
 }
 
 - (BOOL)isReady {
@@ -138,8 +143,12 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
 - (id)identifier {
     if (identifier_) return identifier_;
     
-    NSInteger time = CFAbsoluteTimeGetCurrent();
-    identifier_ = [NSString stringWithFormat:@"%@_%d", NSStringFromClass([self class]), time];
+    uint64_t absolute_time = mach_absolute_time();
+    mach_timebase_info_data_t timebase;
+    mach_timebase_info(&timebase);
+    uint64_t nanoseconds = (double)absolute_time * (double)timebase.numer / (double)timebase.denom;
+    
+    identifier_ = [NSString stringWithFormat:@"%@_%llu", NSStringFromClass([self class]), nanoseconds];
     
     return identifier_;
 }

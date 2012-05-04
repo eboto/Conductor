@@ -33,7 +33,6 @@ typedef enum {
     CDOperationQueueStateExecuting,
     CDOperationQueueStateFinished,
     CDOperationQueueStateSuspended,
-    CDOperationQueueStateCancelled,
 } CDOperationQueueState;
 
 @interface CDOperationQueue : NSObject {}
@@ -99,7 +98,6 @@ typedef enum {
 - (BOOL)isExecuting;
 - (BOOL)isFinished;
 - (BOOL)isSuspended;
-- (BOOL)isCancelled;
 
 /**
  * Retrieve an operation with a given identifier.  Returns nil if operation has

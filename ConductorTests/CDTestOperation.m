@@ -28,11 +28,10 @@
 @implementation CDTestOperation
 
 - (void)start {
-    @autoreleasepool {    
-    
+    @autoreleasepool {
         [super start];
     
-        sleep(0.4); //sleep for 0.4 seconds
+        sleep(0.4);
     
         [self finish];
     }

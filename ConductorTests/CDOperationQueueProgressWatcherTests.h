@@ -7,7 +7,8 @@
 //
 
 #import "ConductorTests.h"
+#import "CDTest.h"
 
-@interface CDOperationQueueProgressWatcherTests : ConductorTests
+@interface CDOperationQueueProgressWatcherTests : CDTest
 
 @end
