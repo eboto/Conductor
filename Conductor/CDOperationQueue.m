@@ -64,7 +64,7 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 - (id)init {
     self = [super init];
     if (self) {
-        self.queue      = [[NSOperationQueue alloc] init];        
+        self.queue      = [[NSOperationQueue alloc] init];
         self.operations = [[NSMutableDictionary alloc] init];
         self.state      = CDOperationQueueStateReady;
     }
@@ -196,7 +196,11 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 #pragma mark - Progress
 
 - (void)addProgressWatcherWithProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock
-                         andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock {
+                         andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock {    
+   
+    if (self.progressWatcher) return;
+    
+    ConductorLogTrace(@"Adding progress watcher to queue %@", self.name);
     
     CDOperationQueueProgressWatcher *watcher = [CDOperationQueueProgressWatcher progressWatcherWithStartingOperationCount:self.operationCount
                                                                                                             progressBlock:progressBlock

@@ -56,6 +56,15 @@
 
 #pragma mark - Queue Control
 
+- (void)removeQueue:(CDOperationQueue *)queue {
+    if (![self.queues objectForKey:queue.name]) return;
+    ConductorLogTrace(@"Removing queue %@", queue.name);
+    [queue removeObserver:self forKeyPath:@"isFinished"];
+    [self.queues removeObjectForKey:queue.name];
+}
+
+#pragma mark - Operations
+
 - (void)addOperation:(CDOperation *)operation {
     [self addOperation:operation atPriority:operation.queuePriority];
 }
@@ -93,22 +102,9 @@
     } else {
         queue = [self queueForOperation:operation shouldCreate:YES];
     }
-        
-    // KVO queue isFinished
-    [queue addObserver:self
-            forKeyPath:@"isFinished" 
-               options:NSKeyValueObservingOptionNew 
-               context:nil];
     
     // Add and start operation
     [queue addOperation:operation atPriority:priority];
-}
-
-- (void)removeQueue:(CDOperationQueue *)queue {
-    if (![self.queues objectForKey:queue.name]) return;
-    ConductorLogTrace(@"Removing queue %@", queue.name);
-    [queue removeObserver:self forKeyPath:@"isFinished"];
-    [self.queues removeObjectForKey:queue.name];
 }
 
 - (BOOL)updatePriorityOfOperationWithIdentifier:(NSString *)identifier 
@@ -139,8 +135,8 @@
     if (!queueName) return;
     ConductorLogTrace(@"Cancel all operations in queue %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];
-    [self removeQueue:queue];
     [queue cancelAllOperations];
+    [self removeQueue:queue];
 }
 
 - (void)suspendAllQueues {
@@ -180,9 +176,7 @@
 - (void)addProgressWatcherToQueueNamed:(NSString *)queueName 
                      withProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock 
                     andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock {
-    
-    ConductorLogTrace(@"Adding progress watcher to queue %@", queueName);
-    
+        
     CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:YES];
     
     [queue addProgressWatcherWithProgressBlock:progressBlock 
@@ -278,8 +272,16 @@
 
 - (CDOperationQueue *)createQueueWithName:(NSString *)queueName {
     if (!queueName) return nil;
+    
     CDOperationQueue *queue = [CDOperationQueue queueWithName:queueName];
+    
+    [queue addObserver:self
+            forKeyPath:@"isFinished" 
+               options:NSKeyValueObservingOptionNew 
+               context:nil];
+
     [self.queues setObject:queue forKey:queueName];
+    
     return queue;
 }
 
