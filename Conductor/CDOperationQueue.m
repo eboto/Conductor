@@ -59,7 +59,7 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 @synthesize queue,
             operations,
             progressWatcher,
-            state = _state;
+            state = state_;
 
 - (id)init {
     self = [super init];
@@ -226,7 +226,7 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
     
     [self willChangeValueForKey:newStateString];
     [self willChangeValueForKey:oldStateString];
-    _state = state;
+    state_ = state;
     [self didChangeValueForKey:oldStateString];
     [self didChangeValueForKey:newStateString];
 }
@@ -268,7 +268,7 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 }
 
 - (NSInteger)operationCount {
-    return self.queue ? self.queue.operationCount : 0;
+    return self.operations.count;
 }
 
 - (CDOperation *)getOperationWithIdentifier:(id)identifier {

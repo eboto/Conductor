@@ -24,6 +24,7 @@
 //
 
 #import "Conductor.h"
+#import <mach/mach_time.h>
 
 @interface Conductor ()
 @property (nonatomic, readwrite, strong) NSMutableDictionary *queues;
@@ -57,8 +58,9 @@
 #pragma mark - Queue Control
 
 - (void)removeQueue:(CDOperationQueue *)queue {
+    if (queue.isExecuting) return;
     if (![self.queues objectForKey:queue.name]) return;
-    ConductorLogTrace(@"Removing queue %@", queue.name);
+    ConductorLogTrace(@"Removing queue: %@", queue.name);
     [queue removeObserver:self forKeyPath:@"isFinished"];
     [self.queues removeObjectForKey:queue.name];
 }
@@ -92,9 +94,7 @@
 - (void)addOperation:(CDOperation *)operation 
         toQueueNamed:(NSString *)queueName 
           atPriority:(NSOperationQueuePriority)priority {
-    
-    ConductorLogTrace(@"Adding operation to queue %@", queueName);
-    
+        
     CDOperationQueue *queue = nil;
     
     if (queueName) {
@@ -102,6 +102,8 @@
     } else {
         queue = [self queueForOperation:operation shouldCreate:YES];
     }
+    
+    ConductorLogTrace(@"Adding operation to queue: %@", queue.name);
     
     // Add and start operation
     [queue addOperation:operation atPriority:priority];
@@ -133,7 +135,7 @@
 
 - (void)cancelAllOperationsInQueueNamed:(NSString *)queueName {
     if (!queueName) return;
-    ConductorLogTrace(@"Cancel all operations in queue %@", queueName);
+    ConductorLogTrace(@"Cancel all operations in queue: %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];
     [queue cancelAllOperations];
     [self removeQueue:queue];
@@ -148,7 +150,7 @@
 
 - (void)suspendQueueNamed:(NSString *)queueName {
     if (!queueName) return;
-    ConductorLogTrace(@"Suspend queue %@", queueName);
+    ConductorLogTrace(@"Suspend queue: %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];;
     [queue setSuspended:YES];
 }
@@ -162,13 +164,13 @@
 
 - (void)resumeQueueNamed:(NSString *)queueName {
     if (!queueName) return;
-    ConductorLogTrace(@"Resume queue %@", queueName);
+    ConductorLogTrace(@"Resume queue: %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];;
     [queue setSuspended:NO];    
 }
 
 - (void)queueDidFinish:(CDOperationQueue *)queue {
-    [self removeQueue:queue];
+//    [self removeQueue:queue];
 }
 
 #pragma mark - Queue Progress
@@ -238,6 +240,12 @@
 - (NSString *)queueNameForOperation:(NSOperation *)operation {
     if (!operation) return nil;
     NSString *className = NSStringFromClass([operation class]);
+    
+//    uint64_t absolute_time = mach_absolute_time();
+//    mach_timebase_info_data_t timebase;
+//    mach_timebase_info(&timebase);
+//    uint64_t nanoseconds = (double)absolute_time * (double)timebase.numer / (double)timebase.denom;
+
     return [NSString stringWithFormat:@"%@_operation_queue", className];
 }
 
@@ -272,6 +280,8 @@
 
 - (CDOperationQueue *)createQueueWithName:(NSString *)queueName {
     if (!queueName) return nil;
+    
+    ConductorLogTrace(@"Creating queue: %@", queueName);
     
     CDOperationQueue *queue = [CDOperationQueue queueWithName:queueName];
     
