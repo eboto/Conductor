@@ -138,7 +138,7 @@
     ConductorLogTrace(@"Cancel all operations in queue: %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];
     [queue cancelAllOperations];
-    [self removeQueue:queue];
+//    [self removeQueue:queue];
 }
 
 - (void)suspendAllQueues {

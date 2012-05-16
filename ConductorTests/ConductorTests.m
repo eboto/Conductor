@@ -83,6 +83,19 @@
     STAssertTrue(hasFinished, @"Conductor should add and complete test operation");
 }
 
+- (void)testConductorAddOperationThreeTimes {
+    
+    CDTestOperation *op1 = [CDLongRunningTestOperation operation];
+    CDTestOperation *op2 = [CDLongRunningTestOperation operation];
+    CDTestOperation *op3 = [CDLongRunningTestOperation operation];
+
+    [conductor addOperation:op1];
+    [conductor addOperation:op2];
+    [conductor addOperation:op3];
+
+    STAssertEquals(conductor.queues.count, 1U, @"Conducter should only have one queue");
+}
+
 - (void)testConductorUpdateQueuePriority {
     
 }
