@@ -28,7 +28,7 @@
 #import "CDOperationQueue.h"
 #import "CDOperationQueueProgressWatcher.h"
 
-@interface Conductor : NSObject {}
+@interface Conductor : NSObject <CDOperationQueueDelegate> {}
 
 @property (nonatomic, readonly, strong) NSMutableDictionary *queues;
 

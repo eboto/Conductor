@@ -25,30 +25,10 @@
 
 #import "CDOperationQueue.h"
 
-static inline NSString *StringForCDOperationQueueState(CDOperationQueueState state) {
-    switch (state) {
-        case CDOperationQueueStateReady:
-            return @"isReady";
-            break;
-        case CDOperationQueueStateExecuting:
-            return @"isExecuting";
-            break;
-        case CDOperationQueueStateFinished:
-            return @"isFinished";
-            break;
-        case CDOperationQueueStateSuspended:
-            return @"isSuspended";
-        default:
-            return nil;
-            break;
-    }
-}
-
 @interface CDOperationQueue ()
 
 @property (nonatomic, readwrite, strong) NSOperationQueue *queue;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *operations;
-@property (nonatomic, assign) CDOperationQueueState state;
 
 - (void)operationDidFinish:(CDOperation *)operation;
 
@@ -56,17 +36,20 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 
 @implementation CDOperationQueue
 
-@synthesize queue,
+@synthesize delegate,
+            queue,
             operations,
-            progressWatcher,
-            state = state_;
+            progressWatcher;
+
+- (void)dealloc {
+    delegate = nil;
+}
 
 - (id)init {
     self = [super init];
     if (self) {
         self.queue      = [[NSOperationQueue alloc] init];
         self.operations = [[NSMutableDictionary alloc] init];
-        self.state      = CDOperationQueueStateReady;
     }
     return self;
 }
@@ -83,8 +66,7 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
         [self.progressWatcher runCompletionBlock];
     };
     
-    // Update finished state last to trigger KVO
-    self.state = CDOperationQueueStateFinished;
+    [self.delegate queueDidFinish:self];
 }
 
 #pragma mark - Operations API
@@ -95,9 +77,6 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 
 - (void)addOperation:(NSOperation *)operation 
           atPriority:(NSOperationQueuePriority)priority {
-        
-    // Update queue State
-    self.state = CDOperationQueueStateExecuting;
     
     // KVO if CDOperation class, otherwise skip the awesome.  Why wouldn't you
     // want the awesome though?  Consider subclassing CDOperation.
@@ -214,53 +193,26 @@ static inline NSString *StringForCDOperationQueueState(CDOperationQueueState sta
 
 #pragma mark - State
 
-- (void)setState:(CDOperationQueueState)state {
-    // Ensures KVO complience for changes in NSOperation object state
-    
-    if (self.state == state) {
-        return;
-    }
-    
-    NSString *oldStateString = StringForCDOperationQueueState(self.state);
-    NSString *newStateString = StringForCDOperationQueueState(state);
-    
-    [self willChangeValueForKey:newStateString];
-    [self willChangeValueForKey:oldStateString];
-    state_ = state;
-    [self didChangeValueForKey:oldStateString];
-    [self didChangeValueForKey:newStateString];
-}
-
-- (BOOL)isReady {
-    return (self.state == CDOperationQueueStateReady);
-}
+//- (BOOL)isReady {
+//    return (self.state == CDOperationQueueStateReady);
+//}
 
 - (BOOL)isExecuting {
-    return (self.state == CDOperationQueueStateExecuting);
+    return (self.operationCount > 0);
 }
 
 - (BOOL)isFinished {
-    return (self.state == CDOperationQueueStateFinished);
+    return (self.operationCount == 0);
 }
 
 - (BOOL)isSuspended {
-    return (self.state == CDOperationQueueStateSuspended);
+    return self.queue ? self.queue.isSuspended : NO;
 }
 
 #pragma mark - Accessors
 
 - (void)setSuspended:(BOOL)suspend {
     [self.queue setSuspended:suspend];
-    
-    if (suspend) {
-        ConductorLogTrace(@"Suspending queue \"%@\"", self.name);
-        self.state = CDOperationQueueStateSuspended;
-    } else if (self.queue.operationCount > 0) {
-        ConductorLogTrace(@"Resuming queue \"%@\"", self.name);
-        self.state = CDOperationQueueStateExecuting;
-    } else {
-        self.state = CDOperationQueueStateReady;
-    }
 }
 
 - (NSString *)name {

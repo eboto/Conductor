@@ -61,7 +61,6 @@
     if (queue.isExecuting) return;
     if (![self.queues objectForKey:queue.name]) return;
     ConductorLogTrace(@"Removing queue: %@", queue.name);
-    [queue removeObserver:self forKeyPath:@"isFinished"];
     [self.queues removeObjectForKey:queue.name];
 }
 
@@ -138,7 +137,7 @@
     ConductorLogTrace(@"Cancel all operations in queue: %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];
     [queue cancelAllOperations];
-//    [self removeQueue:queue];
+    [self removeQueue:queue];
 }
 
 - (void)suspendAllQueues {
@@ -169,8 +168,10 @@
     [queue setSuspended:NO];    
 }
 
+#pragma mark - CDOperationQueueDelegate
+
 - (void)queueDidFinish:(CDOperationQueue *)queue {
-//    [self removeQueue:queue];
+    [self removeQueue:queue];
 }
 
 #pragma mark - Queue Progress
@@ -206,18 +207,18 @@
 
 #pragma mark - KVO
 
-- (void)observeValueForKeyPath:(NSString *)keyPath 
-                      ofObject:(id)object 
-                        change:(NSDictionary *)change 
-                       context:(void *)context {
-    
-    // isFinished
-    if ([keyPath isEqualToString:@"isFinished"] && [object isKindOfClass:[CDOperationQueue class]]) {
-        CDOperationQueue *queue = (CDOperationQueue *)object;
-        [self queueDidFinish:queue];
-    }
-    
-}
+//- (void)observeValueForKeyPath:(NSString *)keyPath 
+//                      ofObject:(id)object 
+//                        change:(NSDictionary *)change 
+//                       context:(void *)context {
+//    
+//    // isFinished
+//    if ([keyPath isEqualToString:@"isFinished"] && [object isKindOfClass:[CDOperationQueue class]]) {
+//        CDOperationQueue *queue = (CDOperationQueue *)object;
+//        [self queueDidFinish:queue];
+//    }
+//    
+//}
 
 #pragma mark - Accessors
 
@@ -284,11 +285,12 @@
     ConductorLogTrace(@"Creating queue: %@", queueName);
     
     CDOperationQueue *queue = [CDOperationQueue queueWithName:queueName];
+    queue.delegate = self;
     
-    [queue addObserver:self
-            forKeyPath:@"isFinished" 
-               options:NSKeyValueObservingOptionNew 
-               context:nil];
+//    [queue addObserver:self
+//            forKeyPath:@"isFinished" 
+//               options:NSKeyValueObservingOptionNew 
+//               context:nil];
 
     [self.queues setObject:queue forKey:queueName];
     

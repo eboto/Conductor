@@ -28,14 +28,11 @@
 #import "CDOperation.h"
 #import "CDOperationQueueProgressWatcher.h"
 
-typedef enum {
-    CDOperationQueueStateReady,
-    CDOperationQueueStateExecuting,
-    CDOperationQueueStateFinished,
-    CDOperationQueueStateSuspended,
-} CDOperationQueueState;
+@protocol CDOperationQueueDelegate;
 
 @interface CDOperationQueue : NSObject {}
+
+@property (nonatomic, weak) id <CDOperationQueueDelegate> delegate;
 
 /**
  * Holds the operation queue
@@ -94,7 +91,6 @@ typedef enum {
 /**
  State queries
  */
-- (BOOL)isReady;
 - (BOOL)isExecuting;
 - (BOOL)isFinished;
 - (BOOL)isSuspended;
@@ -113,4 +109,8 @@ typedef enum {
 
 - (void)removeProgressWatcher;
 
+@end
+
+@protocol CDOperationQueueDelegate <NSObject>
+- (void)queueDidFinish:(CDOperationQueue *)queue;
 @end
