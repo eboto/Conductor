@@ -35,7 +35,7 @@
                                                                                                             progressBlock:progressBlock
                                                                                                        andCompletionBlock:nil];
     
-    [watcher runProgressBlockWithCurrentOperationCount:1];
+    [watcher runProgressBlockWithCurrentOperationCount:[NSNumber numberWithInt:1]];
         
     STAssertEqualsWithAccuracy(progressIndicator, 0.9f, 0.000001f, @"Progress block should run correctly");
 }
@@ -68,7 +68,10 @@
     
     [testOperationQueue addProgressWatcherWithProgressBlock:nil andCompletionBlock:nil];
     
-    STAssertEquals(testOperationQueue.progressWatcher.startingOperationCount, 3, @"Progress watcher should have correct starting operation count");    
+    NSArray *watchers = [[testOperationQueue progressWatchers] allObjects];
+    CDOperationQueueProgressWatcher *watcher = (CDOperationQueueProgressWatcher *)[watchers objectAtIndex:0];
+    
+    STAssertEquals(watcher.startingOperationCount, 3, @"Progress watcher should have correct starting operation count");    
 }
 
 - (void)testAddToStartingOperationCount {
@@ -85,7 +88,10 @@
     
     [testOperationQueue addOperation:op4];
     
-    STAssertEquals(testOperationQueue.progressWatcher.startingOperationCount, 4, @"Progress watcher should have correct starting operation count");    
+    NSArray *watchers = [[testOperationQueue progressWatchers] allObjects];
+    CDOperationQueueProgressWatcher *watcher = (CDOperationQueueProgressWatcher *)[watchers objectAtIndex:0];
+    
+    STAssertEquals(watcher.startingOperationCount, 4, @"Progress watcher should have correct starting operation count");    
 }
 
 - (void)testRunWatcherProgressAndCompletionBlocks {

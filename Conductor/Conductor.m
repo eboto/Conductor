@@ -186,14 +186,14 @@
                             andCompletionBlock:completionBlock];
 }
 
-- (void)removeProgressWatcherForQueueNamed:(NSString *)queueName {
-    CDOperationQueue *queue = [self getQueueNamed:queueName];;
-    if (!queue) return;
-
-    ConductorLogTrace(@"Removing progress watcher from queue %@", queueName);
-    
-    [queue removeProgressWatcher];
-}
+//- (void)removeProgressWatcherForQueueNamed:(NSString *)queueName {
+//    CDOperationQueue *queue = [self getQueueNamed:queueName];;
+//    if (!queue) return;
+//
+//    ConductorLogTrace(@"Removing progress watcher from queue %@", queueName);
+//    
+//    [queue removeProgressWatcher];
+//}
 
 #pragma mark - Queue
 

@@ -23,10 +23,10 @@ typedef void (^CDOperationQueueProgressWatcherCompletionBlock)(void);
                                                                  progressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock 
                                                             andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock;
 
-- (void)runProgressBlockWithCurrentOperationCount:(NSInteger)operationCount;
+- (void)runProgressBlockWithCurrentOperationCount:(NSNumber *)operationCount;
 
 - (void)runCompletionBlock;
 
-- (void)addToStartingOperationCount:(NSInteger)numberToAdd;
+- (void)addToStartingOperationCount:(NSNumber *)numberToAdd;
 
 @end

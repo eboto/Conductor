@@ -29,6 +29,7 @@
 
 @property (nonatomic, readwrite, strong) NSOperationQueue *queue;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *operations;
+@property (nonatomic, readwrite, strong) NSMutableSet *progressWatchers;
 
 - (void)operationDidFinish:(CDOperation *)operation;
 
@@ -39,7 +40,7 @@
 @synthesize delegate,
             queue,
             operations,
-            progressWatcher;
+            progressWatchers;
 
 - (void)dealloc {
     delegate = nil;
@@ -48,8 +49,9 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.queue      = [[NSOperationQueue alloc] init];
-        self.operations = [[NSMutableDictionary alloc] init];
+        self.queue            = [[NSOperationQueue alloc] init];
+        self.operations       = [[NSMutableDictionary alloc] init];
+        self.progressWatchers = [[NSMutableSet alloc] init];
     }
     return self;
 }
@@ -61,10 +63,8 @@
 }
 
 - (void)queueDidFinish {
-    
-    if (self.progressWatcher) {
-        [self.progressWatcher runCompletionBlock];
-    };
+        
+    [self.progressWatchers makeObjectsPerformSelector:@selector(runCompletionBlock)];
     
     [self.delegate queueDidFinish:self];
 }
@@ -98,9 +98,9 @@
     [operation setQueuePriority:priority];
     
     // Update progress watcher count
-    if (self.progressWatcher) {
-        [self.progressWatcher addToStartingOperationCount:1];
-    }
+    [self.progressWatchers makeObjectsPerformSelector:@selector(addToStartingOperationCount:)
+                                           withObject:[NSNumber numberWithInt:1]];
+
     
     // Add operation to queue and start
     [self.queue addOperation:operation];
@@ -113,10 +113,9 @@
     
     [operation removeObserver:self forKeyPath:@"isFinished"];
     [self.operations removeObjectForKey:operation.identifier];
-    
-    if (self.progressWatcher) {
-        [self.progressWatcher runProgressBlockWithCurrentOperationCount:self.operationCount];
-    }
+
+    [self.progressWatchers makeObjectsPerformSelector:@selector(runProgressBlockWithCurrentOperationCount:)
+                                           withObject:[NSNumber numberWithInt:self.operationCount]];
 }
 
 - (void)cancelAllOperations {
@@ -176,19 +175,13 @@
 
 - (void)addProgressWatcherWithProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock
                          andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock {    
-   
-    if (self.progressWatcher) return;
-    
+       
     ConductorLogTrace(@"Adding progress watcher to queue %@", self.name);
     
     CDOperationQueueProgressWatcher *watcher = [CDOperationQueueProgressWatcher progressWatcherWithStartingOperationCount:self.operationCount
                                                                                                             progressBlock:progressBlock
                                                                                                        andCompletionBlock:completionBlock];
-    self.progressWatcher = watcher;
-}
-
-- (void)removeProgressWatcher {
-    self.progressWatcher = nil;
+    [self.progressWatchers addObject:watcher];
 }
 
 #pragma mark - State

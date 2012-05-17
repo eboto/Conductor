@@ -227,10 +227,6 @@
 
 #pragma mark - State
 
-- (void)testOperationQueueShouldReportReady {
-    STAssertTrue(testOperationQueue.isReady, @"Operation queue should be ready");
-}
-
 - (void)testOperationQueueShouldReportExecuting {
     
     CDTestOperation *op = [CDTestOperation operation];

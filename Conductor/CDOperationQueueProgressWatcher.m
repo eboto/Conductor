@@ -26,14 +26,14 @@
     return watcher;
 }
 
-- (void)runProgressBlockWithCurrentOperationCount:(NSInteger)operationCount {
+- (void)runProgressBlockWithCurrentOperationCount:(NSNumber *)operationCount {
     if (!self.progressBlock) return;
     
     NSAssert(!(self.startingOperationCount <= 0), @"Starting operation count was 0 or less than 0!  Initialize the watcher with a operation count of larger than 0.");
     if (self.startingOperationCount <= 0) return;
-    
+        
     // Calculate percentage progress
-    float progress = (float)(self.startingOperationCount - operationCount) / (float)self.startingOperationCount;
+    float progress = (float)(self.startingOperationCount - [operationCount intValue]) / (float)self.startingOperationCount;
     
     // If operation count is larger than starting operation count, mark progress
     // as 0.  This shouldn't happen, the starting operation count should be updated
@@ -48,8 +48,8 @@
     self.completionBlock();
 }
 
-- (void)addToStartingOperationCount:(NSInteger)numberToAdd {
-    self.startingOperationCount += numberToAdd;
+- (void)addToStartingOperationCount:(NSNumber *)numberToAdd {
+    self.startingOperationCount += [numberToAdd intValue];
 }
 
 @end

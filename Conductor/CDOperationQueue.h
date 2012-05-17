@@ -56,7 +56,7 @@
  */
 @property (nonatomic, readonly) NSInteger operationCount;
 
-@property (nonatomic, strong) CDOperationQueueProgressWatcher *progressWatcher;
+@property (nonatomic, readonly, strong) NSMutableSet *progressWatchers;
 
 + (id)queueWithName:(NSString *)queueName;
 
@@ -107,7 +107,6 @@
 - (void)addProgressWatcherWithProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock
                          andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock;
 
-- (void)removeProgressWatcher;
 
 @end
 
