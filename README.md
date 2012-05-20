@@ -3,7 +3,7 @@
 ***
 
 ##Introduction
-Test image ![whatev](https://github.com/ChazInc/Conductor/blob/master/Resources/deploy.png)
+Test image ![whatev](https://github.com/ChazInc/Conductor/blob/master/Resources/deploy.png?raw=true)
 ##Setup
 
 ##Contributing
