@@ -52,19 +52,19 @@ To use Conductor, first you have to subclass `CDOperation`, which is itself an N
 @end
 ```
 
-As you can see, this operation just waits for one second before finishing.  Now lets add a bunch of operations to our Conductor singleton.  Just so you can see what is happening, let's set the max concurrency operation count to 1 for our queue.  This will result in serial operation of our `TestOperation` so we can see what is happening in the log.
+As you can see, this operation just waits for one second before finishing.  Now lets add a bunch of operations to our Conductor singleton.  To slow things down, let's set the max concurrency operation count to 1 for our queue.  This will result in serial operation of our `TestOperation` so we can see what is happening in the log.
 
 ```objective-c
 Conductor *conductor = [Conductor sharedInstance];
 NSString *myQueueName = @"MyQueueName";
 
-[conductor addProgressWatcherToQueueNamed:myQueueName 
-                        withProgressBlock:^(float progress) {
-                            NSLog(@"progress: %f", progress);
-                        }
-                       andCompletionBlock:^ {
-                           NSLog(@"Finished!");
-                       }];
+[conductor addProgressObserverToQueueNamed:myQueueName 
+                         withProgressBlock:^(float progress) {
+                             NSLog(@"progress: %f", progress);
+                         }
+                        andCompletionBlock:^ {
+                            NSLog(@"Finished!");
+                        }];
 
 [conductor setMaxConcurrentOperationCount:1 
                             forQueueNamed:myQueueName];
