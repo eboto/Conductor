@@ -3,7 +3,7 @@
 ***
 
 ##Introduction
-Test image ![whatev](http://desmond.imageshack.us/Himg442/scaled.php?server=442&filename=deployallthebranches.png&res=medium)
+Test image ![whatev](https://github.com/ChazInc/Conductor/blob/master/Resources/deploy.png)
 ##Setup
 
 ##Contributing
