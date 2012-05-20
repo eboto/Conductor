@@ -48,9 +48,9 @@ To use Conductor, first you have to subclass `CDOperation`, which is itself an N
         [self finish];
     }
 }
-```
-@end
 
+@end
+```
 
 ##Contributing
 
