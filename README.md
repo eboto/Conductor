@@ -4,7 +4,7 @@
 
 ##Introduction
 
-Conductor is a useful way to keep track of, update, and query, asynchronous `NSOperation` objects. 
+Conductor is a useful way to keep track of, update, and watch the progress, asynchronous `NSOperation` jobs in an `NSOperationQueue`.
 
 Often times in iOS apps there is a need to manage asynchronous background tasks.  Frequently, these tasks can be grouped into specific types of operations, like downloading images from a web service, or parsing a JSON response from an API.  Moving as much processing as you can off the main thread is vital for a good user experience so we don't lock up the user interface, for instance.
 
