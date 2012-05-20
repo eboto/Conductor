@@ -14,7 +14,21 @@ The iOS SDK offers several ways to execute background tasks.  CGD is fantastic f
 * Easily observer the progress of a given queue.  Add a `UIProgressView` and show the user your image download progress and execute a completion block when the queue is finished.
 * Change the `NSOperationQueuePriority` for a specific operation in a queue.  For example, change the priority of thumbnail image downloads as the user scrolls a `UITableView`.
 
+##Installation
+
+Conductor is built as a modern static library, based on some of the excellent conventions detailed by Jonah Williams on [Using Open Source Static Libraries in Xcode 4](http://blog.carbonfive.com/2011/04/04/using-open-source-static-libraries-in-xcode-4/).  I highly recommend adhering to these conventions.
+
+1. Add Conductor as a git submodule to your repository. `git submodule add git@github.com:ChazInc/Conductor.git`
+2. Add `Conductor.xcodeproj` to your project. `File > Add Files to "MyProject"…`
+3. Add Conductor as a target dependency to your app target under the `Build Phases` menu.
+4. Link the binary to the Conductor library.
+5. Add `$(OBJROOT)/UninstalledProducts/include` to your **User Header Search Paths**, and set **Always Search User Paths** to Yes.
+6. Import the Conductor with `#import <Conductor/Conductor.h>`
+7. Build the project to check and make sure you setup everything correctly.
+
 ##Setup
+
+
 
 ##Contributing
 
