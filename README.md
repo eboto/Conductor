@@ -31,25 +31,48 @@ Conductor is built as a modern static library, based on some of the excellent co
 To use Conductor, first you have to subclass `CDOperation`, which is itself an NSOperation subclass.  Lets build a really simple operation to play around with, which is the same as the `CDTestOperation` in ConductorTests.
 
 ```objective-c
-#import "CDOperation.h"
+#import "Conductor/CDOperation.h"
 
-@interface CDTestOperation : CDOperation
+@interface TestOperation : CDOperation
 
 @end
 
-@implementation CDTestOperation
+@implementation TestOperation
 
 - (void)start {
     @autoreleasepool {
         [super start];
     
-        sleep(0.4);
+        sleep(1.0);
     
         [self finish];
     }
 }
 
 @end
+```
+
+As you can see, this operation just waits for one second before finishing.  Now lets add a bunch of operations to our Conductor singleton.  Just so you can see what is happening, let's set the max concurrency operation count to 1 for our queue.  This will result in serial operation of our `TestOperation` so we can see what is happening in the log.
+
+```objective-c
+Conductor *conductor = [Conductor sharedInstance];
+NSString *myQueueName = @"MyQueueName";
+
+[conductor addProgressWatcherToQueueNamed:myQueueName 
+                        withProgressBlock:^(float progress) {
+                            NSLog(@"progress: %f", progress);
+                        }
+                       andCompletionBlock:^ {
+                           NSLog(@"Finished!");
+                       }];
+
+[conductor setMaxConcurrentOperationCount:1 
+                            forQueueNamed:myQueueName];
+    
+for (NSInteger i = 0; i < 100; i++) {
+    TestOperation *operation = [TestOperation operation];
+    [conductor addOperation:operation toQueueNamed:myQueueName]; 
+}
 ```
 
 ##Contributing
