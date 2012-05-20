@@ -24,7 +24,6 @@
 //
 
 #import "Conductor.h"
-#import <mach/mach_time.h>
 
 @interface Conductor ()
 @property (nonatomic, readwrite, strong) NSMutableDictionary *queues;
@@ -59,9 +58,14 @@
 
 - (void)removeQueue:(CDOperationQueue *)queue {
     if (queue.isExecuting) return;
+    
     if (![self.queues objectForKey:queue.name]) return;
     ConductorLogTrace(@"Removing queue: %@", queue.name);
-    [self.queues removeObjectForKey:queue.name];
+    
+    @synchronized (self.queues) {
+        [self.queues removeObjectForKey:queue.name];
+    }
+    
 }
 
 #pragma mark - Operations
@@ -186,15 +190,6 @@
                             andCompletionBlock:completionBlock];
 }
 
-//- (void)removeProgressWatcherForQueueNamed:(NSString *)queueName {
-//    CDOperationQueue *queue = [self getQueueNamed:queueName];;
-//    if (!queue) return;
-//
-//    ConductorLogTrace(@"Removing progress watcher from queue %@", queueName);
-//    
-//    [queue removeProgressWatcher];
-//}
-
 #pragma mark - Queue
 
 - (NSArray *)allQueueNames {
@@ -204,21 +199,6 @@
 - (BOOL)hasQueues {
     return (self.queues.count > 0);
 }
-
-#pragma mark - KVO
-
-//- (void)observeValueForKeyPath:(NSString *)keyPath 
-//                      ofObject:(id)object 
-//                        change:(NSDictionary *)change 
-//                       context:(void *)context {
-//    
-//    // isFinished
-//    if ([keyPath isEqualToString:@"isFinished"] && [object isKindOfClass:[CDOperationQueue class]]) {
-//        CDOperationQueue *queue = (CDOperationQueue *)object;
-//        [self queueDidFinish:queue];
-//    }
-//    
-//}
 
 #pragma mark - Accessors
 
@@ -241,12 +221,6 @@
 - (NSString *)queueNameForOperation:(NSOperation *)operation {
     if (!operation) return nil;
     NSString *className = NSStringFromClass([operation class]);
-    
-//    uint64_t absolute_time = mach_absolute_time();
-//    mach_timebase_info_data_t timebase;
-//    mach_timebase_info(&timebase);
-//    uint64_t nanoseconds = (double)absolute_time * (double)timebase.numer / (double)timebase.denom;
-
     return [NSString stringWithFormat:@"%@_operation_queue", className];
 }
 
@@ -283,16 +257,13 @@
     if (!queueName) return nil;
     
     ConductorLogTrace(@"Creating queue: %@", queueName);
-    
+        
     CDOperationQueue *queue = [CDOperationQueue queueWithName:queueName];
     queue.delegate = self;
-    
-//    [queue addObserver:self
-//            forKeyPath:@"isFinished" 
-//               options:NSKeyValueObservingOptionNew 
-//               context:nil];
 
-    [self.queues setObject:queue forKey:queueName];
+    @synchronized (self.queues) {
+        [self.queues setObject:queue forKey:queueName];
+    }
     
     return queue;
 }

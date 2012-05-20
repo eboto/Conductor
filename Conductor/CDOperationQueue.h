@@ -63,12 +63,12 @@
 /**
  * Add an operation to the queue.
  */
-- (void)addOperation:(NSOperation *)operation;
+- (void)addOperation:(CDOperation *)operation;
 
 /**
  * Add an operation and specify the priority
  */
-- (void)addOperation:(NSOperation *)operation 
+- (void)addOperation:(CDOperation *)operation 
           atPriority:(NSOperationQueuePriority)priority;
 
 /**

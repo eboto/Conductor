@@ -83,12 +83,6 @@
                      withProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock
                     andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock;
 
-
-///**
-// Remove progress watcher for queue
-// */
-//- (void)removeProgressWatcherForQueueNamed:(NSString *)queueName;
-
 /**
  * Cancels all operations in all queues.  Useful when you need to cleanup before
  * shutting the app down.

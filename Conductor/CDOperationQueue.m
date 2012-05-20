@@ -63,7 +63,6 @@
 }
 
 - (void)queueDidFinish {
-        
     [self.progressWatchers makeObjectsPerformSelector:@selector(runCompletionBlock)];
     
     [self.delegate queueDidFinish:self];
@@ -71,28 +70,30 @@
 
 #pragma mark - Operations API
 
-- (void)addOperation:(NSOperation *)operation {
+- (void)addOperation:(CDOperation *)operation {
     [self addOperation:operation atPriority:operation.queuePriority];
 }
 
-- (void)addOperation:(NSOperation *)operation 
+- (void)addOperation:(CDOperation *)operation 
           atPriority:(NSOperationQueuePriority)priority {
     
-    // KVO if CDOperation class, otherwise skip the awesome.  Why wouldn't you
-    // want the awesome though?  Consider subclassing CDOperation.
-    if ([operation isKindOfClass:[CDOperation class]]) {
-        
-        // Add operation to operations dict
-        CDOperation *op = (CDOperation *)operation;
-        [self.operations setObject:op forKey:op.identifier];
-        
-        // KVO operation isFinished.  Allows cleanup after operation is
-        // finished or canceled, as well as queue progress updates.
-        [op addObserver:self
-             forKeyPath:@"isFinished" 
-                options:NSKeyValueObservingOptionNew 
-                context:nil];
+    if (![operation isKindOfClass:[CDOperation class]]) {
+        NSAssert(nil, @"You must use a CDOperation sublcass with Conductor!");
+        return;
     }
+    
+    // Add operation to operations dict
+    @synchronized (self.operations) {
+        [self.operations setObject:operation 
+                            forKey:operation.identifier];
+    }
+    
+    // KVO operation isFinished.  Allows cleanup after operation is
+    // finished or canceled, as well as queue progress updates.
+    [operation addObserver:self
+                forKeyPath:@"isFinished" 
+                   options:NSKeyValueObservingOptionNew 
+                   context:nil];
     
     // set priority
     [operation setQueuePriority:priority];
@@ -112,7 +113,10 @@
     ConductorLogTrace(@"Removing operation %@ from queue %@", operation.identifier, self.name);
     
     [operation removeObserver:self forKeyPath:@"isFinished"];
-    [self.operations removeObjectForKey:operation.identifier];
+    
+    @synchronized (self.operations) {
+        [self.operations removeObjectForKey:operation.identifier];
+    }
 
     [self.progressWatchers makeObjectsPerformSelector:@selector(runProgressBlockWithCurrentOperationCount:)
                                            withObject:[NSNumber numberWithInt:self.operationCount]];
@@ -121,8 +125,11 @@
 - (void)cancelAllOperations {
     // We don't want to KVO any operations anymore, because
     // we are cancelling.
-    for (CDOperation *operation in self.queue.operations) {
-        [self removeOperation:operation];
+    
+    @synchronized (self.operations) {
+        for (CDOperation *operation in self.queue.operations) {
+            [self removeOperation:operation];
+        }
     }
     
     [self.queue cancelAllOperations];
