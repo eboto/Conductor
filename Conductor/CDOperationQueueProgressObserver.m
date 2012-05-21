@@ -6,19 +6,19 @@
 //  Copyright (c) 2012 Andrew B. Smith. All rights reserved.
 //
 
-#import "CDOperationQueueProgressWatcher.h"
+#import "CDOperationQueueProgressObserver.h"
 
-@implementation CDOperationQueueProgressWatcher
+@implementation CDOperationQueueProgressObserver
 
 @synthesize startingOperationCount,
             progressBlock,
             completionBlock;
 
-+ (CDOperationQueueProgressWatcher *)progressWatcherWithStartingOperationCount:(NSInteger)operationCount
-                                                                 progressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock 
-                                                            andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock {
++ (CDOperationQueueProgressObserver *)progressObserverWithStartingOperationCount:(NSInteger)operationCount
+                                                                 progressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock 
+                                                            andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock {
     
-    CDOperationQueueProgressWatcher *watcher = [[self alloc] init];
+    CDOperationQueueProgressObserver *watcher = [[self alloc] init];
     watcher.startingOperationCount = operationCount;
     watcher.progressBlock = progressBlock;
     watcher.completionBlock = completionBlock;

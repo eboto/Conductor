@@ -62,7 +62,7 @@
     return q;
 }
 
-- (void)queueDidFinish {
+- (void)queueDidFinish {    
     [self.progressWatchers makeObjectsPerformSelector:@selector(runCompletionBlock)];
     
     [self.delegate queueDidFinish:self];
@@ -101,7 +101,6 @@
     // Update progress watcher count
     [self.progressWatchers makeObjectsPerformSelector:@selector(addToStartingOperationCount:)
                                            withObject:[NSNumber numberWithInt:1]];
-
     
     // Add operation to queue and start
     [self.queue addOperation:operation];
@@ -110,16 +109,17 @@
 - (void)removeOperation:(CDOperation *)operation {
     if (![self.operations objectForKey:operation.identifier]) return;
     
-    ConductorLogTrace(@"Removing operation %@ from queue %@", operation.identifier, self.name);
-    
-    [operation removeObserver:self forKeyPath:@"isFinished"];
-    
     @synchronized (self.operations) {
-        [self.operations removeObjectForKey:operation.identifier];
-    }
 
-    [self.progressWatchers makeObjectsPerformSelector:@selector(runProgressBlockWithCurrentOperationCount:)
-                                           withObject:[NSNumber numberWithInt:self.operationCount]];
+        ConductorLogTrace(@"Removing operation %@ from queue %@", operation.identifier, self.name);
+        
+        [operation removeObserver:self forKeyPath:@"isFinished"];
+        
+        [self.operations removeObjectForKey:operation.identifier];
+
+        [self.progressWatchers makeObjectsPerformSelector:@selector(runProgressBlockWithCurrentOperationCount:)
+                                               withObject:[NSNumber numberWithInt:self.operationCount]];
+    }
 }
 
 - (void)cancelAllOperations {
@@ -180,12 +180,12 @@
 
 #pragma mark - Progress
 
-- (void)addProgressWatcherWithProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock
-                         andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock {    
+- (void)addProgressObserverWithProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock
+                         andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock {    
        
     ConductorLogTrace(@"Adding progress watcher to queue %@", self.name);
     
-    CDOperationQueueProgressWatcher *watcher = [CDOperationQueueProgressWatcher progressWatcherWithStartingOperationCount:self.operationCount
+    CDOperationQueueProgressObserver *watcher = [CDOperationQueueProgressObserver progressObserverWithStartingOperationCount:self.operationCount
                                                                                                             progressBlock:progressBlock
                                                                                                        andCompletionBlock:completionBlock];
     [self.progressWatchers addObject:watcher];
@@ -213,6 +213,10 @@
 
 - (void)setSuspended:(BOOL)suspend {
     [self.queue setSuspended:suspend];
+}
+
+- (void)setMaxConcurrentOperationCount:(NSInteger)count {
+    [self.queue setMaxConcurrentOperationCount:count];
 }
 
 - (NSString *)name {

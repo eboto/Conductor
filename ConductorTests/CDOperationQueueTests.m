@@ -170,18 +170,16 @@
     
     __block BOOL hasFinished = NO;
     
-    void (^completionBlock)(void) = ^(void) {
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            hasFinished = YES;        
-        });
-    };         
-    
     CDTestOperation *op = [CDTestOperation operation];
-    op.completionBlock = completionBlock;
+    
+    [testOperationQueue addProgressObserverWithProgressBlock:nil 
+                                          andCompletionBlock:^ {
+                                              hasFinished = YES;
+                                          }];
     
     [testOperationQueue addOperation:op];
     
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.2];
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.1];
     while (hasFinished == NO) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];

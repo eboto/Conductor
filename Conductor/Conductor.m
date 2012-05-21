@@ -46,12 +46,16 @@
 }
 
 + (id)sharedInstance {
-    static dispatch_once_t pred = 0;
-    __strong static id _sharedInstance = nil;
-    dispatch_once(&pred, ^{
-        _sharedInstance = [[self alloc] init];
+    static Conductor *_sharedInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedInstance = [self conductor];
     });
     return _sharedInstance;
+}
+
++ (Conductor *)conductor {
+    return [[self alloc] init];
 }
 
 #pragma mark - Queue Control
@@ -59,10 +63,9 @@
 - (void)removeQueue:(CDOperationQueue *)queue {
     if (queue.isExecuting) return;
     
-    if (![self.queues objectForKey:queue.name]) return;
-    ConductorLogTrace(@"Removing queue: %@", queue.name);
-    
     @synchronized (self.queues) {
+        if (![self.queues objectForKey:queue.name]) return;
+        ConductorLogTrace(@"Removing queue: %@", queue.name);
         [self.queues removeObjectForKey:queue.name];
     }
     
@@ -180,13 +183,13 @@
 
 #pragma mark - Queue Progress
 
-- (void)addProgressWatcherToQueueNamed:(NSString *)queueName 
-                     withProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock 
-                    andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock {
+- (void)addProgressObserverToQueueNamed:(NSString *)queueName 
+                     withProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock 
+                    andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock {
         
     CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:YES];
     
-    [queue addProgressWatcherWithProgressBlock:progressBlock 
+    [queue addProgressObserverWithProgressBlock:progressBlock 
                             andCompletionBlock:completionBlock];
 }
 
@@ -214,6 +217,14 @@
     }];
 
     return isExecuting;
+}
+
+- (void)setMaxConcurrentOperationCount:(NSInteger)count 
+                         forQueueNamed:(NSString *)queueName {
+    if (!queueName) return;
+    ConductorLogTrace(@"Setting max concurency count to %i for queue: %@", count, queueName);
+    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:YES];
+    [queue setMaxConcurrentOperationCount:count];
 }
 
 #pragma mark - Private

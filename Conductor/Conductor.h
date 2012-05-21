@@ -25,8 +25,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "CDOperation.h"
 #import "CDOperationQueue.h"
-#import "CDOperationQueueProgressWatcher.h"
+#import "CDOperationQueueProgressObserver.h"
 
 @interface Conductor : NSObject <CDOperationQueueDelegate> {}
 
@@ -36,6 +37,8 @@
  Singleton Conductor instance
  */
 + (id)sharedInstance;
+
++ (Conductor *)conductor;
 
 /**
  Creates a queue based on the operations class name and adds the operation to
@@ -79,9 +82,9 @@
 /**
  Adds progress watcher to queue
  */
-- (void)addProgressWatcherToQueueNamed:(NSString *)queueName
-                     withProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock
-                    andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock;
+- (void)addProgressObserverToQueueNamed:(NSString *)queueName
+                      withProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock
+                     andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock;
 
 /**
  * Cancels all operations in all queues.  Useful when you need to cleanup before
@@ -129,6 +132,13 @@
  tests.
  */
 - (BOOL)hasQueues;
+
+/**
+ Set the max concurrency for the queue.  Set it to 1 for serial execution of 
+ operations.
+ */
+- (void)setMaxConcurrentOperationCount:(NSInteger)count 
+                         forQueueNamed:(NSString *)queueName;
 
 /**
  * Returns the queue name for the specific operation type

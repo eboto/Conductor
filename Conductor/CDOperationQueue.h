@@ -26,7 +26,7 @@
 #import <Foundation/Foundation.h>
 
 #import "CDOperation.h"
-#import "CDOperationQueueProgressWatcher.h"
+#import "CDOperationQueueProgressObserver.h"
 
 @protocol CDOperationQueueDelegate;
 
@@ -96,6 +96,12 @@
 - (BOOL)isSuspended;
 
 /**
+ Updated the queues max concurency count.  Set it to 1 for serial execution of
+ operations.
+ */
+- (void)setMaxConcurrentOperationCount:(NSInteger)count;
+
+/**
  * Retrieve an operation with a given identifier.  Returns nil if operation has
  * already finished.
  */
@@ -104,8 +110,8 @@
 /**
  
  */
-- (void)addProgressWatcherWithProgressBlock:(CDOperationQueueProgressWatcherProgressBlock)progressBlock
-                         andCompletionBlock:(CDOperationQueueProgressWatcherCompletionBlock)completionBlock;
+- (void)addProgressObserverWithProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock
+                          andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock;
 
 
 @end
