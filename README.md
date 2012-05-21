@@ -23,12 +23,12 @@ Conductor is built as a modern static library, based on some of the excellent co
 3. Add Conductor as a target dependency to your app target under the `Build Phases` menu.
 4. Link the binary to the Conductor library.
 5. Add `$(OBJROOT)/UninstalledProducts/include` to your **User Header Search Paths**, and set **Always Search User Paths** to Yes.
-6. Import the Conductor with `#import <Conductor/Conductor.h>`
+6. Import Conductor with `#import <Conductor/Conductor.h>`
 7. Build the project to check and make sure you setup everything correctly.
 
-##Setup
+##Adding Operations
 
-To use Conductor, first you have to subclass `CDOperation`, which is itself an NSOperation subclass.  Lets build a really simple operation to play around with, which is the same as the `CDTestOperation` in ConductorTests.
+To use Conductor, first you have to subclass `CDOperation`, which is itself an `NSOperation` subclass.  Lets build a really simple operation to play around with, which is the same as the `CDTestOperation` in ConductorTests.
 
 ```objective-c
 #import "Conductor/CDOperation.h"
@@ -73,6 +73,44 @@ for (NSInteger i = 0; i < 100; i++) {
     TestOperation *operation = [TestOperation operation];
     [conductor addOperation:operation toQueueNamed:myQueueName]; 
 }
+```
+
+##Subclassing CDOperation
+
+Safe methods available to override in CDOperation subclasses included `start` and `finish.` Conductor uses KVO to keep track of when operations finish by observing the `isFinished` property on CDOperation.  It's probably a good idea to read Apple's guide on [subclassing NSOperation](https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/NSOperation_class/Reference/Reference.html#//apple_ref/doc/uid/TP40004591-RH2-SW18) to understand how the design works.  Subclasses have to properly [respond to the cancel command](https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/NSOperation_class/Reference/Reference.html#//apple_ref/doc/uid/TP40004591-RH2-SW18).  The `start` method of CDOperation does some of that work for you.
+
+```objective-c
+- (void)start {
+    ConductorLogTrace(@"Started operation: %@", self.identifier);
+    
+    if (self.isCancelled) {
+        [self finish];
+        return;
+    }
+
+    // Don't forget to wrap your operation in an autorelease pool
+    
+    self.state = CDOperationStateExecuting;
+}
+```
+
+Remember to call `[super start]` in your subclass.  If you have a particularly long running operation, it is up to you to decide when you might need to respond to a cancel command.  Sometimes it's best to let operations finish, sometimes it's best to respond mid execution;  your design depends on your needs.
+
+Besides the implementing the`start` method, you also need to call `[self finish]` when your operation is done to trigger KVO.  You don't have to implement it, but it might be useful for some custom cleanup.
+
+##Updating Priority
+
+Conductor allows you to keep track of specific operations by using the operations identifier.  You can either assign your own identifier to an operations, or get a unique string on query.  Store these identifiers to update priority.
+
+```objective-c
+Conductor *conductor = [Conductor sharedInstance];
+NSString *myQueueName = @"MyQueueName";
+
+TestOperation *operation = [TestOperation operation];
+[conductor addOperation:operation];
+
+[conductor updatePriorityOfOperationWithIdentifier:operation.identifier 
+                                             					 toNewPriority:NSOperationQueuePriorityVeryHigh];
 ```
 
 ##Contributing

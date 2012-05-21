@@ -95,9 +95,9 @@
     
     CDTestOperation *op = [CDTestOperation operation];
     op.completionBlock = completionBlock;
-    
+
     [testOperationQueue addOperation:op];
-    
+
     [testOperationQueue updatePriorityOfOperationWithIdentifier:op.identifier 
                                                   toNewPriority:NSOperationQueuePriorityVeryLow];
     
