@@ -10,4 +10,8 @@
 
 @interface CDLongRunningTestOperation : CDOperation
 
+@property (nonatomic, assign) float duration;
+
++ (CDLongRunningTestOperation *)longRunningOperationWithDuration:(float)duration;
+
 @end

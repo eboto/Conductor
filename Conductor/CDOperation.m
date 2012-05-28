@@ -53,8 +53,13 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
 
 @implementation CDOperation
 
-@synthesize identifier = identifier_,
+@synthesize delegate,
+            identifier = identifier_,
             state = _state;
+
+- (void)dealloc {
+    delegate = nil;
+}
 
 - (id)init {
     self = [super init];
@@ -98,6 +103,8 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
 - (void)finish {
     ConductorLogTrace(@"Finished operation: %@", self.identifier);
     self.state = CDOperationStateFinished;
+    
+    [self.delegate operationDidFinish:self];
 }
 
 - (void)cancel {

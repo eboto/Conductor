@@ -10,18 +10,29 @@
 
 @implementation CDLongRunningTestOperation
 
+@synthesize duration;
+
++ (CDLongRunningTestOperation *)longRunningOperationWithDuration:(float)duration {
+    CDLongRunningTestOperation *operation = [CDLongRunningTestOperation operation];
+    operation.duration = duration;
+    return operation;
+}
+
 - (void)start {
     @autoreleasepool {    
         
         [super start];
+        
+        sleep(duration);
+
                 
-        NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1.0];
-        NSInteger counter = 0;
-        while (!self.isCancelled || counter < 20) {
-            counter += 1;
-            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-                                     beforeDate:loopUntil];
-        }
+//        NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.01];
+//        NSInteger counter = 0;
+//        while (!self.isCancelled || counter < duration) {
+//            counter += 1;
+//            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+//                                     beforeDate:loopUntil];
+//        }
 
         [self finish];
     }

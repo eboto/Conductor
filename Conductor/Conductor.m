@@ -62,10 +62,11 @@
 
 - (void)removeQueue:(CDOperationQueue *)queue {
     if (queue.isExecuting) return;
+
+    ConductorLogTrace(@"Removing queue: %@", queue.name);
+    NSAssert(queue.name, @"Queue should have a name!");
     
     @synchronized (self.queues) {
-        if (![self.queues objectForKey:queue.name]) return;
-        ConductorLogTrace(@"Removing queue: %@", queue.name);
         [self.queues removeObjectForKey:queue.name];
     }
     
@@ -255,26 +256,26 @@
                            shouldCreate:(BOOL)create {
     if (!queueName) return nil;
     
-    id queue = [self.queues objectForKey:queueName];
+    @synchronized (self.queues) {
+        id queue = [self.queues objectForKey:queueName];
     
-    if (!queue && create) {
-        queue = [self createQueueWithName:queueName];
+        if (!queue && create) {
+            queue = [self createQueueWithName:queueName];
+        }
+    
+        return (CDOperationQueue *)queue;
     }
-    
-    return (CDOperationQueue *)queue;
 }
 
 - (CDOperationQueue *)createQueueWithName:(NSString *)queueName {
     if (!queueName) return nil;
     
     ConductorLogTrace(@"Creating queue: %@", queueName);
-        
+
     CDOperationQueue *queue = [CDOperationQueue queueWithName:queueName];
     queue.delegate = self;
 
-    @synchronized (self.queues) {
-        [self.queues setObject:queue forKey:queueName];
-    }
+    [self.queues setObject:queue forKey:queueName];
     
     return queue;
 }

@@ -214,4 +214,45 @@
     STAssertTrue(hasFinished, @"Conductor should add and complete test operation");
 }
 
+//- (void)testConductorTryToBreakIt {
+//    
+//    NSString *customQueueName = @"CustomQueueName";
+//    
+//    [conductor setMaxConcurrentOperationCount:1 forQueueNamed:customQueueName];
+//    
+//    __block BOOL completionBlockDidRun = NO;
+//    
+//    CDOperationQueueProgressObserverCompletionBlock completionBlock = ^(void) {
+//        completionBlockDidRun = YES;
+//    };
+//    
+//    [conductor addProgressObserverToQueueNamed:customQueueName
+//                             withProgressBlock:nil
+//                            andCompletionBlock:completionBlock];
+//
+//    CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:5.0];
+//    [conductor addOperation:op toQueueNamed:customQueueName];
+//    
+//    for (int i = 0; i < 50; i++) {
+//        CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:0.3];
+//        [conductor addOperation:op toQueueNamed:customQueueName];
+//    }
+//    
+//    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.1];
+//    while (completionBlockDidRun == NO) {
+//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+//                                 beforeDate:loopUntil];
+//    }
+//    
+//    completionBlockDidRun = NO;
+//    
+//    CDOperationQueue *queue = [conductor queueForQueueName:customQueueName shouldCreate:NO];
+//    
+//    NSDate *loopUntil2 = [NSDate dateWithTimeIntervalSinceNow:0.2];
+//    while (queue.isExecuting == YES) {
+//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+//                                 beforeDate:loopUntil2];
+//    } 
+//}
+
 @end

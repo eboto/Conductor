@@ -31,7 +31,11 @@ typedef enum {
     CDOperationStateFinished,
 } CDOperationState;
 
+@protocol CDOperationDelegate;
+
 @interface CDOperation : NSOperation {}
+
+@property (nonatomic, weak) id <CDOperationDelegate> delegate;
 
 /**
  * Key used to track operation in CDOperationQueue.  If no identifier is provided,
@@ -62,4 +66,8 @@ typedef enum {
  */
 - (void)finish;
 
+@end
+
+@protocol CDOperationDelegate <NSObject>
+- (void)operationDidFinish:(CDOperation *)operation;
 @end

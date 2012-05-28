@@ -30,7 +30,7 @@
 
 @protocol CDOperationQueueDelegate;
 
-@interface CDOperationQueue : NSObject {}
+@interface CDOperationQueue : NSObject <CDOperationDelegate> {}
 
 @property (nonatomic, weak) id <CDOperationQueueDelegate> delegate;
 

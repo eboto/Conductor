@@ -86,24 +86,19 @@
     @synchronized (self.operations) {
         [self.operations setObject:operation 
                             forKey:operation.identifier];
+        
+        // set priority
+        [operation setQueuePriority:priority];
+        
+        // Update progress watcher count
+        [self.progressWatchers makeObjectsPerformSelector:@selector(addToStartingOperationCount:)
+                                               withObject:[NSNumber numberWithInt:1]];
+        
+        operation.delegate = self;
+        
+        // Add operation to queue and start
+        [self.queue addOperation:operation];
     }
-    
-    // KVO operation isFinished.  Allows cleanup after operation is
-    // finished or canceled, as well as queue progress updates.
-    [operation addObserver:self
-                forKeyPath:@"isFinished" 
-                   options:NSKeyValueObservingOptionNew 
-                   context:nil];
-    
-    // set priority
-    [operation setQueuePriority:priority];
-    
-    // Update progress watcher count
-    [self.progressWatchers makeObjectsPerformSelector:@selector(addToStartingOperationCount:)
-                                           withObject:[NSNumber numberWithInt:1]];
-    
-    // Add operation to queue and start
-    [self.queue addOperation:operation];
 }
 
 - (void)removeOperation:(CDOperation *)operation {
@@ -112,8 +107,6 @@
     @synchronized (self.operations) {
 
         ConductorLogTrace(@"Removing operation %@ from queue %@", operation.identifier, self.name);
-        
-        [operation removeObserver:self forKeyPath:@"isFinished"];
         
         [self.operations removeObjectForKey:operation.identifier];
 
@@ -126,10 +119,8 @@
     // We don't want to KVO any operations anymore, because
     // we are cancelling.
     
-    @synchronized (self.operations) {
-        for (CDOperation *operation in self.queue.operations) {
-            [self removeOperation:operation];
-        }
+    for (CDOperation *operation in self.queue.operations) {
+        [self removeOperation:operation];
     }
     
     [self.queue cancelAllOperations];
@@ -138,6 +129,7 @@
     // They will all be marked as canceled, and if you build your sublcass
     // correctly, they will exit properly.
     [self setSuspended:NO];
+
 }
 
 - (void)operationDidFinish:(CDOperation *)operation {
@@ -147,20 +139,6 @@
         [self queueDidFinish];
     }
     
-}
-
-#pragma mark - KVO
-
-- (void)observeValueForKeyPath:(NSString *)keyPath 
-                      ofObject:(id)object 
-                        change:(NSDictionary *)change 
-                       context:(void *)context {
-        
-    if ([keyPath isEqualToString:@"isFinished"] && [object isKindOfClass:[CDOperation class]]) {
-        CDOperation *op = (CDOperation *)object;
-        [self operationDidFinish:op];
-    }
-
 }
 
 #pragma mark - Priority
@@ -192,10 +170,6 @@
 }
 
 #pragma mark - State
-
-//- (BOOL)isReady {
-//    return (self.state == CDOperationQueueStateReady);
-//}
 
 - (BOOL)isExecuting {
     return (self.operationCount > 0);
