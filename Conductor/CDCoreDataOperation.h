@@ -15,6 +15,8 @@
 
 @property (nonatomic, strong) NSManagedObjectContext *backgroundContext;
 
++ (CDCoreDataOperation *)operationWithMainContext:(NSManagedObjectContext *)mainContext;
+
 - (void)saveBackgroundContext;
 
 @end

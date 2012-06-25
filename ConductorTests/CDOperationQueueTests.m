@@ -14,22 +14,6 @@
 
 @implementation CDOperationQueueTests
 
-//- (void)setUp {
-//    [super setUp];
-//    
-//    testOperationQueue = [[CDOperationQueue alloc] init];
-//    [testOperationQueue.queue setMaxConcurrentOperationCount:1];
-//    
-//    conductor = [[Conductor alloc] init];
-//}
-//
-//- (void)tearDown {    
-//    [super tearDown];
-//    
-//    [testOperationQueue release], testOperationQueue = nil;
-//    [conductor release], conductor = nil;
-//}
-
 - (void)testCreateQueueWithName {
     CDOperationQueue *queue = [CDOperationQueue queueWithName:@"MyQueueName"];
     STAssertEqualObjects(queue.name, @"MyQueueName", @"Queue should have the correct name");

@@ -26,6 +26,10 @@
 		DB83D1DB1451F89E00D94890 /* CDOperationQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1D91451F89E00D94890 /* CDOperationQueue.m */; };
 		DB83D1DE1451FB1900D94890 /* CDOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DB83D1DC1451FB1900D94890 /* CDOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB83D1DF1451FB1900D94890 /* CDOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1DD1451FB1900D94890 /* CDOperation.m */; };
+		DB9F94D91598DE8300A97A05 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB9F94D81598DE8300A97A05 /* CoreData.framework */; };
+		DB9F94DD1598DEC300A97A05 /* CDCoreDataOperationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9F94DC1598DEC300A97A05 /* CDCoreDataOperationTests.m */; };
+		DB9F94E01598E06500A97A05 /* ConductorTestDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DB9F94DE1598E06500A97A05 /* ConductorTestDataModel.xcdatamodeld */; };
+		DB9F94E41598E38D00A97A05 /* CDTestCoreDataOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9F94E31598E38D00A97A05 /* CDTestCoreDataOperation.m */; };
 		DBA5F95514560E1D00EBFF68 /* Conductor.h in Headers */ = {isa = PBXBuildFile; fileRef = DB83D1A21451F1B200D94890 /* Conductor.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBDB9729158EF35C004BB06F /* CDCoreDataOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBDB972A158EF35C004BB06F /* CDCoreDataOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */; };
@@ -71,6 +75,13 @@
 		DB83D1D91451F89E00D94890 /* CDOperationQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationQueue.m; sourceTree = "<group>"; };
 		DB83D1DC1451FB1900D94890 /* CDOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperation.h; sourceTree = "<group>"; };
 		DB83D1DD1451FB1900D94890 /* CDOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperation.m; sourceTree = "<group>"; };
+		DB9F94D81598DE8300A97A05 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DB9F94DB1598DEC300A97A05 /* CDCoreDataOperationTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCoreDataOperationTests.h; sourceTree = "<group>"; };
+		DB9F94DC1598DEC300A97A05 /* CDCoreDataOperationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCoreDataOperationTests.m; sourceTree = "<group>"; };
+		DB9F94DF1598E06500A97A05 /* ConductorTestDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ConductorTestDataModel.xcdatamodel; sourceTree = "<group>"; };
+		DB9F94E11598E15A00A97A05 /* ConductorTestMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConductorTestMacros.h; sourceTree = "<group>"; };
+		DB9F94E21598E38D00A97A05 /* CDTestCoreDataOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDTestCoreDataOperation.h; sourceTree = "<group>"; };
+		DB9F94E31598E38D00A97A05 /* CDTestCoreDataOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDTestCoreDataOperation.m; sourceTree = "<group>"; };
 		DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCoreDataOperation.h; sourceTree = "<group>"; };
 		DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCoreDataOperation.m; sourceTree = "<group>"; };
 		DBFADED014524E6E00FD43FF /* CDTestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDTestOperation.h; sourceTree = "<group>"; };
@@ -92,6 +103,7 @@
 			files = (
 				DB83D1AC1451F1B200D94890 /* SenTestingKit.framework in Frameworks */,
 				DB83D1AF1451F1B200D94890 /* Foundation.framework in Frameworks */,
+				DB9F94D91598DE8300A97A05 /* CoreData.framework in Frameworks */,
 				DB83D1B21451F1B200D94890 /* libConductor.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -106,6 +118,8 @@
 				DBFADED114524E6E00FD43FF /* CDTestOperation.m */,
 				DB4F2D8F1551D6A200216AB9 /* CDLongRunningTestOperation.h */,
 				DB4F2D901551D6A200216AB9 /* CDLongRunningTestOperation.m */,
+				DB9F94E21598E38D00A97A05 /* CDTestCoreDataOperation.h */,
+				DB9F94E31598E38D00A97A05 /* CDTestCoreDataOperation.m */,
 			);
 			name = "Test Classes";
 			sourceTree = "<group>";
@@ -132,6 +146,7 @@
 		DB83D19C1451F1B200D94890 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DB9F94D81598DE8300A97A05 /* CoreData.framework */,
 				DB83D19D1451F1B200D94890 /* Foundation.framework */,
 				DB83D1AB1451F1B200D94890 /* SenTestingKit.framework */,
 			);
@@ -178,6 +193,10 @@
 				DB4F2D931551E54400216AB9 /* CDOperationTests.m */,
 				DB4F2D991551F60200216AB9 /* CDOperationQueueProgressWatcherTests.h */,
 				DB4F2D9A1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m */,
+				DB9F94DB1598DEC300A97A05 /* CDCoreDataOperationTests.h */,
+				DB9F94DC1598DEC300A97A05 /* CDCoreDataOperationTests.m */,
+				DB9F94E11598E15A00A97A05 /* ConductorTestMacros.h */,
+				DB9F94DE1598E06500A97A05 /* ConductorTestDataModel.xcdatamodeld */,
 				DB4F2D981551E5FD00216AB9 /* Test Classes */,
 				DB83D1B41451F1B200D94890 /* Supporting Files */,
 			);
@@ -326,6 +345,9 @@
 				DB4F2D971551E57700216AB9 /* CDOperationQueueTests.m in Sources */,
 				DB4F2D9B1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m in Sources */,
 				DB4F2DA01553329900216AB9 /* CDTest.m in Sources */,
+				DB9F94DD1598DEC300A97A05 /* CDCoreDataOperationTests.m in Sources */,
+				DB9F94E01598E06500A97A05 /* ConductorTestDataModel.xcdatamodeld in Sources */,
+				DB9F94E41598E38D00A97A05 /* CDTestCoreDataOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +540,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		DB9F94DE1598E06500A97A05 /* ConductorTestDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				DB9F94DF1598E06500A97A05 /* ConductorTestDataModel.xcdatamodel */,
+			);
+			currentVersion = DB9F94DF1598E06500A97A05 /* ConductorTestDataModel.xcdatamodel */;
+			path = ConductorTestDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = DB83D18F1451F19E00D94890 /* Project object */;
 }

@@ -31,7 +31,7 @@
 
 @implementation Conductor
 
-@synthesize queues;
+@synthesize queues = queues_;
 
 - (void)dealloc {
     [self cancelAllOperations];
@@ -135,7 +135,11 @@
 
 - (void)cancelAllOperations {
     ConductorLogTrace(@"Cancel all operations");
-    for (NSString *queueName in self.queues) {
+    
+    // Grabbing queue names prevents mutation while enumeration of queues dict
+    NSArray *queuesNamesToCancel = [self allQueueNames]; 
+    
+    for (NSString *queueName in queuesNamesToCancel) {
         [self cancelAllOperationsInQueueNamed:queueName];
     }
 }
@@ -150,7 +154,11 @@
 
 - (void)suspendAllQueues {
     ConductorLogTrace(@"Suspend all queues");
-    for (NSString *queueName in self.queues) {
+    
+    // Grabbing queue names prevents mutation while enumeration of queues dict
+    NSArray *queuesNamesToSuspend = [self allQueueNames]; 
+    
+    for (NSString *queueName in queuesNamesToSuspend) {
         [self suspendQueueNamed:queueName];
     }
 }
@@ -164,7 +172,11 @@
 
 - (void)resumeAllQueues {
     ConductorLogTrace(@"Resume all queues");
-    for (NSString *queueName in self.queues) {
+    
+    // Grabbing queue names prevents mutation while enumeration of queues dict
+    NSArray *queuesNamesToResume = [self allQueueNames];
+    
+    for (NSString *queueName in queuesNamesToResume) {
         [self resumeQueueNamed:queueName];
     }    
 }
@@ -209,14 +221,19 @@
 - (BOOL)isExecuting {
 
     __block BOOL isExecuting = NO;
+    
+    // Make sure queues don't change while determining execution status
+    @synchronized (self.queues) {
 
-    [self.queues enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
-        if (queue.isExecuting) {
-            isExecuting = YES;
-            *stop = YES;
-        }
-    }];
-
+        [self.queues enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
+            if (queue.isExecuting) {
+                isExecuting = YES;
+                *stop = YES;
+            }
+        }];
+        
+    };
+        
     return isExecuting;
 }
 

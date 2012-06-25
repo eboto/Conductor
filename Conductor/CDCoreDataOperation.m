@@ -17,6 +17,12 @@
 @synthesize mainContext = _mainContext,
             backgroundContext = _backgroundContext;
 
++ (CDCoreDataOperation *)operationWithMainContext:(NSManagedObjectContext *)mainContext {
+    CDCoreDataOperation *operation = [self operation];
+    operation.mainContext = mainContext;
+    return operation;
+}
+
 - (void)start {
     [super start];
     self.backgroundContext = [self newMainStoreManagedObjectContext];
