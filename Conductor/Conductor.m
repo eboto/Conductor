@@ -61,12 +61,12 @@
 #pragma mark - Queue Control
 
 - (void)removeQueue:(CDOperationQueue *)queue {
-    if (queue.isExecuting) return;
+    if (!queue || queue.isExecuting) return;
 
-    ConductorLogTrace(@"Removing queue: %@", queue.name);
     NSAssert(queue.name, @"Queue should have a name!");
     
     @synchronized (self.queues) {
+        ConductorLogTrace(@"Removing queue: %@", queue.name);
         [self.queues removeObjectForKey:queue.name];
     }
     
@@ -111,7 +111,7 @@
     }
     
     ConductorLogTrace(@"Adding operation to queue: %@", queue.name);
-    
+        
     // Add and start operation
     [queue addOperation:operation atPriority:priority];
 }

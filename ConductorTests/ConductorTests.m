@@ -220,6 +220,19 @@
 //    
 //    [conductor setMaxConcurrentOperationCount:1 forQueueNamed:customQueueName];
 //    
+////    [conductor addProgressObserverToQueueNamed:customQueueName
+////                             withProgressBlock:nil
+////                            andCompletionBlock:completionBlock];
+//
+//    
+//    for (int i = 0; i < 50; i++) {
+//        CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:0.3];
+//        [conductor addOperation:op toQueueNamed:customQueueName];
+//    }
+//    
+//    [conductor cancelAllOperations];
+//    
+//    
 //    __block BOOL completionBlockDidRun = NO;
 //    
 //    CDOperationQueueProgressObserverCompletionBlock completionBlock = ^(void) {
@@ -229,14 +242,11 @@
 //    [conductor addProgressObserverToQueueNamed:customQueueName
 //                             withProgressBlock:nil
 //                            andCompletionBlock:completionBlock];
-//
+//    
 //    CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:5.0];
 //    [conductor addOperation:op toQueueNamed:customQueueName];
-//    
-//    for (int i = 0; i < 50; i++) {
-//        CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:0.3];
-//        [conductor addOperation:op toQueueNamed:customQueueName];
-//    }
+//        
+//    CDOperationQueue *queue = [conductor queueForQueueName:customQueueName shouldCreate:NO];
 //    
 //    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.1];
 //    while (completionBlockDidRun == NO) {
@@ -244,15 +254,13 @@
 //                                 beforeDate:loopUntil];
 //    }
 //    
-//    completionBlockDidRun = NO;
-//    
-//    CDOperationQueue *queue = [conductor queueForQueueName:customQueueName shouldCreate:NO];
-//    
 //    NSDate *loopUntil2 = [NSDate dateWithTimeIntervalSinceNow:0.2];
 //    while (queue.isExecuting == YES) {
 //        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
 //                                 beforeDate:loopUntil2];
-//    } 
+//    }
+//    
+//    NSLog(@"finished!");
 //}
 
 @end
