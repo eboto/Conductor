@@ -17,6 +17,11 @@
 @synthesize mainContext = _mainContext,
             backgroundContext = _backgroundContext;
 
+- (void)start {
+    [super start];
+    self.backgroundContext = [self newMainStoreManagedObjectContext];
+}
+
 - (void)saveBackgroundContext {
     // Save context
     if (self.backgroundContext.hasChanges) {
