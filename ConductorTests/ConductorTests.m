@@ -166,9 +166,7 @@
     __block BOOL hasFinished = NO;
     
     void (^completionBlock)(void) = ^(void) {
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            hasFinished = YES;        
-        });
+        hasFinished = YES;        
     };         
     
     CDTestOperation *op = [CDTestOperation operation];
@@ -216,7 +214,7 @@
 
 //- (void)testConductorTryToBreakIt {
 //    
-//    NSString *customQueueName = @"CustomQueueName";
+//    NSString *customQueueName = @"CustomQueueName2";
 //    
 //    [conductor setMaxConcurrentOperationCount:1 forQueueNamed:customQueueName];
 //    

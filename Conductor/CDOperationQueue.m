@@ -116,18 +116,21 @@
 }
 
 - (void)cancelAllOperations {
-    // We don't want to KVO any operations anymore, because
-    // we are cancelling.
-    
-    for (CDOperation *operation in self.queue.operations) {
-        [self removeOperation:operation];
-    }
-    
+
+    /** 
+     This method sends a cancel message to all operations currently in the queue. 
+     Queued operations are cancelled before they begin executing. If an operation 
+     is already executing, it is up to that operation to recognize the cancellation 
+     and stop what it is doing.  Cancelled operations still call start, then should
+     immediately respond to the cancel request.
+    */
     [self.queue cancelAllOperations];
         
-    // Allow NSOperation queue to start operations and clear themselves out.
-    // They will all be marked as canceled, and if you build your sublcass
-    // correctly, they will exit properly.
+    /**
+     Allow NSOperation queue to start operations and clear themselves out.
+     They will all be marked as canceled, and if you build your sublcass
+     correctly, they will exit properly.
+     */
     [self setSuspended:NO];
 
 }
