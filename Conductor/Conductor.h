@@ -78,6 +78,8 @@
 - (BOOL)updatePriorityOfOperationWithIdentifier:(NSString *)identifier 
                                   toNewPriority:(NSOperationQueuePriority)priority;
 
+- (BOOL)hasOperationWithIdentifier:(NSString *)identifier 
+                      inQueueNamed:(NSString *)queueName;
 
 /**
  Adds progress watcher to queue

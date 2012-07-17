@@ -131,6 +131,16 @@
     return didUpdate;
 }
 
+- (BOOL)hasOperationWithIdentifier:(NSString *)identifier 
+                      inQueueNamed:(NSString *)queueName {
+    
+    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];
+    
+    if (!queue) return NO;
+    
+    return ([queue getOperationWithIdentifier:identifier] != nil);
+}
+
 #pragma mark - Queue States
 
 - (void)cancelAllOperations {

@@ -31,6 +31,8 @@
 		DB9F94E01598E06500A97A05 /* ConductorTestDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DB9F94DE1598E06500A97A05 /* ConductorTestDataModel.xcdatamodeld */; };
 		DB9F94E41598E38D00A97A05 /* CDTestCoreDataOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9F94E31598E38D00A97A05 /* CDTestCoreDataOperation.m */; };
 		DBA5F95514560E1D00EBFF68 /* Conductor.h in Headers */ = {isa = PBXBuildFile; fileRef = DB83D1A21451F1B200D94890 /* Conductor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DBB8D6D115B4EBE9007417CA /* CDBackgroundTaskOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DBB8D6CF15B4EBE9007417CA /* CDBackgroundTaskOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DBB8D6D215B4EBE9007417CA /* CDBackgroundTaskOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB8D6D015B4EBE9007417CA /* CDBackgroundTaskOperation.m */; };
 		DBDB9729158EF35C004BB06F /* CDCoreDataOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBDB972A158EF35C004BB06F /* CDCoreDataOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */; };
 		DBFADED214524E6E00FD43FF /* CDTestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFADED114524E6E00FD43FF /* CDTestOperation.m */; };
@@ -82,6 +84,8 @@
 		DB9F94E11598E15A00A97A05 /* ConductorTestMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConductorTestMacros.h; sourceTree = "<group>"; };
 		DB9F94E21598E38D00A97A05 /* CDTestCoreDataOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDTestCoreDataOperation.h; sourceTree = "<group>"; };
 		DB9F94E31598E38D00A97A05 /* CDTestCoreDataOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDTestCoreDataOperation.m; sourceTree = "<group>"; };
+		DBB8D6CF15B4EBE9007417CA /* CDBackgroundTaskOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDBackgroundTaskOperation.h; sourceTree = "<group>"; };
+		DBB8D6D015B4EBE9007417CA /* CDBackgroundTaskOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDBackgroundTaskOperation.m; sourceTree = "<group>"; };
 		DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCoreDataOperation.h; sourceTree = "<group>"; };
 		DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCoreDataOperation.m; sourceTree = "<group>"; };
 		DBFADED014524E6E00FD43FF /* CDTestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDTestOperation.h; sourceTree = "<group>"; };
@@ -162,6 +166,8 @@
 				DB83D1D91451F89E00D94890 /* CDOperationQueue.m */,
 				DB83D1DC1451FB1900D94890 /* CDOperation.h */,
 				DB83D1DD1451FB1900D94890 /* CDOperation.m */,
+				DBB8D6CF15B4EBE9007417CA /* CDBackgroundTaskOperation.h */,
+				DBB8D6D015B4EBE9007417CA /* CDBackgroundTaskOperation.m */,
 				DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */,
 				DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */,
 				DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressObserver.h */,
@@ -225,6 +231,7 @@
 				DB6BABC6154F69FC004842D2 /* CDOperationQueueProgressObserver.h in Headers */,
 				DB4F2D9D155320EF00216AB9 /* ConductorLogging.h in Headers */,
 				DBDB9729158EF35C004BB06F /* CDCoreDataOperation.h in Headers */,
+				DBB8D6D115B4EBE9007417CA /* CDBackgroundTaskOperation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -331,6 +338,7 @@
 				DB83D1DF1451FB1900D94890 /* CDOperation.m in Sources */,
 				DB6BABC7154F69FC004842D2 /* CDOperationQueueProgressObserver.m in Sources */,
 				DBDB972A158EF35C004BB06F /* CDCoreDataOperation.m in Sources */,
+				DBB8D6D215B4EBE9007417CA /* CDBackgroundTaskOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,6 +503,10 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Conductor/Conductor-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					NS_BLOCK_ASSERTIONS,
+					"LOGGING_ENABLED=0",
+				);
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
