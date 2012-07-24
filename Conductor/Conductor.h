@@ -34,6 +34,13 @@
 @property (nonatomic, readonly, strong) NSMutableDictionary *queues;
 
 /**
+ Set to YES for queues to automatically remove themselves when all internal 
+ operations are finished.  Use this when a queue is used infrequently.  Latent 
+ queues are cheap to keep around, so balance that with your apps design.
+ */
+@property (nonatomic, assign) BOOL removeQueuesWhenEmpty;
+
+/**
  Singleton Conductor instance
  */
 + (id)sharedInstance;
@@ -134,6 +141,12 @@
  tests.
  */
 - (BOOL)hasQueues;
+
+/**
+ Blocks the calling thread until all jobs in the designated queue finish.  This
+ can be useful for unit testing asynchronous code.
+ */
+- (void)waitForQueueNamed:(NSString *)queueName;
 
 /**
  Set the max concurrency for the queue.  Set it to 1 for serial execution of 

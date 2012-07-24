@@ -23,7 +23,7 @@
         [object setValue:@"InBackground" forKey:@"lastname"];
         
         [self saveBackgroundContext];
-
+        
         [self finish];
     }
 }

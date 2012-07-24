@@ -33,9 +33,8 @@
                                         error:&error];
     
     // Build context
-    context = [[NSManagedObjectContext alloc] init];
+    context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
     [context setPersistentStoreCoordinator:coord];
-
 }
 
 - (void)tearDown {

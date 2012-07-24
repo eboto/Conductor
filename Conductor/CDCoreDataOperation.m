@@ -9,7 +9,7 @@
 #import "CDCoreDataOperation.h"
 
 @interface CDCoreDataOperation ()
-- (NSManagedObjectContext *)newMainStoreManagedObjectContext;
+- (NSManagedObjectContext *)newThreadSafeManagedObjectContext;
 @end
 
 @implementation CDCoreDataOperation
@@ -17,18 +17,21 @@
 @synthesize mainContext = _mainContext,
             backgroundContext = _backgroundContext;
 
-+ (CDCoreDataOperation *)operationWithMainContext:(NSManagedObjectContext *)mainContext {
++ (CDCoreDataOperation *)operationWithMainContext:(NSManagedObjectContext *)mainContext 
+{
     CDCoreDataOperation *operation = [self operation];
     operation.mainContext = mainContext;
     return operation;
 }
 
-- (void)start {
+- (void)start 
+{
     [super start];
-    self.backgroundContext = [self newMainStoreManagedObjectContext];
+    self.backgroundContext = [self newThreadSafeManagedObjectContext];
 }
 
-- (void)saveBackgroundContext {
+- (void)saveBackgroundContext 
+{
     // Save context
     if (self.backgroundContext.hasChanges) {
         NSError *error = nil;
@@ -38,39 +41,16 @@
     }
 }
 
-- (NSManagedObjectContext *)newMainStoreManagedObjectContext {
-    
-    // Grab the main coordinator
-    NSPersistentStoreCoordinator *coord = [self.mainContext persistentStoreCoordinator];
-    
-    // Create new context with default concurrency type
-    NSManagedObjectContext *newContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSConfinementConcurrencyType];
-    [newContext setPersistentStoreCoordinator:coord];
+- (NSManagedObjectContext *)newThreadSafeManagedObjectContext
+{
+    // Build private queue context as child of main context
+    NSManagedObjectContext *newContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    [newContext setParentContext:self.mainContext];
     
     // Optimization
     [newContext setUndoManager:nil];
-    
-    // Observer saves from this context
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(contextDidSave:) 
-                                                 name:NSManagedObjectContextDidSaveNotification 
-                                               object:newContext];
-    
-    return newContext;
-}
 
-- (void)contextDidSave:(NSNotification *)notification {
-    SEL selector = @selector(mergeChangesFromContextDidSaveNotification:);
-    
-    NSManagedObjectContext *threadContext = (NSManagedObjectContext *)notification.object;
-    
-    [self.mainContext performSelectorOnMainThread:selector 
-                                       withObject:notification 
-                                    waitUntilDone:NO];
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
-                                                    name:NSManagedObjectContextDidSaveNotification 
-                                                  object:threadContext];
+    return newContext;
 }
 
 @end

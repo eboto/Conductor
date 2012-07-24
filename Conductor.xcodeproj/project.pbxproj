@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DB39B5C415BF2F7C0046FD96 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB39B5C315BF2F7C0046FD96 /* UIKit.framework */; };
 		DB4F2D911551D6A200216AB9 /* CDLongRunningTestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D901551D6A200216AB9 /* CDLongRunningTestOperation.m */; };
 		DB4F2D941551E54400216AB9 /* CDOperationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D931551E54400216AB9 /* CDOperationTests.m */; };
 		DB4F2D971551E57700216AB9 /* CDOperationQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D961551E57700216AB9 /* CDOperationQueueTests.m */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DB39B5C315BF2F7C0046FD96 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DB4F2D8F1551D6A200216AB9 /* CDLongRunningTestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDLongRunningTestOperation.h; sourceTree = "<group>"; };
 		DB4F2D901551D6A200216AB9 /* CDLongRunningTestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDLongRunningTestOperation.m; sourceTree = "<group>"; };
 		DB4F2D921551E54400216AB9 /* CDOperationTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperationTests.h; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB39B5C415BF2F7C0046FD96 /* UIKit.framework in Frameworks */,
 				DB83D1AC1451F1B200D94890 /* SenTestingKit.framework in Frameworks */,
 				DB83D1AF1451F1B200D94890 /* Foundation.framework in Frameworks */,
 				DB9F94D91598DE8300A97A05 /* CoreData.framework in Frameworks */,
@@ -131,6 +134,7 @@
 		DB83D18D1451F19E00D94890 = {
 			isa = PBXGroup;
 			children = (
+				DB39B5C315BF2F7C0046FD96 /* UIKit.framework */,
 				DB83D19F1451F1B200D94890 /* Conductor */,
 				DB83D1B31451F1B200D94890 /* ConductorTests */,
 				DB83D19C1451F1B200D94890 /* Frameworks */,

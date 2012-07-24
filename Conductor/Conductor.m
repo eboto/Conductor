@@ -31,7 +31,8 @@
 
 @implementation Conductor
 
-@synthesize queues = queues_;
+@synthesize queues = queues_,
+            removeQueuesWhenEmpty;
 
 - (void)dealloc {
     [self cancelAllOperations];
@@ -40,7 +41,8 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.queues = [[NSMutableDictionary alloc] init];
+        queues_ = [[NSMutableDictionary alloc] init];
+        removeQueuesWhenEmpty = YES;
     }
     return self;
 }
@@ -61,6 +63,7 @@
 #pragma mark - Queue Control
 
 - (void)removeQueue:(CDOperationQueue *)queue {
+    if (!self.removeQueuesWhenEmpty) return;
     if (!queue || queue.isExecuting) return;
 
     NSAssert(queue.name, @"Queue should have a name!");
@@ -196,6 +199,30 @@
     ConductorLogTrace(@"Resume queue: %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];;
     [queue setSuspended:NO];    
+}
+
+- (void)waitForQueueNamed:(NSString *)queueName
+{
+    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];
+    if (!queue) return;
+    if (!queue.isExecuting) return;
+    
+    // Add progress watcher for queue
+    __block BOOL hasFinished = NO;
+    [self addProgressObserverToQueueNamed:queueName
+                        withProgressBlock:nil
+                       andCompletionBlock:^ {
+                           hasFinished = YES;
+                       }
+     ];
+    
+    // Loop until queue finishes
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.5];
+    while (hasFinished == NO) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:loopUntil];
+    }
+
 }
 
 #pragma mark - CDOperationQueueDelegate
