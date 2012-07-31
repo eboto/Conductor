@@ -93,7 +93,7 @@
  Set this switch to  enable or disable logging capabilities.
  */
 #ifndef CONDUCTOR_LOGGING_ENABLED
-#	define CONDUCTOR_LOGGING_ENABLED		1
+#	define CONDUCTOR_LOGGING_ENABLED		0
 #endif
 
 /**

@@ -134,7 +134,6 @@
 		DB83D18D1451F19E00D94890 = {
 			isa = PBXGroup;
 			children = (
-				DB39B5C315BF2F7C0046FD96 /* UIKit.framework */,
 				DB83D19F1451F1B200D94890 /* Conductor */,
 				DB83D1B31451F1B200D94890 /* ConductorTests */,
 				DB83D19C1451F1B200D94890 /* Frameworks */,
@@ -154,6 +153,7 @@
 		DB83D19C1451F1B200D94890 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DB39B5C315BF2F7C0046FD96 /* UIKit.framework */,
 				DB9F94D81598DE8300A97A05 /* CoreData.framework */,
 				DB83D19D1451F1B200D94890 /* Foundation.framework */,
 				DB83D1AB1451F1B200D94890 /* SenTestingKit.framework */,
@@ -284,7 +284,7 @@
 		DB83D18F1451F19E00D94890 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0440;
 				ORGANIZATIONNAME = "Andrew B. Smith";
 			};
 			buildConfigurationList = DB83D1921451F19E00D94890 /* Build configuration list for PBXProject "Conductor" */;

@@ -31,13 +31,15 @@
 }
 
 - (void)saveBackgroundContext 
-{
+{    
     // Save context
     if (self.backgroundContext.hasChanges) {
+        
         NSError *error = nil;
         if (![self.backgroundContext save:&error]) {
             ConductorLogError(@"Save failed: %@", error);
         };
+        
     }
 }
 
