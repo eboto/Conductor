@@ -10,8 +10,8 @@
 
 @implementation CDBackgroundTaskOperation
 
-- (void)start {
-    
+- (void)start
+{    
     UIApplication *application = [UIApplication sharedApplication];
 
     /**
@@ -19,7 +19,6 @@
      out.
      */
     backgroundTaskID = [application beginBackgroundTaskWithExpirationHandler:^{
-
         [self backgroundTaskExpirationCleanup];
         
         [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];

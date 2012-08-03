@@ -66,7 +66,6 @@
 - (void)addOperation:(CDOperation *)operation 
           atPriority:(NSOperationQueuePriority)priority;
 
-
 - (void)addOperation:(CDOperation *)operation 
         toQueueNamed:(NSString *)queueName;
 
