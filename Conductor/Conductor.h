@@ -97,6 +97,13 @@
                      andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock;
 
 /**
+ Gets messages when the max number of queued operations is reached, and when
+ you can start submitting again.
+ */
+- (void)addQueueOperationObserver:(id)observer
+                     toQueueNamed:(NSString *)queueName;
+
+/**
  * Cancels all operations in all queues.  Useful when you need to cleanup before
  * shutting the app down.
  */
@@ -155,6 +162,13 @@
  */
 - (void)setMaxConcurrentOperationCount:(NSInteger)count 
                          forQueueNamed:(NSString *)queueName;
+
+/**
+ Set the max queued operations for the queue.  Set it to 1 for serial execution of
+ operations.
+ */
+- (void)setMaxQueuedOperationCount:(NSUInteger)count
+                     forQueueNamed:(NSString *)queueName;
 
 /**
  * Returns the queue name for the specific operation type

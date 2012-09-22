@@ -71,13 +71,6 @@
 
 - (void)addOperation:(CDOperation *)operation
 {
-    if (self.maxQueueOperationCountReached) {
-        if ([self.operationsObserver respondsToSelector:@selector(maxQueuedOperationsReachedForQueue:)]) {
-            [self.operationsObserver maxQueuedOperationsReachedForQueue:self];
-        }
-        return;
-    }
-    
     [self addOperation:operation atPriority:operation.queuePriority];
 }
 
@@ -86,6 +79,13 @@
     
     if (![operation isKindOfClass:[CDOperation class]]) {
         NSAssert(nil, @"You must use a CDOperation sublcass with Conductor!");
+        return;
+    }
+    
+    if (self.maxQueueOperationCountReached) {
+        if ([self.operationsObserver respondsToSelector:@selector(maxQueuedOperationsReachedForQueue:)]) {
+            [self.operationsObserver maxQueuedOperationsReachedForQueue:self];
+        }
         return;
     }
     

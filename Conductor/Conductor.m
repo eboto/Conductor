@@ -248,8 +248,8 @@
                             andCompletionBlock:completionBlock];
 }
 
-- (void)addQueuedOperationObserver:(id)observer
-                      toQueueNamed:(NSString *)queueName
+- (void)addQueueOperationObserver:(id)observer
+                     toQueueNamed:(NSString *)queueName
 {
     CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:YES];
     queue.operationsObserver = observer;
@@ -302,6 +302,15 @@
     ConductorLogTrace(@"Setting max concurency count to %i for queue: %@", count, queueName);
     CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:YES];
     [queue setMaxConcurrentOperationCount:count];
+}
+
+- (void)setMaxQueuedOperationCount:(NSUInteger)count
+                     forQueueNamed:(NSString *)queueName
+{
+    if (!queueName) return;
+    ConductorLogTrace(@"Setting max queued count to %i for queue: %@", count, queueName);
+    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:YES];
+    [queue setMaxQueuedOperationsCount:count];
 }
 
 #pragma mark - Private
