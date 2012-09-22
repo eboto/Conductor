@@ -23,7 +23,7 @@
         
         [super start];
         
-        sleep(duration);
+        sleep(self.duration);
 
                 
 //        NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.01];

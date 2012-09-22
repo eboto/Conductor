@@ -57,7 +57,8 @@
     STAssertTrue(completionBlockDidRun, @"Completion block should run correctly");
 }
 
-- (void)testStartingOperationCount {
+- (void)testStartingOperationCount
+{
     CDLongRunningTestOperation *op1 = [CDLongRunningTestOperation operation];
     CDLongRunningTestOperation *op2 = [CDLongRunningTestOperation operation];    
     CDLongRunningTestOperation *op3 = [CDLongRunningTestOperation operation];    
@@ -74,11 +75,12 @@
     STAssertEquals(watcher.startingOperationCount, 3, @"Progress watcher should have correct starting operation count");    
 }
 
-- (void)testAddToStartingOperationCount {
-    CDLongRunningTestOperation *op1 = [CDLongRunningTestOperation operation];
-    CDLongRunningTestOperation *op2 = [CDLongRunningTestOperation operation];    
-    CDLongRunningTestOperation *op3 = [CDLongRunningTestOperation operation];    
-    CDLongRunningTestOperation *op4 = [CDLongRunningTestOperation operation];    
+- (void)testAddToStartingOperationCount
+{
+    CDLongRunningTestOperation *op1 = [CDLongRunningTestOperation longRunningOperationWithDuration:1.0];
+    CDLongRunningTestOperation *op2 = [CDLongRunningTestOperation longRunningOperationWithDuration:1.0];    
+    CDLongRunningTestOperation *op3 = [CDLongRunningTestOperation longRunningOperationWithDuration:1.0];    
+    CDLongRunningTestOperation *op4 = [CDLongRunningTestOperation longRunningOperationWithDuration:1.0];    
 
     [testOperationQueue addOperation:op1];
     [testOperationQueue addOperation:op2];

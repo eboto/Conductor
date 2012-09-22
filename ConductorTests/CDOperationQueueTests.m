@@ -169,13 +169,13 @@
                                  beforeDate:loopUntil];
     }    
     
-    STAssertEquals([testOperationQueue operationCount], 0, @"Operation queue should be empty");
+    STAssertEquals([testOperationQueue operationCount], 0U, @"Operation queue should be empty");
 }
 
 #pragma mark - Operation Count
 
 - (void)testOperationCountNoQueue {
-    STAssertEquals(testOperationQueue.operationCount, 0, @"Operation count should be correct");    
+    STAssertEquals(testOperationQueue.operationCount, 0U, @"Operation count should be correct");
 }
 
 - (void)testOperationCountQueue {
@@ -187,7 +187,7 @@
     [testOperationQueue addOperation:op2];
     [testOperationQueue addOperation:op3];
 
-    STAssertEquals(testOperationQueue.operationCount, 3, @"Operation count should be correct");    
+    STAssertEquals(testOperationQueue.operationCount, 3U, @"Operation count should be correct");
 }
 
 - (void)testOperationCountAfterOperationFinishes {      
@@ -204,7 +204,7 @@
                                  beforeDate:loopUntil];
     }    
     
-    STAssertEquals(testOperationQueue.operationCount, 0, @"Operation count should be correct");    
+    STAssertEquals(testOperationQueue.operationCount, 0U, @"Operation count should be correct");
 }
 
 #pragma mark - State
@@ -255,7 +255,7 @@
 }
 
 - (void)testOperationQueueShouldResumeAfterSuspended {
-    CDLongRunningTestOperation *op = [CDLongRunningTestOperation operation];    
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:5.0];
     [testOperationQueue addOperation:op];
     
     [testOperationQueue setSuspended:YES];

@@ -24,6 +24,8 @@
 //
 
 #import "CDOperationQueue.h"
+#import "CDOperationQueue+Max.h"
+#import "CDOperationQueue+State.h"
 
 @interface CDOperationQueue ()
 
@@ -37,21 +39,18 @@
 
 @implementation CDOperationQueue
 
-@synthesize delegate,
-            queue,
-            operations,
-            progressWatchers;
-
 - (void)dealloc {
-    delegate = nil;
+    _delegate = nil;
+    _operationsObserver = nil;
 }
 
 - (id)init {
     self = [super init];
     if (self) {
-        self.queue            = [[NSOperationQueue alloc] init];
-        self.operations       = [[NSMutableDictionary alloc] init];
-        self.progressWatchers = [[NSMutableSet alloc] init];
+        self.queue                    = [[NSOperationQueue alloc] init];
+        self.operations               = [[NSMutableDictionary alloc] init];
+        self.progressWatchers         = [[NSMutableSet alloc] init];
+        self.maxQueuedOperationsCount = CDOperationQueueCountMax;
     }
     return self;
 }
@@ -62,15 +61,23 @@
     return q;
 }
 
-- (void)queueDidFinish {    
+- (void)queueDidFinish
+{
     [self.progressWatchers makeObjectsPerformSelector:@selector(runCompletionBlock)];
-    
     [self.delegate queueDidFinish:self];
 }
 
 #pragma mark - Operations API
 
-- (void)addOperation:(CDOperation *)operation {
+- (void)addOperation:(CDOperation *)operation
+{
+    if (self.maxQueueOperationCountReached) {
+        if ([self.operationsObserver respondsToSelector:@selector(maxQueuedOperationsReachedForQueue:)]) {
+            [self.operationsObserver maxQueuedOperationsReachedForQueue:self];
+        }
+        return;
+    }
+    
     [self addOperation:operation atPriority:operation.queuePriority];
 }
 
@@ -135,8 +142,15 @@
 
 }
 
-- (void)operationDidFinish:(CDOperation *)operation {
+- (void)operationDidFinish:(CDOperation *)operation
+{
     [self removeOperation:operation];
+    
+    if (!self.maxQueueOperationCountReached) {
+        if ([self.operationsObserver respondsToSelector:@selector(canBeginSubmittingOperationsForQueue:)]) {
+            [self.operationsObserver canBeginSubmittingOperationsForQueue:self];
+        }
+    }
     
     if (self.operationCount == 0) {
         [self queueDidFinish];
@@ -162,8 +176,8 @@
 #pragma mark - Progress
 
 - (void)addProgressObserverWithProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock
-                         andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock {    
-       
+                         andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock
+{       
     ConductorLogTrace(@"Adding progress watcher to queue %@", self.name);
     
     CDOperationQueueProgressObserver *watcher = [CDOperationQueueProgressObserver progressObserverWithStartingOperationCount:self.operationCount
@@ -172,35 +186,13 @@
     [self.progressWatchers addObject:watcher];
 }
 
-#pragma mark - State
-
-- (BOOL)isExecuting {
-    return (self.operationCount > 0);
-}
-
-- (BOOL)isFinished {
-    return (self.operationCount == 0);
-}
-
-- (BOOL)isSuspended {
-    return self.queue ? self.queue.isSuspended : NO;
-}
-
 #pragma mark - Accessors
-
-- (void)setSuspended:(BOOL)suspend {
-    [self.queue setSuspended:suspend];
-}
-
-- (void)setMaxConcurrentOperationCount:(NSInteger)count {
-    [self.queue setMaxConcurrentOperationCount:count];
-}
 
 - (NSString *)name {
     return self.queue ? self.queue.name : nil;
 }
 
-- (NSInteger)operationCount {
+- (NSUInteger)operationCount {
     return self.operations.count;
 }
 

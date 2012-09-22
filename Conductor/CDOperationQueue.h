@@ -29,10 +29,13 @@
 #import "CDOperationQueueProgressObserver.h"
 
 @protocol CDOperationQueueDelegate;
+@protocol CDOperationQueueOperationsObserver;
 
 @interface CDOperationQueue : NSObject <CDOperationDelegate> {}
 
 @property (nonatomic, weak) id <CDOperationQueueDelegate> delegate;
+
+@property (nonatomic, weak) id <CDOperationQueueOperationsObserver> operationsObserver;
 
 /**
  * Holds the operation queue
@@ -54,9 +57,17 @@
  The number of operations in the queue.  Wrapper around the operationsCount
  of the internal NSOperationQueue
  */
-@property (nonatomic, readonly) NSInteger operationCount;
+@property (nonatomic, readonly) NSUInteger operationCount;
 
+/**
+ Set of all progress whatchers for the queue
+ */
 @property (nonatomic, readonly, strong) NSMutableSet *progressWatchers;
+
+/**
+ The max number of operations the queue can handle
+ */
+@property (assign) NSUInteger maxQueuedOperationsCount;
 
 + (id)queueWithName:(NSString *)queueName;
 
@@ -79,33 +90,9 @@
                                   toNewPriority:(NSOperationQueuePriority)priority;
 
 /**
- Pauses internal NSOperationQueue
- */
-- (void)setSuspended:(BOOL)suspend;
-
-/**
  Cancel all operations in internal NSOperatioQueue
  */
 - (void)cancelAllOperations;
-
-/**
- State queries
- */
-- (BOOL)isExecuting;
-- (BOOL)isFinished;
-- (BOOL)isSuspended;
-
-/**
- Updated the queues max concurency count.  Set it to 1 for serial execution of
- operations.
- */
-- (void)setMaxConcurrentOperationCount:(NSInteger)count;
-
-/**
- Updated the queues max queued operation count.  You won't be able to submit
- jobs to the queue if the operation count is the max.
- */
-- (void)setMaxQueuedOperationCount:(NSInteger)count;
 
 /**
  * Retrieve an operation with a given identifier.  Returns nil if operation has
@@ -119,9 +106,13 @@
 - (void)addProgressObserverWithProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock
                           andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock;
 
-
 @end
 
 @protocol CDOperationQueueDelegate <NSObject>
 - (void)queueDidFinish:(CDOperationQueue *)queue;
+@end
+
+@protocol CDOperationQueueOperationsObserver <NSObject>
+- (void)maxQueuedOperationsReachedForQueue:(CDOperationQueue *)queue;
+- (void)canBeginSubmittingOperationsForQueue:(CDOperationQueue *)queue;
 @end

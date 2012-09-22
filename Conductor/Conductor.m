@@ -248,6 +248,20 @@
                             andCompletionBlock:completionBlock];
 }
 
+- (void)addQueuedOperationObserver:(id)observer
+                      toQueueNamed:(NSString *)queueName
+{
+    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:YES];
+    queue.operationsObserver = observer;
+}
+
+- (void)removeQueuedOperationObserver:(id)observer
+                       fromQueueNamed:(NSString *)queueName
+{
+    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];
+    queue.operationsObserver = nil;
+}
+
 #pragma mark - Queue
 
 - (NSArray *)allQueueNames
