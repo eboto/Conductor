@@ -11,12 +11,20 @@
 
 @interface CDCoreDataOperation : CDOperation
 
-@property (nonatomic, strong) NSManagedObjectContext *mainContext;
+@property (strong) NSManagedObjectContext *mainContext;
 
-@property (nonatomic, strong) NSManagedObjectContext *backgroundContext;
+@property (strong) NSManagedObjectContext *backgroundContext;
 
 + (CDCoreDataOperation *)operationWithMainContext:(NSManagedObjectContext *)mainContext;
 
+/**
+ Queue and wait on a save on the background context
+ */
 - (void)saveBackgroundContext;
+
+/**
+ Queue up a save on the main context
+ */
+- (void)saveMainContext;
 
 @end

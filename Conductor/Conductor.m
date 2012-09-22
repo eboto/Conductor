@@ -35,7 +35,7 @@
             removeQueuesWhenEmpty;
 
 - (void)dealloc {
-    [self cancelAllOperations];
+    //[self cancelAllOperations];
 }
 
 - (id)init {
@@ -72,7 +72,6 @@
         ConductorLogTrace(@"Removing queue: %@", queue.name);
         [self.queues removeObjectForKey:queue.name];
     }
-    
 }
 
 #pragma mark - Operations
@@ -89,22 +88,20 @@
     [self addOperation:operation
           toQueueNamed:queueName
             atPriority:priority];
-    
 }
 
 - (void)addOperation:(CDOperation *)operation 
-        toQueueNamed:(NSString *)queueName {
-        
+        toQueueNamed:(NSString *)queueName
+{        
     [self addOperation:operation 
           toQueueNamed:queueName 
             atPriority:operation.queuePriority];
-    
 }
 
 - (void)addOperation:(CDOperation *)operation 
         toQueueNamed:(NSString *)queueName 
-          atPriority:(NSOperationQueuePriority)priority {
-        
+          atPriority:(NSOperationQueuePriority)priority
+{        
     CDOperationQueue *queue = nil;
     
     if (queueName) {
@@ -120,8 +117,8 @@
 }
 
 - (BOOL)updatePriorityOfOperationWithIdentifier:(NSString *)identifier 
-                                  toNewPriority:(NSOperationQueuePriority)priority {
-    
+                                  toNewPriority:(NSOperationQueuePriority)priority
+{    
     __block BOOL didUpdate = NO;
     
     [self.queues enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
@@ -135,7 +132,9 @@
 }
 
 - (BOOL)hasOperationWithIdentifier:(NSString *)identifier 
-                      inQueueNamed:(NSString *)queueName {
+                      inQueueNamed:(NSString *)queueName
+{
+    if (!identifier) return NO;
     
     CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];
     
@@ -146,7 +145,8 @@
 
 #pragma mark - Queue States
 
-- (void)cancelAllOperations {
+- (void)cancelAllOperations
+{
     ConductorLogTrace(@"Cancel all operations");
     
     // Grabbing queue names prevents mutation while enumeration of queues dict
@@ -157,7 +157,8 @@
     }
 }
 
-- (void)cancelAllOperationsInQueueNamed:(NSString *)queueName {
+- (void)cancelAllOperationsInQueueNamed:(NSString *)queueName
+{
     if (!queueName) return;
     ConductorLogTrace(@"Cancel all operations in queue: %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];
@@ -165,7 +166,8 @@
     [self removeQueue:queue];
 }
 
-- (void)suspendAllQueues {
+- (void)suspendAllQueues
+{
     ConductorLogTrace(@"Suspend all queues");
     
     // Grabbing queue names prevents mutation while enumeration of queues dict
@@ -176,14 +178,16 @@
     }
 }
 
-- (void)suspendQueueNamed:(NSString *)queueName {
+- (void)suspendQueueNamed:(NSString *)queueName
+{
     if (!queueName) return;
     ConductorLogTrace(@"Suspend queue: %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];;
     [queue setSuspended:YES];
 }
 
-- (void)resumeAllQueues {
+- (void)resumeAllQueues
+{
     ConductorLogTrace(@"Resume all queues");
     
     // Grabbing queue names prevents mutation while enumeration of queues dict
@@ -194,7 +198,8 @@
     }    
 }
 
-- (void)resumeQueueNamed:(NSString *)queueName {
+- (void)resumeQueueNamed:(NSString *)queueName
+{
     if (!queueName) return;
     ConductorLogTrace(@"Resume queue: %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];;
@@ -222,12 +227,12 @@
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];
     }
-
 }
 
 #pragma mark - CDOperationQueueDelegate
 
-- (void)queueDidFinish:(CDOperationQueue *)queue {
+- (void)queueDidFinish:(CDOperationQueue *)queue
+{
     [self removeQueue:queue];
 }
 
@@ -235,8 +240,8 @@
 
 - (void)addProgressObserverToQueueNamed:(NSString *)queueName 
                      withProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock 
-                    andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock {
-        
+                    andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock
+{        
     CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:YES];
     
     [queue addProgressObserverWithProgressBlock:progressBlock 
@@ -245,18 +250,20 @@
 
 #pragma mark - Queue
 
-- (NSArray *)allQueueNames {
+- (NSArray *)allQueueNames
+{
     return [self.queues allKeys];
 }
 
-- (BOOL)hasQueues {
+- (BOOL)hasQueues
+{
     return (self.queues.count > 0);
 }
 
 #pragma mark - Accessors
 
-- (BOOL)isExecuting {
-
+- (BOOL)isExecuting
+{
     __block BOOL isExecuting = NO;
     
     // Make sure queues don't change while determining execution status
@@ -275,7 +282,8 @@
 }
 
 - (void)setMaxConcurrentOperationCount:(NSInteger)count 
-                         forQueueNamed:(NSString *)queueName {
+                         forQueueNamed:(NSString *)queueName
+{
     if (!queueName) return;
     ConductorLogTrace(@"Setting max concurency count to %i for queue: %@", count, queueName);
     CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:YES];
@@ -284,30 +292,34 @@
 
 #pragma mark - Private
 
-- (NSString *)queueNameForOperation:(NSOperation *)operation {
+- (NSString *)queueNameForOperation:(NSOperation *)operation
+{
     if (!operation) return nil;
     NSString *className = NSStringFromClass([operation class]);
     return [NSString stringWithFormat:@"%@_operation_queue", className];
 }
 
 - (CDOperationQueue *)queueForOperation:(NSOperation *)operation
-                           shouldCreate:(BOOL)create {
-    
+                           shouldCreate:(BOOL)create
+{
     NSString *queueName = [self queueNameForOperation:operation];
     return [self queueForQueueName:queueName shouldCreate:create];
 }
 
-- (CDOperationQueue *)getQueueForOperation:(NSOperation *)operation {
+- (CDOperationQueue *)getQueueForOperation:(NSOperation *)operation
+{
     NSString *queueName = [self queueNameForOperation:operation];
     return [self getQueueNamed:queueName];    
 }
 
-- (CDOperationQueue *)getQueueNamed:(NSString *)queueNamed {
+- (CDOperationQueue *)getQueueNamed:(NSString *)queueNamed
+{
     return [self queueForQueueName:queueNamed shouldCreate:NO];
 }
 
 - (CDOperationQueue *)queueForQueueName:(NSString *)queueName 
-                           shouldCreate:(BOOL)create {
+                           shouldCreate:(BOOL)create
+{
     if (!queueName) return nil;
     
     @synchronized (self.queues) {
@@ -321,7 +333,8 @@
     }
 }
 
-- (CDOperationQueue *)createQueueWithName:(NSString *)queueName {
+- (CDOperationQueue *)createQueueWithName:(NSString *)queueName
+{
     if (!queueName) return nil;
     
     ConductorLogTrace(@"Creating queue: %@", queueName);

@@ -102,6 +102,12 @@
 - (void)setMaxConcurrentOperationCount:(NSInteger)count;
 
 /**
+ Updated the queues max queued operation count.  You won't be able to submit
+ jobs to the queue if the operation count is the max.
+ */
+- (void)setMaxQueuedOperationCount:(NSInteger)count;
+
+/**
  * Retrieve an operation with a given identifier.  Returns nil if operation has
  * already finished.
  */

@@ -102,6 +102,9 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
 
 - (void)finish {
     ConductorLogTrace(@"Finished operation: %@", self.identifier);
+    
+//    if (self.completionBlock) self.completionBlock();
+    
     self.state = CDOperationStateFinished;
     
     [self.delegate operationDidFinish:self];

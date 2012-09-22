@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Andrew B. Smith. All rights reserved.
 //
 
-#import "CDOperation.h"
+#import "CDCoreDataOperation.h"
 #import <UIKit/UIApplication.h>
 
-@interface CDBackgroundTaskOperation : CDOperation {
+@interface CDBackgroundTaskOperation : CDCoreDataOperation {
     UIBackgroundTaskIdentifier backgroundTaskID;
 }
 

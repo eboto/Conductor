@@ -14,9 +14,6 @@
 
 @implementation CDCoreDataOperation
 
-@synthesize mainContext = _mainContext,
-            backgroundContext = _backgroundContext;
-
 + (CDCoreDataOperation *)operationWithMainContext:(NSManagedObjectContext *)mainContext 
 {
     CDCoreDataOperation *operation = [self operation];
@@ -43,8 +40,20 @@
     }
 }
 
+- (void)saveMainContext
+{
+    [self.mainContext performBlock:^ {
+        NSError *error;
+        if (![self.mainContext save:&error]) {
+            ConductorLogError(@"Save failed: %@", error);
+        }
+    }];
+}
+
 - (NSManagedObjectContext *)newThreadSafeManagedObjectContext
 {
+    if (!self.mainContext) return nil;
+   
     // Build private queue context as child of main context
     NSManagedObjectContext *newContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [newContext setParentContext:self.mainContext];

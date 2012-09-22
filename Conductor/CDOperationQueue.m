@@ -92,7 +92,7 @@
         
         // Update progress watcher count
         [self.progressWatchers makeObjectsPerformSelector:@selector(addToStartingOperationCount:)
-                                               withObject:[NSNumber numberWithInt:1]];
+                                               withObject:@1];
         
         operation.delegate = self;
         
@@ -111,7 +111,7 @@
         [self.operations removeObjectForKey:operation.identifier];
 
         [self.progressWatchers makeObjectsPerformSelector:@selector(runProgressBlockWithCurrentOperationCount:)
-                                               withObject:[NSNumber numberWithInt:self.operationCount]];
+                                               withObject:@(self.operationCount)];
     }
 }
 

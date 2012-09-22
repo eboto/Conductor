@@ -284,7 +284,7 @@
 		DB83D18F1451F19E00D94890 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Andrew B. Smith";
 			};
 			buildConfigurationList = DB83D1921451F19E00D94890 /* Build configuration list for PBXProject "Conductor" */;
