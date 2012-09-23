@@ -82,13 +82,6 @@
         return;
     }
     
-    if (self.maxQueueOperationCountReached) {
-        if ([self.operationsObserver respondsToSelector:@selector(maxQueuedOperationsReachedForQueue:)]) {
-            [self.operationsObserver maxQueuedOperationsReachedForQueue:self];
-        }
-        return;
-    }
-    
     // Add operation to operations dict
     @synchronized (self.operations) {
         [self.operations setObject:operation 
@@ -105,6 +98,13 @@
         
         // Add operation to queue and start
         [self.queue addOperation:operation];
+        
+        if (self.maxQueueOperationCountReached) {
+            if ([self.operationsObserver respondsToSelector:@selector(maxQueuedOperationsReachedForQueue:)]) {
+                [self.operationsObserver maxQueuedOperationsReachedForQueue:self];
+            }
+            return;
+        }
     }
 }
 
