@@ -60,7 +60,7 @@
     return [[self alloc] init];
 }
 
-#pragma mark - Queue Control
+#pragma mark - Queues
 
 - (void)removeQueue:(CDOperationQueue *)queue {
     if (!self.removeQueuesWhenEmpty) return;
@@ -72,6 +72,16 @@
         ConductorLogTrace(@"Removing queue: %@", queue.name);
         [self.queues removeObjectForKey:queue.name];
     }
+}
+
+- (NSArray *)allQueueNames
+{
+    return [self.queues allKeys];
+}
+
+- (BOOL)hasQueues
+{
+    return (self.queues.count > 0);
 }
 
 #pragma mark - Operations
@@ -143,7 +153,35 @@
     return ([queue getOperationWithIdentifier:identifier] != nil);
 }
 
-#pragma mark - Queue States
+#pragma mark - Executing
+
+- (BOOL)isExecuting
+{
+    __block BOOL isExecuting = NO;
+    
+    // Make sure queues don't change while determining execution status
+    @synchronized (self.queues)
+    {
+        [self.queues enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
+            if (queue.isExecuting) {
+                isExecuting = YES;
+                *stop = YES;
+            }
+        }];
+        
+    };
+    
+    return isExecuting;
+}
+
+- (BOOL)isQueueExecutingNamed:(NSString *)queueName
+{
+    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];
+    if (!queue) return NO;
+    return queue.isExecuting;
+}
+
+#pragma mark - Cancel
 
 - (void)cancelAllOperations
 {
@@ -166,6 +204,8 @@
     [self removeQueue:queue];
 }
 
+#pragma mark - Suspend
+
 - (void)suspendAllQueues
 {
     ConductorLogTrace(@"Suspend all queues");
@@ -186,6 +226,8 @@
     [queue setSuspended:YES];
 }
 
+#pragma mark - Resume
+
 - (void)resumeAllQueues
 {
     ConductorLogTrace(@"Resume all queues");
@@ -205,6 +247,8 @@
     CDOperationQueue *queue = [self getQueueNamed:queueName];;
     [queue setSuspended:NO];    
 }
+
+#pragma mark - Wait
 
 - (void)waitForQueueNamed:(NSString *)queueName
 {
@@ -262,38 +306,7 @@
     queue.operationsObserver = nil;
 }
 
-#pragma mark - Queue
-
-- (NSArray *)allQueueNames
-{
-    return [self.queues allKeys];
-}
-
-- (BOOL)hasQueues
-{
-    return (self.queues.count > 0);
-}
-
 #pragma mark - Accessors
-
-- (BOOL)isExecuting
-{
-    __block BOOL isExecuting = NO;
-    
-    // Make sure queues don't change while determining execution status
-    @synchronized (self.queues) {
-
-        [self.queues enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
-            if (queue.isExecuting) {
-                isExecuting = YES;
-                *stop = YES;
-            }
-        }];
-        
-    };
-        
-    return isExecuting;
-}
 
 - (void)setMaxConcurrentOperationCount:(NSInteger)count 
                          forQueueNamed:(NSString *)queueName

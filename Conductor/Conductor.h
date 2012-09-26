@@ -86,6 +86,10 @@
 - (BOOL)updatePriorityOfOperationWithIdentifier:(NSString *)identifier 
                                   toNewPriority:(NSOperationQueuePriority)priority;
 
+/**
+ Returns YES if the queue with the given name has an operation either running or
+ queued up to run with the identifier.
+ */
 - (BOOL)hasOperationWithIdentifier:(NSString *)identifier 
                       inQueueNamed:(NSString *)queueName;
 
@@ -143,6 +147,12 @@
  Queries all queues to see if any are running.
  */
 - (BOOL)isExecuting;
+
+/**
+ Returns YES if the queue with the given name has operations either executing
+ or in the queue.
+ */
+- (BOOL)isQueueExecutingNamed:(NSString *)queueName;
 
 /**
  Queries whether the conductor instance has queues.  Mostly useful for async
