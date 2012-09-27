@@ -10,10 +10,6 @@
 
 @implementation CDOperationQueueProgressObserver
 
-@synthesize startingOperationCount,
-            progressBlock,
-            completionBlock;
-
 + (CDOperationQueueProgressObserver *)progressObserverWithStartingOperationCount:(NSInteger)operationCount
                                                                  progressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock 
                                                             andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock {

@@ -178,44 +178,56 @@
     STAssertTrue(queue.isSuspended, @"Operation queue should be suspended");    
 }
 
-- (void)testConductorResumeAllQueues {
+- (void)testConductorResumeAllQueues
+{
+    NSString *customQueue = @"CustomQueueName";
+
     __block BOOL hasFinished = NO;
-    
     void (^completionBlock)(void) = ^(void) {
         hasFinished = YES;        
     };         
     
-    CDTestOperation *op = [CDTestOperation operation];
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:2.0];
     op.completionBlock = completionBlock;
     
-    [conductor addOperation:op toQueueNamed:@"CustomQueueName"];
+    [conductor addOperation:op toQueueNamed:customQueue];
     
     [conductor suspendAllQueues];
     [conductor resumeAllQueues];
     
-    [conductor waitForQueueNamed:@"CustomQueueName"];
+    // Loop until queue finishes
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.5];
+    while (hasFinished == NO) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:loopUntil];
+    }
     
     STAssertTrue(hasFinished, @"Conductor should add and complete test operation");
 }
 
-- (void)testConductorResumeQueueNamed {
-    __block BOOL hasFinished = NO;
+- (void)testConductorResumeQueueNamed
+{
+    NSString *customQueue = @"CustomQueueName";
     
+    __block BOOL hasFinished = NO;
     void (^completionBlock)(void) = ^(void) {
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            hasFinished = YES;        
-        });
+        hasFinished = YES;        
     };         
     
-    CDTestOperation *op = [CDTestOperation operation];
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:2.0];
     op.completionBlock = completionBlock;
     
-    [conductor addOperation:op toQueueNamed:@"CustomQueueName"];
+    [conductor addOperation:op toQueueNamed:customQueue];
     
-    [conductor suspendQueueNamed:@"CustomQueueName"];
-    [conductor resumeQueueNamed:@"CustomQueueName"];
+    [conductor suspendQueueNamed:customQueue];
+    [conductor resumeQueueNamed:customQueue];
     
-    [conductor waitForQueueNamed:@"CustomQueueName"];  
+    // Loop until queue finishes
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.5];
+    while (hasFinished == NO) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:loopUntil];
+    }
     
     STAssertTrue(hasFinished, @"Conductor should add and complete test operation");
 }

@@ -25,24 +25,13 @@
 
 #import "Conductor.h"
 
-@interface Conductor ()
-@property (nonatomic, readwrite, strong) NSMutableDictionary *queues;
-@end
-
 @implementation Conductor
-
-@synthesize queues = queues_,
-            removeQueuesWhenEmpty;
-
-- (void)dealloc {
-    //[self cancelAllOperations];
-}
 
 - (id)init {
     self = [super init];
     if (self) {
-        queues_ = [[NSMutableDictionary alloc] init];
-        removeQueuesWhenEmpty = YES;
+        _queues = [[NSMutableDictionary alloc] init];
+        self.removeQueuesWhenEmpty = YES;
     }
     return self;
 }
@@ -252,22 +241,18 @@
 
 - (void)waitForQueueNamed:(NSString *)queueName
 {
+    /**
+     This is really only meant for testing async code.  This could be dangerous
+     in production.
+     */
+    
     CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];
     if (!queue) return;
     if (!queue.isExecuting) return;
     
-    // Add progress watcher for queue
-    __block BOOL hasFinished = NO;
-    [self addProgressObserverToQueueNamed:queueName
-                        withProgressBlock:nil
-                       andCompletionBlock:^ {
-                           hasFinished = YES;
-                       }
-     ];
-    
     // Loop until queue finishes
     NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.5];
-    while (hasFinished == NO) {
+    while (queue.isExecuting == YES) {
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
                                  beforeDate:loopUntil];
     }

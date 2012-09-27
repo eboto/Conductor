@@ -16,7 +16,7 @@
 
 + (CDCoreDataOperation *)operationWithMainContext:(NSManagedObjectContext *)mainContext 
 {
-    CDCoreDataOperation *operation = [self operation];
+    CDCoreDataOperation *operation = [self new];
     operation.mainContext = mainContext;
     return operation;
 }

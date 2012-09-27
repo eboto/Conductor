@@ -18,7 +18,7 @@
         NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Employee" 
                                                                 inManagedObjectContext:self.backgroundContext];
         
-        [object setValue:[NSNumber numberWithInt:1] forKey:@"employeeID"];
+        [object setValue:@1 forKey:@"employeeID"];
         [object setValue:@"Created" forKey:@"firstname"];
         [object setValue:@"InBackground" forKey:@"lastname"];
         

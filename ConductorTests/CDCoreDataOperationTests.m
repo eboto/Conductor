@@ -94,7 +94,7 @@
     NSManagedObject *employee = [results lastObject];
 
     STAssertEquals([results count], 1U, @"Should only have one employee");
-    STAssertEqualObjects([employee valueForKey:@"employeeID"], [NSNumber numberWithInt:1], @"Employee should have correct ID");
+    STAssertEqualObjects([employee valueForKey:@"employeeID"], @1, @"Employee should have correct ID");
 }
 
 @end

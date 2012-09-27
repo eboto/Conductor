@@ -53,18 +53,22 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
 
 @implementation CDOperation
 
-@synthesize delegate,
-            identifier = identifier_,
-            state = _state;
-
 - (void)dealloc {
-    delegate = nil;
+    _delegate = nil;
 }
 
 - (id)init {
     self = [super init];
     if (self) {
         self.state = CDOperationStateReady;
+        
+        // Stock identifier
+        uint64_t absolute_time = mach_absolute_time();
+        mach_timebase_info_data_t timebase;
+        mach_timebase_info(&timebase);
+        uint64_t nanoseconds = (double)absolute_time * (double)timebase.numer / (double)timebase.denom;
+                
+        self.identifier = [NSString stringWithFormat:@"%@_%llu", NSStringFromClass([self class]), nanoseconds];
     }
     return self;
 }
@@ -82,7 +86,7 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
 }
 
 + (id)operation {
-    return [[self alloc] init];
+    return [self new];
 }
 
 #pragma mark - 
@@ -102,9 +106,7 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
 
 - (void)finish {
     ConductorLogTrace(@"Finished operation: %@", self.identifier);
-    
-//    if (self.completionBlock) self.completionBlock();
-    
+        
     self.state = CDOperationStateFinished;
     
     [self.delegate operationDidFinish:self];
@@ -149,19 +151,5 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
     [self didChangeValueForKey:oldStateString];
     [self didChangeValueForKey:newStateString];
 }
-
-- (id)identifier {
-    if (identifier_) return identifier_;
-    
-    uint64_t absolute_time = mach_absolute_time();
-    mach_timebase_info_data_t timebase;
-    mach_timebase_info(&timebase);
-    uint64_t nanoseconds = (double)absolute_time * (double)timebase.numer / (double)timebase.denom;
-    
-    identifier_ = [NSString stringWithFormat:@"%@_%llu", NSStringFromClass([self class]), nanoseconds];
-    
-    return identifier_;
-}
-
 
 @end

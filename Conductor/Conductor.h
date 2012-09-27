@@ -33,14 +33,14 @@
 
 @interface Conductor : NSObject <CDOperationQueueDelegate> {}
 
-@property (nonatomic, readonly, strong) NSMutableDictionary *queues;
+@property (readonly) NSMutableDictionary *queues;
 
 /**
  Set to YES for queues to automatically remove themselves when all internal 
  operations are finished.  Use this when a queue is used infrequently.  Latent 
  queues are cheap to keep around, so balance that with your apps design.
  */
-@property (nonatomic, assign) BOOL removeQueuesWhenEmpty;
+@property (assign) BOOL removeQueuesWhenEmpty;
 
 /**
  Singleton Conductor instance
@@ -162,7 +162,8 @@
 
 /**
  Blocks the calling thread until all jobs in the designated queue finish.  This
- can be useful for unit testing asynchronous code.
+ can be useful for unit testing asynchronous code.  This could be dangerous in
+ production.
  */
 - (void)waitForQueueNamed:(NSString *)queueName;
 

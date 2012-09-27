@@ -29,9 +29,6 @@
 
 @interface CDOperationQueue ()
 
-@property (nonatomic, readwrite, strong) NSOperationQueue *queue;
-@property (nonatomic, readwrite, strong) NSMutableDictionary *operations;
-@property (nonatomic, readwrite, strong) NSMutableSet *progressWatchers;
 
 - (void)operationDidFinish:(CDOperation *)operation;
 
@@ -47,9 +44,9 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.queue                    = [[NSOperationQueue alloc] init];
-        self.operations               = [[NSMutableDictionary alloc] init];
-        self.progressWatchers         = [[NSMutableSet alloc] init];
+        _queue                    = [[NSOperationQueue alloc] init];
+        _operations               = [[NSMutableDictionary alloc] init];
+        _progressWatchers         = [[NSMutableSet alloc] init];
         self.maxQueuedOperationsCount = CDOperationQueueCountMax;
     }
     return self;
