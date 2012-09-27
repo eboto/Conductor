@@ -12,8 +12,8 @@
 
 + (CDOperationQueueProgressObserver *)progressObserverWithStartingOperationCount:(NSInteger)operationCount
                                                                  progressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock 
-                                                            andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock {
-    
+                                                            andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock
+{    
     CDOperationQueueProgressObserver *watcher = [[self alloc] init];
     watcher.startingOperationCount = operationCount;
     watcher.progressBlock = progressBlock;
@@ -22,7 +22,8 @@
     return watcher;
 }
 
-- (void)runProgressBlockWithCurrentOperationCount:(NSNumber *)operationCount {
+- (void)runProgressBlockWithCurrentOperationCount:(NSNumber *)operationCount
+{
     if (!self.progressBlock) return;
     
     NSAssert(!(self.startingOperationCount <= 0), @"Starting operation count was 0 or less than 0!  Initialize the watcher with a operation count of larger than 0.");
@@ -39,12 +40,14 @@
     self.progressBlock(progress);
 }
 
-- (void)runCompletionBlock {
+- (void)runCompletionBlock
+{
     if (!self.completionBlock) return;
     self.completionBlock();
 }
 
-- (void)addToStartingOperationCount:(NSNumber *)numberToAdd {
+- (void)addToStartingOperationCount:(NSNumber *)numberToAdd
+{
     self.startingOperationCount += [numberToAdd intValue];
 }
 

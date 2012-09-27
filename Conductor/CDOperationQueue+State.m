@@ -10,19 +10,23 @@
 
 @implementation CDOperationQueue (State)
 
-- (BOOL)isExecuting {
+- (BOOL)isExecuting
+{
     return (self.operationCount > 0);
 }
 
-- (BOOL)isFinished {
+- (BOOL)isFinished
+{
     return (self.operationCount == 0);
 }
 
-- (BOOL)isSuspended {
+- (BOOL)isSuspended
+{
     return self.queue ? self.queue.isSuspended : NO;
 }
 
-- (void)setSuspended:(BOOL)suspend {
+- (void)setSuspended:(BOOL)suspend
+{
     [self.queue setSuspended:suspend];
 }
 

@@ -36,12 +36,14 @@
 
 @implementation CDOperationQueue
 
-- (void)dealloc {
+- (void)dealloc
+{
     _delegate = nil;
     _operationsObserver = nil;
 }
 
-- (id)init {
+- (id)init
+{
     self = [super init];
     if (self) {
         _queue                    = [[NSOperationQueue alloc] init];
@@ -52,7 +54,8 @@
     return self;
 }
 
-+ (id)queueWithName:(NSString *)queueName {
++ (id)queueWithName:(NSString *)queueName
+{
     CDOperationQueue *q = [[self alloc] init];
     q.queue.name = queueName;
     return q;
@@ -72,8 +75,8 @@
 }
 
 - (void)addOperation:(CDOperation *)operation 
-          atPriority:(NSOperationQueuePriority)priority {
-    
+          atPriority:(NSOperationQueuePriority)priority
+{    
     if (![operation isKindOfClass:[CDOperation class]]) {
         NSAssert(nil, @"You must use a CDOperation sublcass with Conductor!");
         return;
@@ -105,7 +108,8 @@
     }
 }
 
-- (void)removeOperation:(CDOperation *)operation {
+- (void)removeOperation:(CDOperation *)operation
+{
     if (![self.operations objectForKey:operation.identifier]) return;
     
     @synchronized (self.operations) {
@@ -119,8 +123,8 @@
     }
 }
 
-- (void)cancelAllOperations {
-
+- (void)cancelAllOperations
+{
     /** 
      This method sends a cancel message to all operations currently in the queue. 
      Queued operations are cancelled before they begin executing. If an operation 
@@ -158,7 +162,8 @@
 #pragma mark - Priority
 
 - (BOOL)updatePriorityOfOperationWithIdentifier:(id)identifier 
-                                  toNewPriority:(NSOperationQueuePriority)priority {
+                                  toNewPriority:(NSOperationQueuePriority)priority
+{
     CDOperation *op = [self getOperationWithIdentifier:identifier];
     
     // These tests are probably not necessry, just thrown in for extra safety
@@ -185,15 +190,18 @@
 
 #pragma mark - Accessors
 
-- (NSString *)name {
+- (NSString *)name
+{
     return self.queue ? self.queue.name : nil;
 }
 
-- (NSUInteger)operationCount {
+- (NSUInteger)operationCount
+{
     return self.operations.count;
 }
 
-- (CDOperation *)getOperationWithIdentifier:(id)identifier {
+- (CDOperation *)getOperationWithIdentifier:(id)identifier
+{
     CDOperation *op = [self.operations objectForKey:identifier];
     return op;
 }

@@ -28,7 +28,8 @@
     [super start];
 }
 
-- (void)backgroundTaskExpirationCleanup {
+- (void)backgroundTaskExpirationCleanup
+{
     // Don't do anything long running here
 }
 

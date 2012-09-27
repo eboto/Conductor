@@ -27,7 +27,8 @@
 
 @implementation Conductor
 
-- (id)init {
+- (id)init
+{
     self = [super init];
     if (self) {
         _queues = [[NSMutableDictionary alloc] init];
@@ -36,7 +37,8 @@
     return self;
 }
 
-+ (id)sharedInstance {
++ (id)sharedInstance
+{
     static Conductor *_sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -45,13 +47,15 @@
     return _sharedInstance;
 }
 
-+ (Conductor *)conductor {
-    return [[self alloc] init];
++ (Conductor *)conductor
+{
+    return [self new];
 }
 
 #pragma mark - Queues
 
-- (void)removeQueue:(CDOperationQueue *)queue {
+- (void)removeQueue:(CDOperationQueue *)queue
+{
     if (!self.removeQueuesWhenEmpty) return;
     if (!queue || queue.isExecuting) return;
 
@@ -75,13 +79,14 @@
 
 #pragma mark - Operations
 
-- (void)addOperation:(CDOperation *)operation {
+- (void)addOperation:(CDOperation *)operation
+{
     [self addOperation:operation atPriority:operation.queuePriority];
 }
 
 - (void)addOperation:(CDOperation *)operation 
-          atPriority:(NSOperationQueuePriority)priority {
-    
+          atPriority:(NSOperationQueuePriority)priority
+{    
     NSString *queueName = [self queueNameForOperation:operation];
     
     [self addOperation:operation

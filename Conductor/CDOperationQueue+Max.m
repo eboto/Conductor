@@ -18,7 +18,8 @@
     return (self.operationCount >= self.maxQueuedOperationsCount);
 }
 
-- (void)setMaxConcurrentOperationCount:(NSUInteger)count {
+- (void)setMaxConcurrentOperationCount:(NSUInteger)count
+{
     [self.queue setMaxConcurrentOperationCount:count];
 }
 

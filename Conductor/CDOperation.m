@@ -53,11 +53,13 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
 
 @implementation CDOperation
 
-- (void)dealloc {
+- (void)dealloc
+{
     _delegate = nil;
 }
 
-- (id)init {
+- (id)init
+{
     self = [super init];
     if (self) {
         self.state = CDOperationStateReady;
@@ -73,7 +75,8 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
     return self;
 }
 
-- (id)initWithIdentifier:(id)identifier {
+- (id)initWithIdentifier:(id)identifier
+{
     self = [self init];
     if (self) {
         self.identifier = identifier;
@@ -81,17 +84,20 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
     return self;
 }
 
-+ (id)operationWithIdentifier:(id)identifier{
++ (id)operationWithIdentifier:(id)identifier
+{
     return [[self alloc] initWithIdentifier:identifier];
 }
 
-+ (id)operation {
++ (id)operation
+{
     return [self new];
 }
 
 #pragma mark - 
 
-- (void)start {
+- (void)start
+{
     ConductorLogTrace(@"Started operation: %@", self.identifier);
     
     if (self.isCancelled) {
@@ -104,7 +110,8 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
     self.state = CDOperationStateExecuting;
 }
 
-- (void)finish {
+- (void)finish
+{
     ConductorLogTrace(@"Finished operation: %@", self.identifier);
         
     self.state = CDOperationStateFinished;
@@ -112,30 +119,36 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
     [self.delegate operationDidFinish:self];
 }
 
-- (void)cancel {
+- (void)cancel
+{
     [super cancel];
     ConductorLogTrace(@"Canceled operation: %@", self.identifier);
 }
 
-- (BOOL)isReady {
+- (BOOL)isReady
+{
     return (self.state == CDOperationStateReady);
 }
 
-- (BOOL)isExecuting {
+- (BOOL)isExecuting
+{
     return (self.state == CDOperationStateExecuting);
 }
 
-- (BOOL)isFinished {
+- (BOOL)isFinished
+{
     return (self.state == CDOperationStateFinished);
 }
 
-- (BOOL)isConcurrent {
+- (BOOL)isConcurrent
+{
     return YES;
 }
 
 #pragma mark - Accessors
 
-- (void)setState:(CDOperationState)state {
+- (void)setState:(CDOperationState)state
+{
     // Ensures KVO complience for changes in NSOperation object state
     
     if (self.state == state) {
