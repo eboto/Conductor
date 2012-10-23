@@ -133,6 +133,21 @@
     STAssertFalse(isExecuting, @"Queue named should be executing");
 }
 
+- (void)testConductorNumberOfOperationsInQueueNamed
+{
+    NSString *customQueue = @"CustomQueueName";
+    CDTestOperation *op = [CDTestOperation operation];
+    [conductor addOperation:op toQueueNamed:customQueue];
+    
+    NSUInteger num = [conductor numberOfOperationsInQueueNamed:customQueue];
+    STAssertEquals(num, 1U, @"Queue should have one executing");
+    
+    [conductor waitForQueueNamed:customQueue];
+    
+    num = [conductor numberOfOperationsInQueueNamed:customQueue];
+    STAssertEquals(num, 0U, @"Queue should have one executing");
+}
+
 - (void)testConductorCancelAllOperations {
         
     CDLongRunningTestOperation *op = [CDLongRunningTestOperation operation];

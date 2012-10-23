@@ -155,6 +155,12 @@
 - (BOOL)isQueueExecutingNamed:(NSString *)queueName;
 
 /**
+ Returns the number of operations currently in the queue.  Returns 0 if there is no queue of that
+ name.
+ */
+- (NSUInteger)numberOfOperationsInQueueNamed:(NSString *)queueName;
+
+/**
  Queries whether the conductor instance has queues.  Mostly useful for async
  tests.
  */

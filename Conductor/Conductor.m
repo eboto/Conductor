@@ -175,6 +175,13 @@
     return queue.isExecuting;
 }
 
+- (NSUInteger)numberOfOperationsInQueueNamed:(NSString *)queueName
+{
+    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];
+    if (!queue) return 0;
+    return [queue operationCount];
+}
+
 #pragma mark - Cancel
 
 - (void)cancelAllOperations

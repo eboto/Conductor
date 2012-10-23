@@ -41,7 +41,7 @@ typedef enum {
  * Key used to track operation in CDOperationQueue.  If no identifier is provided,
  * the operations description will be used instead.  
  */
-@property (strong) id identifier;
+@property (nonatomic, strong) id identifier;
 
 /**
  * Convenience init for adding an identifier to your operation.
