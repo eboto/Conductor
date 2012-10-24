@@ -32,7 +32,7 @@
     self = [super init];
     if (self) {
         _queues = [[NSMutableDictionary alloc] init];
-        self.removeQueuesWhenEmpty = YES;
+        self.removeQueuesWhenEmpty = NO;
     }
     return self;
 }
@@ -263,11 +263,11 @@
     if (!queue.isExecuting) return;
     
     // Loop until queue finishes
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.5];
-    while (queue.isExecuting == YES) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-                                 beforeDate:loopUntil];
+    while (!queue || queue.isExecuting) {
+        NSDate *oneSecond = [NSDate dateWithTimeIntervalSinceNow:2.0];
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:oneSecond];
     }
+
 }
 
 #pragma mark - CDOperationQueueDelegate
