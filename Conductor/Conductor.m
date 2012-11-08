@@ -259,11 +259,12 @@
      */
     
     CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];
+    
     if (!queue) return;
     if (!queue.isExecuting) return;
     
     // Loop until queue finishes
-    while (!queue || queue.isExecuting) {
+    while (queue && queue.isExecuting) {
         NSDate *oneSecond = [NSDate dateWithTimeIntervalSinceNow:2.0];
         [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:oneSecond];
     }

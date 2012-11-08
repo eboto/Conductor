@@ -84,6 +84,14 @@
     
     // Add operation to operations dict
     @synchronized (self.operations) {
+        
+        // Check to see if operation already exists
+        if ([self getOperationWithIdentifier:operation.identifier] != nil) {
+            ConductorLogTrace(@"Already has operation with identifier %@", operation.identifier);
+            return;
+        }
+        
+        // Add operation to dict
         [self.operations setObject:operation 
                             forKey:operation.identifier];
         
