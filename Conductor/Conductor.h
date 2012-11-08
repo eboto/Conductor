@@ -28,7 +28,6 @@
 #import "CDOperation.h"
 #import "CDOperationQueue.h"
 #import "CDOperationQueue+Max.h"
-#import "CDOperationQueue+State.h"
 #import "CDOperationQueueProgressObserver.h"
 
 @interface Conductor : NSObject <CDOperationQueueDelegate> {}

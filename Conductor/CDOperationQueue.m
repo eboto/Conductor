@@ -25,7 +25,6 @@
 
 #import "CDOperationQueue.h"
 #import "CDOperationQueue+Max.h"
-#import "CDOperationQueue+State.h"
 
 @interface CDOperationQueue ()
 
@@ -87,8 +86,8 @@
         
         // Check to see if operation already exists
         if ([self getOperationWithIdentifier:operation.identifier] != nil) {
-            ConductorLogTrace(@"Already has operation with identifier %@", operation.identifier);
-            return;
+            ConductorLogTrace(@"Already has operation with identifier %@. Uniquifiying this one.", operation.identifier);
+            operation.identifier = [[NSProcessInfo processInfo] globallyUniqueString];
         }
         
         // Add operation to dict
@@ -164,8 +163,30 @@
     if (self.operationCount == 0) {
         [self queueDidFinish];
     }
-    
 }
+
+#pragma mark - State
+
+- (BOOL)isExecuting
+{
+    return (self.operationCount > 0);
+}
+
+- (BOOL)isFinished
+{
+    return (self.operationCount == 0);
+}
+
+- (BOOL)isSuspended
+{
+    return self.queue ? self.queue.isSuspended : NO;
+}
+
+- (void)setSuspended:(BOOL)suspend
+{
+    [self.queue setSuspended:suspend];
+}
+
 
 #pragma mark - Priority
 
