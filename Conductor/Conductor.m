@@ -32,7 +32,6 @@
     self = [super init];
     if (self) {
         _queues = [[NSMutableDictionary alloc] init];
-        self.removeQueuesWhenEmpty = NO;
     }
     return self;
 }
@@ -42,30 +41,12 @@
     static Conductor *_sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedInstance = [self conductor];
+        _sharedInstance = [self new];
     });
     return _sharedInstance;
 }
 
-+ (Conductor *)conductor
-{
-    return [self new];
-}
-
 #pragma mark - Queues
-
-- (void)removeQueue:(CDOperationQueue *)queue
-{
-    if (!self.removeQueuesWhenEmpty) return;
-    if (!queue || queue.isExecuting) return;
-
-    NSAssert(queue.name, @"Queue should have a name!");
-    
-    @synchronized (self.queues) {
-        ConductorLogTrace(@"Removing queue: %@", queue.name);
-        [self.queues removeObjectForKey:queue.name];
-    }
-}
 
 - (NSArray *)allQueueNames
 {
@@ -79,45 +60,19 @@
 
 #pragma mark - Operations
 
-- (void)addOperation:(CDOperation *)operation
-{
-    [self addOperation:operation atPriority:operation.queuePriority];
-}
-
-- (void)addOperation:(CDOperation *)operation 
-          atPriority:(NSOperationQueuePriority)priority
-{    
-    NSString *queueName = [self queueNameForOperation:operation];
-    
-    [self addOperation:operation
-          toQueueNamed:queueName
-            atPriority:priority];
-}
-
-- (void)addOperation:(CDOperation *)operation 
-        toQueueNamed:(NSString *)queueName
-{        
-    [self addOperation:operation 
-          toQueueNamed:queueName 
-            atPriority:operation.queuePriority];
-}
-
 - (void)addOperation:(CDOperation *)operation 
         toQueueNamed:(NSString *)queueName 
-          atPriority:(NSOperationQueuePriority)priority
 {        
-    CDOperationQueue *queue = nil;
-    
-    if (queueName) {
-        queue = [self queueForQueueName:queueName shouldCreate:YES];
-    } else {
-        queue = [self queueForOperation:operation shouldCreate:YES];
-    }
+    CDOperationQueue *queue = [self getQueueNamed:queueName];
+    if (!queue) {
+        NSAssert(NO, @"Tried to add an operation to a queue that doesnt exist. Create the queue, then add it to Conductor.");
+        return;
+    };
     
     ConductorLogTrace(@"Adding operation to queue: %@", queue.name);
         
     // Add and start operation
-    [queue addOperation:operation atPriority:priority];
+    [queue addOperation:operation];
 }
 
 - (BOOL)updatePriorityOfOperationWithIdentifier:(NSString *)identifier 
@@ -138,12 +93,8 @@
 - (BOOL)hasOperationWithIdentifier:(NSString *)identifier 
                       inQueueNamed:(NSString *)queueName
 {
-    if (!identifier) return NO;
-    
-    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];
-    
+    CDOperationQueue *queue = [self getQueueNamed:queueName];
     if (!queue) return NO;
-    
     return ([queue getOperationWithIdentifier:identifier] != nil);
 }
 
@@ -162,7 +113,6 @@
                 *stop = YES;
             }
         }];
-        
     };
     
     return isExecuting;
@@ -170,14 +120,14 @@
 
 - (BOOL)isQueueExecutingNamed:(NSString *)queueName
 {
-    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];
+    CDOperationQueue *queue = [self getQueueNamed:queueName];
     if (!queue) return NO;
     return queue.isExecuting;
 }
 
 - (NSUInteger)numberOfOperationsInQueueNamed:(NSString *)queueName
 {
-    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];
+    CDOperationQueue *queue = [self getQueueNamed:queueName];
     if (!queue) return 0;
     return [queue operationCount];
 }
@@ -202,7 +152,6 @@
     ConductorLogTrace(@"Cancel all operations in queue: %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];
     [queue cancelAllOperations];
-    [self removeQueue:queue];
 }
 
 #pragma mark - Suspend
@@ -232,13 +181,9 @@
 - (void)resumeAllQueues
 {
     ConductorLogTrace(@"Resume all queues");
-    
-    // Grabbing queue names prevents mutation while enumeration of queues dict
-    NSArray *queuesNamesToResume = [self allQueueNames];
-    
-    for (NSString *queueName in queuesNamesToResume) {
+    for (NSString *queueName in self.queues) {
         [self resumeQueueNamed:queueName];
-    }    
+    }
 }
 
 - (void)resumeQueueNamed:(NSString *)queueName
@@ -258,7 +203,7 @@
      in production.
      */
     
-    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];
+    CDOperationQueue *queue = [self getQueueNamed:queueName];
     
     if (!queue) return;
     if (!queue.isExecuting) return;
@@ -275,7 +220,7 @@
 
 - (void)queueDidFinish:(CDOperationQueue *)queue
 {
-    [self removeQueue:queue];
+    // noop
 }
 
 #pragma mark - Queue Progress
@@ -284,8 +229,8 @@
                      withProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock 
                     andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock
 {        
-    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:YES];
-    
+    CDOperationQueue *queue = [self getQueueNamed:queueName];
+    if (!queue) return;
     [queue addProgressObserverWithProgressBlock:progressBlock 
                             andCompletionBlock:completionBlock];
 }
@@ -293,92 +238,60 @@
 - (void)addQueueOperationObserver:(id)observer
                      toQueueNamed:(NSString *)queueName
 {
-    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:YES];
+    CDOperationQueue *queue = [self getQueueNamed:queueName];
+    if (!queue) return;
     queue.operationsObserver = observer;
 }
 
 - (void)removeQueuedOperationObserver:(id)observer
                        fromQueueNamed:(NSString *)queueName
 {
-    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:NO];
+    CDOperationQueue *queue = [self getQueueNamed:queueName];
+    if (!queue) return;
     queue.operationsObserver = nil;
 }
 
 #pragma mark - Accessors
 
-- (void)setMaxConcurrentOperationCount:(NSInteger)count 
-                         forQueueNamed:(NSString *)queueName
-{
-    if (!queueName) return;
-    ConductorLogTrace(@"Setting max concurency count to %i for queue: %@", count, queueName);
-    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:YES];
-    [queue setMaxConcurrentOperationCount:count];
-}
 
-- (void)setMaxQueuedOperationCount:(NSUInteger)count
-                     forQueueNamed:(NSString *)queueName
-{
-    if (!queueName) return;
-    ConductorLogTrace(@"Setting max queued count to %i for queue: %@", count, queueName);
-    CDOperationQueue *queue = [self queueForQueueName:queueName shouldCreate:YES];
-    [queue setMaxQueuedOperationsCount:count];
-}
-
-#pragma mark - Private
-
-- (NSString *)queueNameForOperation:(NSOperation *)operation
-{
-    if (!operation) return nil;
-    NSString *className = NSStringFromClass([operation class]);
-    return [NSString stringWithFormat:@"%@_operation_queue", className];
-}
-
-- (CDOperationQueue *)queueForOperation:(NSOperation *)operation
-                           shouldCreate:(BOOL)create
-{
-    NSString *queueName = [self queueNameForOperation:operation];
-    return [self queueForQueueName:queueName shouldCreate:create];
-}
-
-- (CDOperationQueue *)getQueueForOperation:(NSOperation *)operation
-{
-    NSString *queueName = [self queueNameForOperation:operation];
-    return [self getQueueNamed:queueName];    
-}
-
-- (CDOperationQueue *)getQueueNamed:(NSString *)queueNamed
-{
-    return [self queueForQueueName:queueNamed shouldCreate:NO];
-}
-
-- (CDOperationQueue *)queueForQueueName:(NSString *)queueName 
-                           shouldCreate:(BOOL)create
+- (CDOperationQueue *)getQueueNamed:(NSString *)queueName
 {
     if (!queueName) return nil;
     
     @synchronized (self.queues) {
         id queue = [self.queues objectForKey:queueName];
-    
-        if (!queue && create) {
-            queue = [self createQueueWithName:queueName];
+        
+        if (!queue) {
+            ConductorLogTrace(@"Conductor as no queue named %@", queueName);
+            return nil;
         }
-    
+        
         return (CDOperationQueue *)queue;
     }
 }
 
-- (CDOperationQueue *)createQueueWithName:(NSString *)queueName
+- (BOOL)addQueue:(CDOperationQueue *)queue
 {
-    if (!queueName) return nil;
+    if (!queue) {
+        NSAssert(NO, @"Cannot add a nil queue to Conductor.");
+        return NO;
+    }
     
-    ConductorLogTrace(@"Creating queue: %@", queueName);
-
-    CDOperationQueue *queue = [CDOperationQueue queueWithName:queueName];
+    if (!queue.name) {
+        NSAssert(NO, @"Cannot add a queue without a name to Conductor.");
+        return NO;
+    }
+    
+    if ([self getQueueNamed:queue.name]) {
+        ConductorLogTrace(@"Conductor already has queue named %@", queue.name);
+        return NO;
+    }
+    
     queue.delegate = self;
-
-    [self.queues setObject:queue forKey:queueName];
+    [self.queues setObject:queue forKey:queue.name];
     
-    return queue;
+    return YES;
 }
+
 
 @end

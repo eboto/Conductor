@@ -10,23 +10,25 @@
 
 @implementation CDTest
 
-- (void)setUp {
+- (void)setUp
+{
     [super setUp];
+   
+    conductor = [Conductor new];
     
-    testOperationQueue = [[CDOperationQueue alloc] init];
-    [testOperationQueue.queue setMaxConcurrentOperationCount:1];
+    testOperationQueue = [CDOperationQueue queueWithName:CONDUCTOR_TEST_QUEUE];
+    [testOperationQueue setMaxConcurrentOperationCount:1];
     
-    conductor = [[Conductor alloc] init];
+    [conductor addQueue:testOperationQueue];
 }
 
-- (void)tearDown {    
+- (void)tearDown
+{
     [super tearDown];
     
     [conductor cancelAllOperations];
     [testOperationQueue cancelAllOperations];
-    
-    [testOperationQueue release], testOperationQueue = nil;
-    [conductor release], conductor = nil;
+
 }
 
 

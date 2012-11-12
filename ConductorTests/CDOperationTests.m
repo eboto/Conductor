@@ -36,7 +36,7 @@
     CDTestOperation *op = [CDTestOperation operation];
     op.completionBlock = completionBlock;
     
-    NSOperationQueue *queue = [[[NSOperationQueue alloc] init] autorelease];
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     [queue addOperation:op];
     
     NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.2];
@@ -53,7 +53,7 @@
     
     CDTestOperation *op = [CDTestOperation operation];
     
-    NSOperationQueue *queue = [[[NSOperationQueue alloc] init] autorelease];
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     [queue addOperation:op];
     [queue cancelAllOperations];
     

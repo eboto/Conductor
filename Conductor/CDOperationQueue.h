@@ -31,6 +31,13 @@
 @protocol CDOperationQueueDelegate;
 @protocol CDOperationQueueOperationsObserver;
 
+typedef enum {
+    CDOperationQueueCountMax    = 0,
+    CDOperationQueueCountLow    = 2,
+    CDOperationQueueCountMedium = 4,
+    CDOperationQueueCountHigh   = 6,
+} CDOperationQueueCount;
+
 @interface CDOperationQueue : NSObject <CDOperationDelegate> {}
 
 @property (nonatomic, weak) id <CDOperationQueueDelegate> delegate;
@@ -69,6 +76,9 @@
  */
 @property (nonatomic, assign) NSUInteger maxQueuedOperationsCount;
 
+@property (nonatomic, readonly) BOOL maxQueueOperationCountReached;
+
+
 + (id)queueWithName:(NSString *)queueName;
 
 /**
@@ -102,6 +112,12 @@
 - (BOOL)isExecuting;
 - (BOOL)isFinished;
 - (BOOL)isSuspended;
+
+/**
+ Updated the queues max concurency count.  Set it to 1 for serial execution of
+ operations.
+ */
+- (void)setMaxConcurrentOperationCount:(NSUInteger)count;
 
 /**
  * Retrieve an operation with a given identifier.  Returns nil if operation has

@@ -14,7 +14,6 @@
     @autoreleasepool {
         [super start];
         
-        
         NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Employee" 
                                                                 inManagedObjectContext:self.backgroundContext];
         

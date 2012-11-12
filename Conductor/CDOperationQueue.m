@@ -24,7 +24,6 @@
 //
 
 #import "CDOperationQueue.h"
-#import "CDOperationQueue+Max.h"
 
 @interface CDOperationQueue ()
 
@@ -187,6 +186,20 @@
     [self.queue setSuspended:suspend];
 }
 
+#pragma mark - Max
+
+- (BOOL)maxQueueOperationCountReached
+{
+    if (self.maxQueuedOperationsCount == CDOperationQueueCountMax) {
+        return NO;
+    }
+    return (self.operationCount >= self.maxQueuedOperationsCount);
+}
+
+- (void)setMaxConcurrentOperationCount:(NSUInteger)count
+{
+    [self.queue setMaxConcurrentOperationCount:count];
+}
 
 #pragma mark - Priority
 
@@ -231,6 +244,7 @@
 
 - (CDOperation *)getOperationWithIdentifier:(id)identifier
 {
+    if (!identifier) return nil;
     CDOperation *op = [self.operations objectForKey:identifier];
     return op;
 }

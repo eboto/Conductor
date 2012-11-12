@@ -38,15 +38,15 @@
 }
 
 - (void)tearDown {
-    [context release], context = nil;
+    context = nil;
     
     NSError *error = nil;
     STAssertTrue([coord removePersistentStore:store error:&error], 
                  @"couldn't remove persistent store: %@", error);
     
     store = nil;
-    [coord release], coord = nil;
-    [model release], model = nil;  
+    coord = nil;
+    model = nil;  
         
     DeleteDataStore();
 
@@ -74,7 +74,7 @@
     CDTestCoreDataOperation *operation = (CDTestCoreDataOperation *)[CDTestCoreDataOperation operationWithMainContext:context];
     operation.completionBlock = completionBlock;
     
-    [conductor addOperation:operation]; 
+    [conductor addOperation:operation toQueueNamed:CONDUCTOR_TEST_QUEUE]; 
     
     NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.2];
     while (hasFinished == NO) {

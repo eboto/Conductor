@@ -9,7 +9,6 @@
 #import "CDOperationQueueMaxTests.h"
 
 #import "CDOperationQueue.h"
-#import "CDOperationQueue+Max.h"
 #import "CDTestOperation.h"
 #import "CDLongRunningTestOperation.h"
 

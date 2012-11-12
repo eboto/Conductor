@@ -104,13 +104,13 @@
     void (^finishLastBlock)(void) = ^(void) {
         dispatch_async(dispatch_get_main_queue(), ^(void) {
             hasFinished = YES;
-            last = [[NSDate date] retain];
+            last = [NSDate date];
         });
     };    
     
     void (^finishFirstBlock)(void) = ^(void) {
         dispatch_async(dispatch_get_main_queue(), ^(void) {
-            first = [[NSDate date] retain];
+            first = [NSDate date];
         });
     };    
     

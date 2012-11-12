@@ -16,8 +16,6 @@
 		DB4F2DA01553329900216AB9 /* CDTest.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D9F1553329900216AB9 /* CDTest.m */; };
 		DB6BABC6154F69FC004842D2 /* CDOperationQueueProgressObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB6BABC7154F69FC004842D2 /* CDOperationQueueProgressObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressObserver.m */; };
-		DB776C38160E5C6A00217625 /* CDOperationQueue+Max.h in Headers */ = {isa = PBXBuildFile; fileRef = DB776C36160E5C6A00217625 /* CDOperationQueue+Max.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DB776C39160E5C6A00217625 /* CDOperationQueue+Max.m in Sources */ = {isa = PBXBuildFile; fileRef = DB776C37160E5C6A00217625 /* CDOperationQueue+Max.m */; };
 		DB776C42160E63D900217625 /* CDOperationQueueMaxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB776C41160E63D900217625 /* CDOperationQueueMaxTests.m */; };
 		DB83D19E1451F1B200D94890 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
 		DB83D1A41451F1B200D94890 /* Conductor.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1A31451F1B200D94890 /* Conductor.m */; };
@@ -67,8 +65,6 @@
 		DB4F2D9F1553329900216AB9 /* CDTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDTest.m; sourceTree = "<group>"; };
 		DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperationQueueProgressObserver.h; sourceTree = "<group>"; };
 		DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationQueueProgressObserver.m; sourceTree = "<group>"; };
-		DB776C36160E5C6A00217625 /* CDOperationQueue+Max.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CDOperationQueue+Max.h"; sourceTree = "<group>"; };
-		DB776C37160E5C6A00217625 /* CDOperationQueue+Max.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CDOperationQueue+Max.m"; sourceTree = "<group>"; };
 		DB776C40160E63D900217625 /* CDOperationQueueMaxTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperationQueueMaxTests.h; sourceTree = "<group>"; };
 		DB776C41160E63D900217625 /* CDOperationQueueMaxTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationQueueMaxTests.m; sourceTree = "<group>"; };
 		DB83D19A1451F1B200D94890 /* libConductor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libConductor.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,17 +134,6 @@
 			name = "Test Classes";
 			sourceTree = "<group>";
 		};
-		DB776C3F160E5CC900217625 /* CDOperationQueue */ = {
-			isa = PBXGroup;
-			children = (
-				DB83D1D81451F89E00D94890 /* CDOperationQueue.h */,
-				DB83D1D91451F89E00D94890 /* CDOperationQueue.m */,
-				DB776C36160E5C6A00217625 /* CDOperationQueue+Max.h */,
-				DB776C37160E5C6A00217625 /* CDOperationQueue+Max.m */,
-			);
-			name = CDOperationQueue;
-			sourceTree = "<group>";
-		};
 		DB83D18D1451F19E00D94890 = {
 			isa = PBXGroup;
 			children = (
@@ -184,7 +169,8 @@
 			children = (
 				DB83D1A21451F1B200D94890 /* Conductor.h */,
 				DB83D1A31451F1B200D94890 /* Conductor.m */,
-				DB776C3F160E5CC900217625 /* CDOperationQueue */,
+				DB83D1D81451F89E00D94890 /* CDOperationQueue.h */,
+				DB83D1D91451F89E00D94890 /* CDOperationQueue.m */,
 				DB83D1DC1451FB1900D94890 /* CDOperation.h */,
 				DB83D1DD1451FB1900D94890 /* CDOperation.m */,
 				DBB8D6CF15B4EBE9007417CA /* CDBackgroundTaskOperation.h */,
@@ -255,7 +241,6 @@
 				DB4F2D9D155320EF00216AB9 /* ConductorLogging.h in Headers */,
 				DBDB9729158EF35C004BB06F /* CDCoreDataOperation.h in Headers */,
 				DBB8D6D115B4EBE9007417CA /* CDBackgroundTaskOperation.h in Headers */,
-				DB776C38160E5C6A00217625 /* CDOperationQueue+Max.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,7 +348,6 @@
 				DB6BABC7154F69FC004842D2 /* CDOperationQueueProgressObserver.m in Sources */,
 				DBDB972A158EF35C004BB06F /* CDCoreDataOperation.m in Sources */,
 				DBB8D6D215B4EBE9007417CA /* CDBackgroundTaskOperation.m in Sources */,
-				DB776C39160E5C6A00217625 /* CDOperationQueue+Max.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -488,6 +472,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -521,6 +506,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
