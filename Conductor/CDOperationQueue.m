@@ -46,7 +46,7 @@
     if (self) {
         _queue                    = [[NSOperationQueue alloc] init];
         _operations               = [[NSMutableDictionary alloc] init];
-        _progressWatchers         = [[NSMutableSet alloc] init];
+        _progressObservers        = [[NSMutableSet alloc] init];
         self.maxQueuedOperationsCount = CDOperationQueueCountMax;
     }
     return self;
@@ -61,19 +61,14 @@
 
 - (void)queueDidFinish
 {
-    [self.progressWatchers makeObjectsPerformSelector:@selector(runCompletionBlock)];
+    [self.progressObservers makeObjectsPerformSelector:@selector(runCompletionBlock)];
+    [self removeAllProgressObservers];
     [self.delegate queueDidFinish:self];
 }
 
 #pragma mark - Operations API
 
-- (void)addOperation:(CDOperation *)operation
-{
-    [self addOperation:operation atPriority:operation.queuePriority];
-}
-
 - (void)addOperation:(CDOperation *)operation 
-          atPriority:(NSOperationQueuePriority)priority
 {    
     if (![operation isKindOfClass:[CDOperation class]]) {
         NSAssert(nil, @"You must use a CDOperation sublcass with Conductor!");
@@ -93,12 +88,9 @@
         [self.operations setObject:operation 
                             forKey:operation.identifier];
         
-        // set priority
-        [operation setQueuePriority:priority];
-        
         // Update progress watcher count
-        [self.progressWatchers makeObjectsPerformSelector:@selector(addToStartingOperationCount:)
-                                               withObject:@1];
+        [self.progressObservers makeObjectsPerformSelector:@selector(addToStartingOperationCount:)
+                                                withObject:@(1)];
         
         operation.delegate = self;
         
@@ -124,8 +116,8 @@
         
         [self.operations removeObjectForKey:operation.identifier];
                 
-        [self.progressWatchers makeObjectsPerformSelector:@selector(runProgressBlockWithCurrentOperationCount:)
-                                               withObject:@(self.operationCount)];
+        [self.progressObservers makeObjectsPerformSelector:@selector(runProgressBlockWithCurrentOperationCount:)
+                                                withObject:@(self.operationCount)];
     }
 }
 
@@ -178,7 +170,7 @@
 
 - (BOOL)isSuspended
 {
-    return self.queue ? self.queue.isSuspended : NO;
+    return self.queue.isSuspended;
 }
 
 - (void)setSuspended:(BOOL)suspend
@@ -227,7 +219,28 @@
     CDOperationQueueProgressObserver *watcher = [CDOperationQueueProgressObserver progressObserverWithStartingOperationCount:self.operationCount
                                                                                                             progressBlock:progressBlock
                                                                                                        andCompletionBlock:completionBlock];
-    [self.progressWatchers addObject:watcher];
+    [self.progressObservers addObject:watcher];
+}
+
+- (void)addProgressObserver:(CDOperationQueueProgressObserver *)observer
+{
+    @synchronized (self.progressObservers) {
+        [self.progressObservers addObject:observer];
+    }
+}
+
+- (void)removeProgressObserver:(CDOperationQueueProgressObserver *)observer
+{
+    @synchronized (self.progressObservers) {
+        [self.progressObservers removeObject:observer];
+    }
+}
+
+- (void)removeAllProgressObservers
+{
+    @synchronized (self.progressObservers) {
+        [self.progressObservers removeAllObjects];
+    }
 }
 
 #pragma mark - Accessors

@@ -67,9 +67,9 @@ typedef enum {
 @property (nonatomic, readonly) NSUInteger operationCount;
 
 /**
- Set of all progress whatchers for the queue
+ Set of all progress observers for the queue
  */
-@property (nonatomic, readonly) NSMutableSet *progressWatchers;
+@property (nonatomic, readonly) NSMutableSet *progressObservers;
 
 /**
  The max number of operations the queue can handle
@@ -85,12 +85,6 @@ typedef enum {
  * Add an operation to the queue.
  */
 - (void)addOperation:(CDOperation *)operation;
-
-/**
- * Add an operation and specify the priority
- */
-- (void)addOperation:(CDOperation *)operation 
-          atPriority:(NSOperationQueuePriority)priority;
 
 /**
  * Update the priority of a given operation, as long as it currently running or
@@ -129,7 +123,11 @@ typedef enum {
  
  */
 - (void)addProgressObserverWithProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock
-                          andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock;
+andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock DEPRECATED_ATTRIBUTE;
+
+- (void)addProgressObserver:(CDOperationQueueProgressObserver *)observer;
+- (void)removeProgressObserver:(CDOperationQueueProgressObserver *)observer;
+- (void)removeAllProgressObservers;
 
 @end
 

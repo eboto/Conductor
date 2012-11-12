@@ -55,8 +55,9 @@
     
     CDTestOperation *op = [CDTestOperation operation];
     op.completionBlock = completionBlock;
+    op.queuePriority = NSOperationQueuePriorityVeryLow;
     
-    [testOperationQueue addOperation:op atPriority:NSOperationQueuePriorityVeryLow];
+    [testOperationQueue addOperation:op];
     
     NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.2];
     while (hasFinished == NO) {
@@ -156,10 +157,12 @@
     
     CDTestOperation *op = [CDTestOperation operation];
     
-    [testOperationQueue addProgressObserverWithProgressBlock:nil 
-                                          andCompletionBlock:^ {
-                                              hasFinished = YES;
-                                          }];
+    CDOperationQueueProgressObserver *observer = [CDOperationQueueProgressObserver progressObserverWithStartingOperationCount:0
+                                                                                                                progressBlock:nil
+                                                                                                           andCompletionBlock:^ {
+                                                                                                               hasFinished = YES;
+                                                                                                           }];
+    [testOperationQueue addProgressObserver:observer];
     
     [testOperationQueue addOperation:op];
     

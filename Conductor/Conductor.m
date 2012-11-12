@@ -235,6 +235,22 @@
                             andCompletionBlock:completionBlock];
 }
 
+- (void)addProgressObserver:(CDOperationQueueProgressObserver *)observer
+               toQueueNamed:(NSString *)queueName
+{
+    CDOperationQueue *queue = [self getQueueNamed:queueName];
+    if (!queue) return;
+    [queue addProgressObserver:observer];
+}
+
+- (void)removeProgresObserver:(CDOperationQueueProgressObserver *)observer
+               fromQueueNamed:(NSString *)queueName
+{
+    CDOperationQueue *queue = [self getQueueNamed:queueName];
+    if (!queue) return;
+    [queue removeProgressObserver:observer];
+}
+
 - (void)addQueueOperationObserver:(id)observer
                      toQueueNamed:(NSString *)queueName
 {

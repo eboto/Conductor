@@ -64,7 +64,10 @@
  */
 - (void)addProgressObserverToQueueNamed:(NSString *)queueName
                       withProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock
-                     andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock;
+                     andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock DEPRECATED_ATTRIBUTE;
+
+- (void)addProgressObserver:(CDOperationQueueProgressObserver *)observer toQueueNamed:(NSString *)queueName;
+- (void)removeProgresObserver:(CDOperationQueueProgressObserver *)observer fromQueueNamed:(NSString *)queueName;
 
 /**
  Gets messages when the max number of queued operations is reached, and when
