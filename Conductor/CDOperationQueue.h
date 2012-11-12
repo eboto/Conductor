@@ -33,41 +33,41 @@
 
 @interface CDOperationQueue : NSObject <CDOperationDelegate> {}
 
-@property (weak) id <CDOperationQueueDelegate> delegate;
+@property (nonatomic, weak) id <CDOperationQueueDelegate> delegate;
 
-@property (weak) id <CDOperationQueueOperationsObserver> operationsObserver;
+@property (nonatomic, weak) id <CDOperationQueueOperationsObserver> operationsObserver;
 
 /**
  * Holds the operation queue
  */
-@property (readonly) NSOperationQueue *queue;
+@property (nonatomic, readonly) NSOperationQueue *queue;
 
 /**
  * Dictionary of all CDOperations in the queue, where the key is the operations 
  * identifier and the object is the operation
  */
-@property (readonly) NSMutableDictionary *operations;
+@property (nonatomic, readonly) NSMutableDictionary *operations;
 
 /**
  The name of the internal NSOperationQueue
  */
-@property (readonly) NSString *name;
+@property (nonatomic, readonly) NSString *name;
 
 /**
  The number of operations in the queue.  Wrapper around the operationsCount
  of the internal NSOperationQueue
  */
-@property (readonly) NSUInteger operationCount;
+@property (nonatomic, readonly) NSUInteger operationCount;
 
 /**
  Set of all progress whatchers for the queue
  */
-@property (readonly) NSMutableSet *progressWatchers;
+@property (nonatomic, readonly) NSMutableSet *progressWatchers;
 
 /**
  The max number of operations the queue can handle
  */
-@property (assign) NSUInteger maxQueuedOperationsCount;
+@property (nonatomic, assign) NSUInteger maxQueuedOperationsCount;
 
 + (id)queueWithName:(NSString *)queueName;
 

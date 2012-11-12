@@ -124,7 +124,7 @@
         ConductorLogTrace(@"Removing operation %@ from queue %@", operation.identifier, self.name);
         
         [self.operations removeObjectForKey:operation.identifier];
-
+                
         [self.progressWatchers makeObjectsPerformSelector:@selector(runProgressBlockWithCurrentOperationCount:)
                                                withObject:@(self.operationCount)];
     }

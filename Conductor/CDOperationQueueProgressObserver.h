@@ -13,11 +13,11 @@ typedef void (^CDOperationQueueProgressObserverCompletionBlock)(void);
 
 @interface CDOperationQueueProgressObserver : NSObject
 
-@property (assign) NSInteger startingOperationCount;
+@property (nonatomic, assign) NSInteger startingOperationCount;
 
-@property (copy) CDOperationQueueProgressObserverProgressBlock progressBlock;
+@property (nonatomic, copy) CDOperationQueueProgressObserverProgressBlock progressBlock;
 
-@property (copy) CDOperationQueueProgressObserverCompletionBlock completionBlock;
+@property (nonatomic, copy) CDOperationQueueProgressObserverCompletionBlock completionBlock;
 
 + (CDOperationQueueProgressObserver *)progressObserverWithStartingOperationCount:(NSInteger)operationCount
                                                                    progressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock 

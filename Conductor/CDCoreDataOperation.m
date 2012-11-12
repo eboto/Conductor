@@ -37,9 +37,9 @@
                 ConductorLogError(@"Save failed: %@", error);
             };
             
-            if (![self.backgroundContext.parentContext save:&error]) {
-                ConductorLogError(@"Save failed: %@", error);
-            };
+//            if (![self.backgroundContext.parentContext save:&error]) {
+//                ConductorLogError(@"Save failed: %@", error);
+//            };
             
         }];
     }
