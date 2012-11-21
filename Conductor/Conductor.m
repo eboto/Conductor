@@ -278,7 +278,6 @@
         id queue = [self.queues objectForKey:queueName];
         
         if (!queue) {
-            ConductorLogTrace(@"Conductor as no queue named %@", queueName);
             return nil;
         }
         

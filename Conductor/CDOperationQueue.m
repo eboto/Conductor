@@ -225,6 +225,7 @@
 - (void)addProgressObserver:(CDOperationQueueProgressObserver *)observer
 {
     @synchronized (self.progressObservers) {
+        observer.startingOperationCount = self.operationCount;
         [self.progressObservers addObject:observer];
     }
 }
