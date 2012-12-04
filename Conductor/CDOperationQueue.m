@@ -74,35 +74,31 @@
         NSAssert(nil, @"You must use a CDOperation sublcass with Conductor!");
         return;
     }
+        
+    // Check to see if operation already exists
+    if ([self getOperationWithIdentifier:operation.identifier] != nil) {
+        ConductorLogTrace(@"Already has operation with identifier %@. Uniquifiying this one.", operation.identifier);
+        operation.identifier = [[NSProcessInfo processInfo] globallyUniqueString];
+    }
     
-    // Add operation to operations dict
-    @synchronized (self.operations) {
-        
-        // Check to see if operation already exists
-        if ([self getOperationWithIdentifier:operation.identifier] != nil) {
-            ConductorLogTrace(@"Already has operation with identifier %@. Uniquifiying this one.", operation.identifier);
-            operation.identifier = [[NSProcessInfo processInfo] globallyUniqueString];
+    // Add operation to dict
+    [self.operations setObject:operation 
+                        forKey:operation.identifier];
+    
+    // Update progress watcher count
+    [self.progressObservers makeObjectsPerformSelector:@selector(addToStartingOperationCount:)
+                                            withObject:@(1)];
+    
+    operation.delegate = self;
+    
+    // Add operation to queue and start
+    [self.queue addOperation:operation];
+    
+    if (self.maxQueueOperationCountReached) {
+        if ([self.operationsObserver respondsToSelector:@selector(maxQueuedOperationsReachedForQueue:)]) {
+            [self.operationsObserver maxQueuedOperationsReachedForQueue:self];
         }
-        
-        // Add operation to dict
-        [self.operations setObject:operation 
-                            forKey:operation.identifier];
-        
-        // Update progress watcher count
-        [self.progressObservers makeObjectsPerformSelector:@selector(addToStartingOperationCount:)
-                                                withObject:@(1)];
-        
-        operation.delegate = self;
-        
-        // Add operation to queue and start
-        [self.queue addOperation:operation];
-        
-        if (self.maxQueueOperationCountReached) {
-            if ([self.operationsObserver respondsToSelector:@selector(maxQueuedOperationsReachedForQueue:)]) {
-                [self.operationsObserver maxQueuedOperationsReachedForQueue:self];
-            }
-            return;
-        }
+        return;
     }
 }
 
@@ -110,15 +106,12 @@
 {
     if (![self.operations objectForKey:operation.identifier]) return;
     
-    @synchronized (self.operations) {
-
         ConductorLogTrace(@"Removing operation %@ from queue %@", operation.identifier, self.name);
         
         [self.operations removeObjectForKey:operation.identifier];
                 
         [self.progressObservers makeObjectsPerformSelector:@selector(runProgressBlockWithCurrentOperationCount:)
                                                 withObject:@(self.operationCount)];
-    }
 }
 
 - (void)cancelAllOperations
@@ -139,6 +132,13 @@
      */
     [self setSuspended:NO];
 
+}
+
+- (void)cancelOperationWithIdentifier:(id)identifier
+{
+    CDOperation *op = [self getOperationWithIdentifier:identifier];
+    if (!op) return;
+    [op cancel];
 }
 
 - (void)operationDidFinish:(CDOperation *)operation

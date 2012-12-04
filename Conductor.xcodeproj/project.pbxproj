@@ -12,7 +12,7 @@
 		DB4F2D941551E54400216AB9 /* CDOperationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D931551E54400216AB9 /* CDOperationTests.m */; };
 		DB4F2D971551E57700216AB9 /* CDOperationQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D961551E57700216AB9 /* CDOperationQueueTests.m */; };
 		DB4F2D9B1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D9A1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m */; };
-		DB4F2D9D155320EF00216AB9 /* ConductorLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4F2D9C155320EF00216AB9 /* ConductorLogging.h */; };
+		DB4F2D9D155320EF00216AB9 /* ConductorLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4F2D9C155320EF00216AB9 /* ConductorLogging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB4F2DA01553329900216AB9 /* CDTest.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D9F1553329900216AB9 /* CDTest.m */; };
 		DB6BABC6154F69FC004842D2 /* CDOperationQueueProgressObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB6BABC7154F69FC004842D2 /* CDOperationQueueProgressObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressObserver.m */; };

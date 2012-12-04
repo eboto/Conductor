@@ -99,6 +99,11 @@ typedef enum {
 - (void)cancelAllOperations;
 
 /**
+ Cancel operation with identifier
+ */
+- (void)cancelOperationWithIdentifier:(id)identifier;
+
+/**
  Pauses internal NSOperationQueue
  */
 - (void)setSuspended:(BOOL)suspend;
