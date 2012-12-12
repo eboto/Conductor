@@ -10,6 +10,14 @@
 
 @implementation CDBackgroundTaskOperation
 
+- (void)dealloc
+{
+    if (backgroundTaskID) {
+        [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
+        backgroundTaskID = UIBackgroundTaskInvalid;
+    }
+}
+
 - (void)start
 {    
     UIApplication *application = [UIApplication sharedApplication];
@@ -23,6 +31,8 @@
         
         [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
         backgroundTaskID = UIBackgroundTaskInvalid;
+        
+        [self cancel];
     }];
     
     [super start];

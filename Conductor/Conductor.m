@@ -274,39 +274,40 @@
 {
     if (!queueName) return nil;
     
-    @synchronized (self.queues) {
-        id queue = [self.queues objectForKey:queueName];
-        
-        if (!queue) {
-            return nil;
-        }
-        
-        return (CDOperationQueue *)queue;
+    id queue = [self.queues objectForKey:queueName];
+    
+    if (!queue) {
+        return nil;
     }
+    
+    return (CDOperationQueue *)queue;
 }
 
 - (BOOL)addQueue:(CDOperationQueue *)queue
 {
-    if (!queue) {
-        NSAssert(NO, @"Cannot add a nil queue to Conductor.");
-        return NO;
+    @synchronized (self.queues) {
+        if (!queue) {
+            NSAssert(NO, @"Cannot add a nil queue to Conductor.");
+            return NO;
+        }
+        
+        if (!queue.name) {
+            NSAssert(NO, @"Cannot add a queue without a name to Conductor.");
+            return NO;
+        }
+        
+        if ([self getQueueNamed:queue.name]) {
+            ConductorLogTrace(@"Conductor already has queue named %@", queue.name);
+            return NO;
+        }
+        
+        NSLog(@"Adding queue named: %@", queue.name);
+        
+        queue.delegate = self;
+        [self.queues setObject:queue forKey:queue.name];
+        
+        return YES;
     }
-    
-    if (!queue.name) {
-        NSAssert(NO, @"Cannot add a queue without a name to Conductor.");
-        return NO;
-    }
-    
-    if ([self getQueueNamed:queue.name]) {
-        ConductorLogTrace(@"Conductor already has queue named %@", queue.name);
-        return NO;
-    }
-    
-    queue.delegate = self;
-    [self.queues setObject:queue forKey:queue.name];
-    
-    return YES;
 }
-
 
 @end
