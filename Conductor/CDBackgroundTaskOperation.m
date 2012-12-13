@@ -29,10 +29,10 @@
     backgroundTaskID = [application beginBackgroundTaskWithExpirationHandler:^{
         [self backgroundTaskExpirationCleanup];
         
+        [self cancel];
+        
         [[UIApplication sharedApplication] endBackgroundTask:backgroundTaskID];
         backgroundTaskID = UIBackgroundTaskInvalid;
-        
-        [self cancel];
     }];
     
     [super start];
