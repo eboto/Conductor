@@ -93,9 +93,15 @@
 - (BOOL)hasOperationWithIdentifier:(NSString *)identifier 
                       inQueueNamed:(NSString *)queueName
 {
+    return ([self operationWithIdentifier:identifier inQueueNamed:queueName] != nil);
+}
+
+- (CDOperation *)operationWithIdentifier:(NSString *)identifier
+                            inQueueNamed:(NSString *)queueName
+{
     CDOperationQueue *queue = [self getQueueNamed:queueName];
-    if (!queue) return NO;
-    return ([queue getOperationWithIdentifier:identifier] != nil);
+    if (!queue) return nil;
+    return [queue getOperationWithIdentifier:identifier];
 }
 
 #pragma mark - Executing

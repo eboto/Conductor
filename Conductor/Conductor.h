@@ -60,6 +60,12 @@
                       inQueueNamed:(NSString *)queueName;
 
 /**
+ * Returns the operation in the given queue
+ */
+- (CDOperation *)operationWithIdentifier:(NSString *)identifier
+                            inQueueNamed:(NSString *)queueName;
+
+/**
  Adds progress watcher to queue
  */
 - (void)addProgressObserverToQueueNamed:(NSString *)queueName
