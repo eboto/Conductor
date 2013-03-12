@@ -8,6 +8,9 @@
 
 #import "CDMainViewController.h"
 #import "CDSuperLongTaskOperation.h"
+#import "CDIsExecutingQueryOperation.h"
+
+#import "AppDelegate.h"
 
 @implementation CDMainViewController
 
@@ -17,10 +20,19 @@
     CDSuperLongTaskOperation *operation2 = [CDSuperLongTaskOperation new];
 
     [[Conductor sharedInstance] addOperation:operation1
-                                toQueueNamed:@"com.conductorapp.queue"];
+                                toQueueNamed:CONDUCTOR_APP_QUEUE];
     
     [[Conductor sharedInstance] addOperation:operation2
-                                toQueueNamed:@"com.conductorapp.queue"];
+                                toQueueNamed:CONDUCTOR_APP_QUEUE];
+}
+
+- (IBAction)runIsExecutingTasks:(id)sender
+{
+    for (int i = 0; i < 100; i++) {
+        CDIsExecutingQueryOperation *op = [CDIsExecutingQueryOperation operationWithRandomNumCycles];
+        [[Conductor sharedInstance] addOperation:op
+                                    toQueueNamed:CONDUCTOR_NONCON_APP_QUEUE];
+    }
 }
 
 @end

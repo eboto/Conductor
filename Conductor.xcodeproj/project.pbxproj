@@ -51,6 +51,7 @@
 		DBD172B916794B3A0019FF3D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB9F94D81598DE8300A97A05 /* CoreData.framework */; };
 		DBDB9729158EF35C004BB06F /* CDCoreDataOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBDB972A158EF35C004BB06F /* CDCoreDataOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */; };
+		DBE4976816EBD80E00C4EF18 /* CDIsExecutingQueryOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE4976716EBD80E00C4EF18 /* CDIsExecutingQueryOperation.m */; };
 		DBFADED214524E6E00FD43FF /* CDTestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBFADED114524E6E00FD43FF /* CDTestOperation.m */; };
 /* End PBXBuildFile section */
 
@@ -130,6 +131,8 @@
 		DBD172B416794A650019FF3D /* CDSuperLongTaskOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSuperLongTaskOperation.m; sourceTree = "<group>"; };
 		DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCoreDataOperation.h; sourceTree = "<group>"; };
 		DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCoreDataOperation.m; sourceTree = "<group>"; };
+		DBE4976616EBD80E00C4EF18 /* CDIsExecutingQueryOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDIsExecutingQueryOperation.h; sourceTree = "<group>"; };
+		DBE4976716EBD80E00C4EF18 /* CDIsExecutingQueryOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDIsExecutingQueryOperation.m; sourceTree = "<group>"; };
 		DBFADED014524E6E00FD43FF /* CDTestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDTestOperation.h; sourceTree = "<group>"; };
 		DBFADED114524E6E00FD43FF /* CDTestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDTestOperation.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -284,11 +287,13 @@
 			children = (
 				DBD1729F167948B80019FF3D /* AppDelegate.h */,
 				DBD172A0167948B80019FF3D /* AppDelegate.m */,
-				DBD172A8167948B80019FF3D /* MainStoryboard.storyboard */,
+				DBE4976616EBD80E00C4EF18 /* CDIsExecutingQueryOperation.h */,
+				DBE4976716EBD80E00C4EF18 /* CDIsExecutingQueryOperation.m */,
 				DBD172AB167948B80019FF3D /* CDMainViewController.h */,
 				DBD172AC167948B80019FF3D /* CDMainViewController.m */,
 				DBD172B316794A650019FF3D /* CDSuperLongTaskOperation.h */,
 				DBD172B416794A650019FF3D /* CDSuperLongTaskOperation.m */,
+				DBD172A8167948B80019FF3D /* MainStoryboard.storyboard */,
 				DBD17297167948B80019FF3D /* Supporting Files */,
 			);
 			path = ConductorApp;
@@ -489,6 +494,7 @@
 				DBD172A1167948B80019FF3D /* AppDelegate.m in Sources */,
 				DBD172AD167948B80019FF3D /* CDMainViewController.m in Sources */,
 				DBD172B516794A650019FF3D /* CDSuperLongTaskOperation.m in Sources */,
+				DBE4976816EBD80E00C4EF18 /* CDIsExecutingQueryOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -772,6 +778,7 @@
 				DBD172AF167948B80019FF3D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

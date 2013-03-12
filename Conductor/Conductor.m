@@ -109,8 +109,6 @@
 - (BOOL)isExecuting
 {
     __block BOOL isExecuting = NO;
-    
-    // Make sure queues don't change while determining execution status
     @synchronized (self.queues)
     {
         [self.queues enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
@@ -120,7 +118,6 @@
             }
         }];
     };
-    
     return isExecuting;
 }
 
@@ -307,7 +304,7 @@
             return NO;
         }
         
-        NSLog(@"Adding queue named: %@", queue.name);
+        ConductorLogTrace(@"Adding queue named: %@", queue.name);
         
         queue.delegate = self;
         [self.queues setObject:queue forKey:queue.name];

@@ -11,5 +11,6 @@
 @interface CDMainViewController : UITableViewController
 
 - (IBAction)runLongTask:(id)sender;
+- (IBAction)runIsExecutingTasks:(id)sender;
 
 @end

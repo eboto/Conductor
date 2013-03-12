@@ -14,9 +14,12 @@
 {
     // Override point for customization after application launch.
     
-    CDOperationQueue *queue = [CDOperationQueue queueWithName:@"com.conductorapp.queue"];
-    [queue setMaxConcurrentOperationCount:1];
-    [[Conductor sharedInstance] addQueue:queue];
+    CDOperationQueue *conQueue = [CDOperationQueue queueWithName:CONDUCTOR_APP_QUEUE];
+    [conQueue setMaxConcurrentOperationCount:1];
+    [[Conductor sharedInstance] addQueue:conQueue];
+    
+    CDOperationQueue *nonConQueue = [CDOperationQueue queueWithName:CONDUCTOR_NONCON_APP_QUEUE];
+    [[Conductor sharedInstance] addQueue:nonConQueue];
     
     return YES;
 }

@@ -69,7 +69,7 @@
 #pragma mark - Operations API
 
 - (void)addOperation:(CDOperation *)operation 
-{    
+{
     if (![operation isKindOfClass:[CDOperation class]]) {
         NSAssert(nil, @"You must use a CDOperation sublcass with Conductor!");
         return;
@@ -81,15 +81,18 @@
         operation.identifier = [[NSProcessInfo processInfo] globallyUniqueString];
     }
     
-    // Add operation to dict
-    [self.operations setObject:operation 
-                        forKey:operation.identifier];
-    
-    // Update progress watcher count
-    [self.progressObservers makeObjectsPerformSelector:@selector(addToStartingOperationCount:)
-                                            withObject:@(1)];
-    
-    operation.delegate = self;
+    @synchronized(self.operations)
+    {
+        // Add operation to dict
+        [self.operations setObject:operation 
+                            forKey:operation.identifier];
+        
+        // Update progress watcher count
+        [self.progressObservers makeObjectsPerformSelector:@selector(addToStartingOperationCount:)
+                                                withObject:@(1)];
+        
+        operation.delegate = self;
+    }
     
     // Add operation to queue and start
     [self.queue addOperation:operation];
@@ -106,12 +109,14 @@
 {
     if (![self.operations objectForKey:operation.identifier]) return;
     
+    @synchronized(self.operations ) {
         ConductorLogTrace(@"Removing operation %@ from queue %@", operation.identifier, self.name);
         
         [self.operations removeObjectForKey:operation.identifier];
                 
         [self.progressObservers makeObjectsPerformSelector:@selector(runProgressBlockWithCurrentOperationCount:)
                                                 withObject:@(self.operationCount)];
+    }
 }
 
 - (void)cancelAllOperations
@@ -219,12 +224,13 @@
     CDOperationQueueProgressObserver *watcher = [CDOperationQueueProgressObserver progressObserverWithStartingOperationCount:self.operationCount
                                                                                                             progressBlock:progressBlock
                                                                                                        andCompletionBlock:completionBlock];
-    [self.progressObservers addObject:watcher];
+    [self addProgressObserver:watcher];
 }
 
 - (void)addProgressObserver:(CDOperationQueueProgressObserver *)observer
 {
-    @synchronized (self.progressObservers) {
+    @synchronized (self.progressObservers)
+    {
         observer.startingOperationCount = self.operationCount;
         [self.progressObservers addObject:observer];
     }
@@ -232,14 +238,16 @@
 
 - (void)removeProgressObserver:(CDOperationQueueProgressObserver *)observer
 {
-    @synchronized (self.progressObservers) {
+    @synchronized (self.progressObservers)
+    {
         [self.progressObservers removeObject:observer];
     }
 }
 
 - (void)removeAllProgressObservers
 {
-    @synchronized (self.progressObservers) {
+    @synchronized (self.progressObservers)
+    {
         [self.progressObservers removeAllObjects];
     }
 }
