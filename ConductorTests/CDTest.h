@@ -8,7 +8,7 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-#import "Conductor.h"
+#import "CDQueueController.h"
 #import "CDOperationQueue.h"
 #import "CDOperationQueueProgressObserver.h"
 
@@ -16,7 +16,7 @@
 
 @interface CDTest : SenTestCase {
     CDOperationQueue *testOperationQueue;
-    Conductor *conductor;
+    CDQueueController *conductor;
 }
 
 @end

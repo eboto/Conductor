@@ -16,10 +16,10 @@
     
     CDOperationQueue *conQueue = [CDOperationQueue queueWithName:CONDUCTOR_APP_QUEUE];
     [conQueue setMaxConcurrentOperationCount:1];
-    [[Conductor sharedInstance] addQueue:conQueue];
+    [[CDQueueController sharedInstance] addQueue:conQueue];
     
     CDOperationQueue *nonConQueue = [CDOperationQueue queueWithName:CONDUCTOR_NONCON_APP_QUEUE];
-    [[Conductor sharedInstance] addQueue:nonConQueue];
+    [[CDQueueController sharedInstance] addQueue:nonConQueue];
     
     return YES;
 }

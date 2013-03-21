@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Andrew B. Smith. All rights reserved.
 //
 
-#import <Conductor/Conductor.h>
+#import <Conductor/CDQueueController.h>
 
 @interface CDIsExecutingQueryOperation : CDOperation
 

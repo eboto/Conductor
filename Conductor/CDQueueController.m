@@ -23,9 +23,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import "Conductor.h"
+#import "CDQueueController.h"
 
-@implementation Conductor
+@implementation CDQueueController
 
 - (id)init
 {
@@ -38,7 +38,7 @@
 
 + (id)sharedInstance
 {
-    static Conductor *_sharedInstance = nil;
+    static CDQueueController *_sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedInstance = [self new];

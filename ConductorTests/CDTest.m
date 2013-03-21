@@ -14,7 +14,7 @@
 {
     [super setUp];
    
-    conductor = [Conductor new];
+    conductor = [CDQueueController new];
     
     testOperationQueue = [CDOperationQueue queueWithName:CONDUCTOR_TEST_QUEUE];
     [testOperationQueue setMaxConcurrentOperationCount:1];

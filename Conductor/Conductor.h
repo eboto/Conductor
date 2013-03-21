@@ -2,157 +2,17 @@
 //  Conductor.h
 //  Conductor
 //
-//  Created by Andrew Smith on 10/21/11.
-//  Copyright (c) 2011 Andrew B. Smith ( http://github.com/drewsmits ). All rights reserved.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy 
-// of this software and associated documentation files (the "Software"), to deal 
-// in the Software without restriction, including without limitation the rights 
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
-// of the Software, and to permit persons to whom the Software is furnished to do so, 
-// subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included 
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//  Created by Andrew Smith on 3/21/13.
+//  Copyright (c) 2013 Andrew B. Smith. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#ifndef Conductor_Conductor_h
+#define Conductor_Conductor_h
 
-#import "CDOperation.h"
+#import "CDQueueController.h"
 #import "CDOperationQueue.h"
+#import "CDOperation.h"
+#import "CDCoreDataOperation.h"
 #import "CDOperationQueueProgressObserver.h"
 
-@interface Conductor : NSObject
-
-/**
- A key store for all the queues that this instance manages
- */
-@property (nonatomic, readonly) NSMutableDictionary *queues;
-
-/**
- Singleton Conductor instance
- */
-+ (id)sharedInstance;
-
-/**
- * Adds the operation to the queue with the given name at the specified priority.
- * Optionally create the queue if it doesn't already exist. Returns the operation
- * identifier.
- */
-- (void)addOperation:(CDOperation *)operation 
-        toQueueNamed:(NSString *)queueName;
-
-/**
- *
- */
-- (BOOL)updatePriorityOfOperationWithIdentifier:(NSString *)identifier 
-                                  toNewPriority:(NSOperationQueuePriority)priority;
-
-/**
- * Returns the operation in the given queue
- */
-- (CDOperation *)operationWithIdentifier:(NSString *)identifier
-                            inQueueNamed:(NSString *)queueName;
-
-/**
- Returns YES if the queue with the given name has an operation either running or
- queued up to run with the identifier.
- */
-- (BOOL)hasOperationWithIdentifier:(NSString *)identifier
-                      inQueueNamed:(NSString *)queueName;
-
-/**
- Adds progress watcher to queue
- */
-- (void)addProgressObserverToQueueNamed:(NSString *)queueName
-                      withProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock
-                     andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock DEPRECATED_ATTRIBUTE;
-
-- (void)addProgressObserver:(CDOperationQueueProgressObserver *)observer toQueueNamed:(NSString *)queueName;
-- (void)removeProgresObserver:(CDOperationQueueProgressObserver *)observer fromQueueNamed:(NSString *)queueName;
-
-/**
- Gets messages when the max number of queued operations is reached, and when
- you can start submitting again.
- */
-- (void)addQueueOperationObserver:(id)observer
-                     toQueueNamed:(NSString *)queueName;
-
-/**
- * Cancels all operations in all queues.  Useful when you need to cleanup before
- * shutting the app down.
- */
-- (void)cancelAllOperations;
-
-/**
- * Cancels all the operations is a specific queue
- */
-- (void)cancelAllOperationsInQueueNamed:(NSString *)queueName;
-
-/**
- Suspends all the operation queues.
- */
-- (void)suspendAllQueues;
-
-/**
- Suspends a specific queue
- */
-- (void)suspendQueueNamed:(NSString *)queueName;
-
-/**
- Resumes any suspended queues
- */
-- (void)resumeAllQueues;
-
-/**
- Resumes a specific queue
- */
-- (void)resumeQueueNamed:(NSString *)queueName;
-
-/**
- * List of all queue names
- */
-- (NSArray *)allQueueNames;
-
-/**
- Queries all queues to see if any are running.
- */
-- (BOOL)isExecuting;
-
-/**
- Returns YES if the queue with the given name has operations either executing
- or in the queue.
- */
-- (BOOL)isQueueExecutingNamed:(NSString *)queueName;
-
-/**
- Returns the number of operations currently in the queue.  Returns 0 if there is no queue of that
- name.
- */
-- (NSUInteger)numberOfOperationsInQueueNamed:(NSString *)queueName;
-
-/**
- Queries whether the conductor instance has queues.  Mostly useful for async
- tests.
- */
-- (BOOL)hasQueues;
-
-/**
- Blocks the calling thread until all jobs in the designated queue finish.  This
- can be useful for unit testing asynchronous code.  This could be dangerous in
- production.
- */
-- (void)waitForQueueNamed:(NSString *)queueName;
-
-- (CDOperationQueue *)getQueueNamed:(NSString *)queueName;
-
-- (BOOL)addQueue:(CDOperationQueue *)queue;
-
-@end
+#endif

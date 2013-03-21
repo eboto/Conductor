@@ -19,10 +19,10 @@
     CDSuperLongTaskOperation *operation1 = [CDSuperLongTaskOperation new];
     CDSuperLongTaskOperation *operation2 = [CDSuperLongTaskOperation new];
 
-    [[Conductor sharedInstance] addOperation:operation1
+    [[CDQueueController sharedInstance] addOperation:operation1
                                 toQueueNamed:CONDUCTOR_APP_QUEUE];
     
-    [[Conductor sharedInstance] addOperation:operation2
+    [[CDQueueController sharedInstance] addOperation:operation2
                                 toQueueNamed:CONDUCTOR_APP_QUEUE];
 }
 
@@ -30,7 +30,7 @@
 {
     for (int i = 0; i < 100; i++) {
         CDIsExecutingQueryOperation *op = [CDIsExecutingQueryOperation operationWithRandomNumCycles];
-        [[Conductor sharedInstance] addOperation:op
+        [[CDQueueController sharedInstance] addOperation:op
                                     toQueueNamed:CONDUCTOR_NONCON_APP_QUEUE];
     }
 }

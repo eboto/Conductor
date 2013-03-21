@@ -18,7 +18,7 @@
 		DB6BABC7154F69FC004842D2 /* CDOperationQueueProgressObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressObserver.m */; };
 		DB776C42160E63D900217625 /* CDOperationQueueMaxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB776C41160E63D900217625 /* CDOperationQueueMaxTests.m */; };
 		DB83D19E1451F1B200D94890 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
-		DB83D1A41451F1B200D94890 /* Conductor.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1A31451F1B200D94890 /* Conductor.m */; };
+		DB83D1A41451F1B200D94890 /* CDQueueController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1A31451F1B200D94890 /* CDQueueController.m */; };
 		DB83D1AC1451F1B200D94890 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D1AB1451F1B200D94890 /* SenTestingKit.framework */; };
 		DB83D1AF1451F1B200D94890 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
 		DB83D1B21451F1B200D94890 /* libConductor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19A1451F1B200D94890 /* libConductor.a */; };
@@ -32,7 +32,7 @@
 		DB9F94DD1598DEC300A97A05 /* CDCoreDataOperationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9F94DC1598DEC300A97A05 /* CDCoreDataOperationTests.m */; };
 		DB9F94E01598E06500A97A05 /* ConductorTestDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DB9F94DE1598E06500A97A05 /* ConductorTestDataModel.xcdatamodeld */; };
 		DB9F94E41598E38D00A97A05 /* CDTestCoreDataOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9F94E31598E38D00A97A05 /* CDTestCoreDataOperation.m */; };
-		DBA5F95514560E1D00EBFF68 /* Conductor.h in Headers */ = {isa = PBXBuildFile; fileRef = DB83D1A21451F1B200D94890 /* Conductor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DBA5F95514560E1D00EBFF68 /* CDQueueController.h in Headers */ = {isa = PBXBuildFile; fileRef = DB83D1A21451F1B200D94890 /* CDQueueController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBD17292167948B80019FF3D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB39B5C315BF2F7C0046FD96 /* UIKit.framework */; };
 		DBD17293167948B80019FF3D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
 		DBD17295167948B80019FF3D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBD17294167948B80019FF3D /* CoreGraphics.framework */; };
@@ -47,6 +47,7 @@
 		DBD172B516794A650019FF3D /* CDSuperLongTaskOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD172B416794A650019FF3D /* CDSuperLongTaskOperation.m */; };
 		DBD172B816794B280019FF3D /* libConductor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19A1451F1B200D94890 /* libConductor.a */; };
 		DBD172B916794B3A0019FF3D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB9F94D81598DE8300A97A05 /* CoreData.framework */; };
+		DBDA920F16FB9E2A00916FE4 /* Conductor.h in Headers */ = {isa = PBXBuildFile; fileRef = DBDA920E16FB9E2A00916FE4 /* Conductor.h */; };
 		DBDB9729158EF35C004BB06F /* CDCoreDataOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBDB972A158EF35C004BB06F /* CDCoreDataOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */; };
 		DBE4976816EBD80E00C4EF18 /* CDIsExecutingQueryOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE4976716EBD80E00C4EF18 /* CDIsExecutingQueryOperation.m */; };
@@ -90,8 +91,8 @@
 		DB83D19A1451F1B200D94890 /* libConductor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libConductor.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB83D19D1451F1B200D94890 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DB83D1A11451F1B200D94890 /* Conductor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Conductor-Prefix.pch"; sourceTree = "<group>"; };
-		DB83D1A21451F1B200D94890 /* Conductor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Conductor.h; sourceTree = "<group>"; };
-		DB83D1A31451F1B200D94890 /* Conductor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Conductor.m; sourceTree = "<group>"; };
+		DB83D1A21451F1B200D94890 /* CDQueueController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CDQueueController.h; sourceTree = "<group>"; };
+		DB83D1A31451F1B200D94890 /* CDQueueController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDQueueController.m; sourceTree = "<group>"; };
 		DB83D1AA1451F1B200D94890 /* ConductorTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ConductorTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB83D1AB1451F1B200D94890 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		DB83D1B51451F1B200D94890 /* ConductorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ConductorTests-Info.plist"; sourceTree = "<group>"; };
@@ -125,6 +126,7 @@
 		DBD172AC167948B80019FF3D /* CDMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CDMainViewController.m; sourceTree = "<group>"; };
 		DBD172B316794A650019FF3D /* CDSuperLongTaskOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSuperLongTaskOperation.h; sourceTree = "<group>"; };
 		DBD172B416794A650019FF3D /* CDSuperLongTaskOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSuperLongTaskOperation.m; sourceTree = "<group>"; };
+		DBDA920E16FB9E2A00916FE4 /* Conductor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Conductor.h; sourceTree = "<group>"; };
 		DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCoreDataOperation.h; sourceTree = "<group>"; };
 		DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCoreDataOperation.m; sourceTree = "<group>"; };
 		DBE4976616EBD80E00C4EF18 /* CDIsExecutingQueryOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDIsExecutingQueryOperation.h; sourceTree = "<group>"; };
@@ -218,8 +220,9 @@
 		DB83D19F1451F1B200D94890 /* Conductor */ = {
 			isa = PBXGroup;
 			children = (
-				DB83D1A21451F1B200D94890 /* Conductor.h */,
-				DB83D1A31451F1B200D94890 /* Conductor.m */,
+				DBDA920E16FB9E2A00916FE4 /* Conductor.h */,
+				DB83D1A21451F1B200D94890 /* CDQueueController.h */,
+				DB83D1A31451F1B200D94890 /* CDQueueController.m */,
 				DB83D1D81451F89E00D94890 /* CDOperationQueue.h */,
 				DB83D1D91451F89E00D94890 /* CDOperationQueue.m */,
 				DB83D1DC1451FB1900D94890 /* CDOperation.h */,
@@ -316,10 +319,11 @@
 			files = (
 				DB83D1DA1451F89E00D94890 /* CDOperationQueue.h in Headers */,
 				DB83D1DE1451FB1900D94890 /* CDOperation.h in Headers */,
-				DBA5F95514560E1D00EBFF68 /* Conductor.h in Headers */,
+				DBA5F95514560E1D00EBFF68 /* CDQueueController.h in Headers */,
 				DB6BABC6154F69FC004842D2 /* CDOperationQueueProgressObserver.h in Headers */,
 				DB4F2D9D155320EF00216AB9 /* ConductorLogging.h in Headers */,
 				DBDB9729158EF35C004BB06F /* CDCoreDataOperation.h in Headers */,
+				DBDA920F16FB9E2A00916FE4 /* Conductor.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,7 +456,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB83D1A41451F1B200D94890 /* Conductor.m in Sources */,
+				DB83D1A41451F1B200D94890 /* CDQueueController.m in Sources */,
 				DB83D1DB1451F89E00D94890 /* CDOperationQueue.m in Sources */,
 				DB83D1DF1451FB1900D94890 /* CDOperation.m in Sources */,
 				DB6BABC7154F69FC004842D2 /* CDOperationQueueProgressObserver.m in Sources */,
