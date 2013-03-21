@@ -46,6 +46,8 @@
  */
 - (BOOL)addQueue:(CDOperationQueue *)queue;
 
+- (CDOperationQueue *)getQueueNamed:(NSString *)queueName;
+
 /**
  * Adds the operation to the queue with the given name at the specified priority.
  * Optionally create the queue if it doesn't already exist. Returns the operation
@@ -107,7 +109,5 @@
  tests.
  */
 - (BOOL)hasQueues;
-
-- (CDOperationQueue *)getQueueNamed:(NSString *)queueName;
 
 @end
