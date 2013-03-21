@@ -55,6 +55,11 @@
 + (id)operation DEPRECATED_ATTRIBUTE;
 
 /**
+ Do your main work here. This is where your subclass should do stuff, not in main.
+ */
+- (void)work;
+
+/**
  * Call this when the main operation is finished running.  Subclasses can use
  * this to run any necessary cleanup when finished.
  */

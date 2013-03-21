@@ -87,7 +87,6 @@
         // Respect the cancel
         //
         if (self.isCancelled) {
-            NSLog(@"canceled");
             [self finish];
             return;
         }
@@ -95,7 +94,18 @@
         //
         // Do your work here, then finish
         //
+        [self work];
+        
+        //
+        // Cleanup
+        //
+        [self finish];
     }
+}
+
+- (void)work
+{
+    // Subclass does stuff here
 }
 
 - (void)cancel

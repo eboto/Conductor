@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#define CONDUCTOR_APP_QUEUE @"com.conductorapp.concurrentQueue"
-#define CONDUCTOR_NONCON_APP_QUEUE @"com.conductorapp.nonConcurrentQueue"
-
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

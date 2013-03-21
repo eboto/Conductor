@@ -17,13 +17,9 @@
 - (IBAction)runLongTask:(id)sender
 {
     CDSuperLongTaskOperation *operation1 = [CDSuperLongTaskOperation new];
-    CDSuperLongTaskOperation *operation2 = [CDSuperLongTaskOperation new];
 
     [[CDQueueController sharedInstance] addOperation:operation1
-                                toQueueNamed:CONDUCTOR_APP_QUEUE];
-    
-    [[CDQueueController sharedInstance] addOperation:operation2
-                                toQueueNamed:CONDUCTOR_APP_QUEUE];
+                                        toQueueNamed:CONDUCTOR_APP_QUEUE];
 }
 
 - (IBAction)runIsExecutingTasks:(id)sender
@@ -31,7 +27,7 @@
     for (int i = 0; i < 100; i++) {
         CDIsExecutingQueryOperation *op = [CDIsExecutingQueryOperation operationWithRandomNumCycles];
         [[CDQueueController sharedInstance] addOperation:op
-                                    toQueueNamed:CONDUCTOR_NONCON_APP_QUEUE];
+                                            toQueueNamed:CONDUCTOR_NONCON_APP_QUEUE];
     }
 }
 

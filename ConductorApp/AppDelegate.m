@@ -14,6 +14,15 @@
 {
     // Override point for customization after application launch.
     
+    /**
+     
+     I wouldn't recommend using a Conductor singleton for a real app, but it is convenient for this 
+     demonstration app for simplicity.
+     
+     - Add a serial queue
+     - Add a non-serial queue
+     
+     */
     CDOperationQueue *conQueue = [CDOperationQueue queueWithName:CONDUCTOR_APP_QUEUE];
     [conQueue setMaxConcurrentOperationCount:1];
     [[CDQueueController sharedInstance] addQueue:conQueue];

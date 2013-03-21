@@ -12,5 +12,6 @@
 
 - (IBAction)runLongTask:(id)sender;
 - (IBAction)runIsExecutingTasks:(id)sender;
+- (IBAction)runAndCancel:(id)sender;
 
 @end

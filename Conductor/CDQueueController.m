@@ -111,7 +111,7 @@
     __block BOOL didUpdate = NO;
     
     [self.queues enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
-        if ([queue updatePriorityOfOperationWithIdentifier:queue toNewPriority:priority]) {
+        if ([queue updatePriorityOfOperationWithIdentifier:identifier toNewPriority:priority]) {
             didUpdate = YES;
             *stop = YES;
         }

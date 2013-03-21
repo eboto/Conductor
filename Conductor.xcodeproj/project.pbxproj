@@ -52,6 +52,10 @@
 		DBDA921316FB9EA400916FE4 /* CDQueueController+State.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDA921116FB9EA400916FE4 /* CDQueueController+State.m */; };
 		DBDA921616FB9FA300916FE4 /* CDQueueController+Test.h in Headers */ = {isa = PBXBuildFile; fileRef = DBDA921416FB9FA300916FE4 /* CDQueueController+Test.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBDA921716FB9FA300916FE4 /* CDQueueController+Test.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDA921516FB9FA300916FE4 /* CDQueueController+Test.m */; };
+		DBDA921B16FBB5A700916FE4 /* OperationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDA921A16FBB5A700916FE4 /* OperationViewController.m */; };
+		DBDA921E16FBB5BC00916FE4 /* OperationView.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDA921D16FBB5BC00916FE4 /* OperationView.m */; };
+		DBDA922016FBB6E400916FE4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBDA921F16FBB6E400916FE4 /* QuartzCore.framework */; };
+		DBDA922316FBBFAD00916FE4 /* CDOneSecondOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDA922216FBBFAD00916FE4 /* CDOneSecondOperation.m */; };
 		DBDB9729158EF35C004BB06F /* CDCoreDataOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBDB972A158EF35C004BB06F /* CDCoreDataOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */; };
 		DBE4976816EBD80E00C4EF18 /* CDIsExecutingQueryOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE4976716EBD80E00C4EF18 /* CDIsExecutingQueryOperation.m */; };
@@ -135,6 +139,13 @@
 		DBDA921116FB9EA400916FE4 /* CDQueueController+State.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CDQueueController+State.m"; sourceTree = "<group>"; };
 		DBDA921416FB9FA300916FE4 /* CDQueueController+Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CDQueueController+Test.h"; sourceTree = "<group>"; };
 		DBDA921516FB9FA300916FE4 /* CDQueueController+Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CDQueueController+Test.m"; sourceTree = "<group>"; };
+		DBDA921916FBB5A700916FE4 /* OperationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OperationViewController.h; sourceTree = "<group>"; };
+		DBDA921A16FBB5A700916FE4 /* OperationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OperationViewController.m; sourceTree = "<group>"; };
+		DBDA921C16FBB5BC00916FE4 /* OperationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OperationView.h; sourceTree = "<group>"; };
+		DBDA921D16FBB5BC00916FE4 /* OperationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OperationView.m; sourceTree = "<group>"; };
+		DBDA921F16FBB6E400916FE4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		DBDA922116FBBFAD00916FE4 /* CDOneSecondOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOneSecondOperation.h; sourceTree = "<group>"; };
+		DBDA922216FBBFAD00916FE4 /* CDOneSecondOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOneSecondOperation.m; sourceTree = "<group>"; };
 		DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCoreDataOperation.h; sourceTree = "<group>"; };
 		DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCoreDataOperation.m; sourceTree = "<group>"; };
 		DBE4976616EBD80E00C4EF18 /* CDIsExecutingQueryOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDIsExecutingQueryOperation.h; sourceTree = "<group>"; };
@@ -168,6 +179,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DBDA922016FBB6E400916FE4 /* QuartzCore.framework in Frameworks */,
 				DBD172B916794B3A0019FF3D /* CoreData.framework in Frameworks */,
 				DBD172B816794B280019FF3D /* libConductor.a in Frameworks */,
 				DBD17292167948B80019FF3D /* UIKit.framework in Frameworks */,
@@ -216,6 +228,7 @@
 		DB83D19C1451F1B200D94890 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DBDA921F16FBB6E400916FE4 /* QuartzCore.framework */,
 				DB39B5C315BF2F7C0046FD96 /* UIKit.framework */,
 				DB9F94D81598DE8300A97A05 /* CoreData.framework */,
 				DB83D19D1451F1B200D94890 /* Foundation.framework */,
@@ -294,14 +307,12 @@
 		DBD17296167948B80019FF3D /* ConductorApp */ = {
 			isa = PBXGroup;
 			children = (
+				DBDA921816FBB58C00916FE4 /* Operation */,
 				DBD1729F167948B80019FF3D /* AppDelegate.h */,
 				DBD172A0167948B80019FF3D /* AppDelegate.m */,
-				DBE4976616EBD80E00C4EF18 /* CDIsExecutingQueryOperation.h */,
-				DBE4976716EBD80E00C4EF18 /* CDIsExecutingQueryOperation.m */,
 				DBD172AB167948B80019FF3D /* CDMainViewController.h */,
 				DBD172AC167948B80019FF3D /* CDMainViewController.m */,
-				DBD172B316794A650019FF3D /* CDSuperLongTaskOperation.h */,
-				DBD172B416794A650019FF3D /* CDSuperLongTaskOperation.m */,
+				DBDA922416FBBFB600916FE4 /* Operations */,
 				DBD172A8167948B80019FF3D /* MainStoryboard.storyboard */,
 				DBD17297167948B80019FF3D /* Supporting Files */,
 			);
@@ -320,6 +331,30 @@
 				DBD172A6167948B80019FF3D /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DBDA921816FBB58C00916FE4 /* Operation */ = {
+			isa = PBXGroup;
+			children = (
+				DBDA921916FBB5A700916FE4 /* OperationViewController.h */,
+				DBDA921A16FBB5A700916FE4 /* OperationViewController.m */,
+				DBDA921C16FBB5BC00916FE4 /* OperationView.h */,
+				DBDA921D16FBB5BC00916FE4 /* OperationView.m */,
+			);
+			name = Operation;
+			sourceTree = "<group>";
+		};
+		DBDA922416FBBFB600916FE4 /* Operations */ = {
+			isa = PBXGroup;
+			children = (
+				DBE4976616EBD80E00C4EF18 /* CDIsExecutingQueryOperation.h */,
+				DBE4976716EBD80E00C4EF18 /* CDIsExecutingQueryOperation.m */,
+				DBD172B316794A650019FF3D /* CDSuperLongTaskOperation.h */,
+				DBD172B416794A650019FF3D /* CDSuperLongTaskOperation.m */,
+				DBDA922116FBBFAD00916FE4 /* CDOneSecondOperation.h */,
+				DBDA922216FBBFAD00916FE4 /* CDOneSecondOperation.m */,
+			);
+			name = Operations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -507,6 +542,9 @@
 				DBD172AD167948B80019FF3D /* CDMainViewController.m in Sources */,
 				DBD172B516794A650019FF3D /* CDSuperLongTaskOperation.m in Sources */,
 				DBE4976816EBD80E00C4EF18 /* CDIsExecutingQueryOperation.m in Sources */,
+				DBDA921B16FBB5A700916FE4 /* OperationViewController.m in Sources */,
+				DBDA921E16FBB5BC00916FE4 /* OperationView.m in Sources */,
+				DBDA922316FBBFAD00916FE4 /* CDOneSecondOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

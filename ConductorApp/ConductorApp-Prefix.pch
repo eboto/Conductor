@@ -8,8 +8,12 @@
 #warning "This project uses features only available in iOS SDK 5.0 and later."
 #endif
 
+#define CONDUCTOR_APP_QUEUE @"com.conductorapp.concurrentQueue"
+#define CONDUCTOR_NONCON_APP_QUEUE @"com.conductorapp.nonConcurrentQueue"
+
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
+    #import<QuartzCore/QuartzCore.h>
     #import <Foundation/Foundation.h>
     #import <Conductor/Conductor.h>
 #endif
