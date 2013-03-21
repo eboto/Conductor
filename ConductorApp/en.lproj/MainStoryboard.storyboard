@@ -321,30 +321,6 @@
             <point key="canvasLocation" x="564" y="-256"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="CDMainViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CDMainViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="runAndCancel:"/>
-                <relationship kind="action" name="runIsExecutingTasks:"/>
-                <relationship kind="action" name="runLongTask:"/>
-            </relationships>
-        </class>
-        <class className="OperationView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OperationView.h"/>
-        </class>
-        <class className="OperationViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OperationViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cancel:"/>
-                <relationship kind="action" name="pause:"/>
-                <relationship kind="action" name="resume:"/>
-                <relationship kind="action" name="start:"/>
-                <relationship kind="outlet" name="leftOperationView" candidateClass="OperationView"/>
-                <relationship kind="outlet" name="rightOperationView" candidateClass="OperationView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

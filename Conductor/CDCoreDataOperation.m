@@ -34,6 +34,16 @@
         // Spin up a new thread safe context here for thread confinement
         //
         self.backgroundContext = [self newThreadSafeManagedObjectContext];
+        
+        //
+        // Do your work here
+        //
+        [self work];
+        
+        //
+        // Cleanup
+        //
+        [self finish];
     }
 }
 

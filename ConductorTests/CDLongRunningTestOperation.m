@@ -18,15 +18,9 @@
     return operation;
 }
 
-- (void)main
+- (void)work
 {
-    @autoreleasepool {
-        [super main];
-                
-        sleep(self.duration);
-        
-        [self finish];
-    }
+    sleep(self.duration);
 }
 
 @end

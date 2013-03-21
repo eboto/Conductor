@@ -18,17 +18,11 @@
     return op;
 }
 
-- (void)start {
-    @autoreleasepool {
-        
-        [super start];
-            
-        // Slightly longer than the permitted 10 minutes
-        for (int i = 0; i < self.numCycles; i++) {
-            [[CDQueueController sharedInstance] isExecuting];
-        }
-        
-        [self finish];
+- (void)work
+{
+    // Slightly longer than the permitted 10 minutes
+    for (int i = 0; i < self.numCycles; i++) {
+        [[CDQueueController sharedInstance] isExecuting];
     }
 }
 

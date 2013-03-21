@@ -92,7 +92,7 @@
         }
         
         //
-        // Do your work here, then finish
+        // Do your work here
         //
         [self work];
         
