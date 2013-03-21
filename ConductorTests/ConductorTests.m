@@ -153,7 +153,7 @@
     [conductor addOperation:op toQueueNamed:CONDUCTOR_TEST_QUEUE];
     
     [conductor suspendQueueNamed:CONDUCTOR_TEST_QUEUE];
-    
+
     CDOperationQueue *queue = [conductor getQueueNamed:CONDUCTOR_TEST_QUEUE];
     
     STAssertTrue(queue.isSuspended, @"Operation queue should be suspended");    

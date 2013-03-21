@@ -25,13 +25,6 @@
 
 #import "CDOperationQueue.h"
 
-@interface CDOperationQueue ()
-
-
-- (void)operationDidFinish:(CDOperation *)operation;
-
-@end
-
 @implementation CDOperationQueue
 
 - (void)dealloc
@@ -61,7 +54,6 @@
 - (void)queueDidFinish
 {
     [self.progressObservers makeObjectsPerformSelector:@selector(runCompletionBlock)];
-    
     [self removeAllProgressObservers];
 }
 
@@ -204,8 +196,7 @@
 {
     CDOperation *op = [self getOperationWithIdentifier:identifier];
     
-    // These tests are probably not necessry, just thrown in for extra safety
-    if (op && ![op isExecuting] && ![op isCancelled] && ![op isFinished]) {
+    if (op) {
         [op setQueuePriority:priority];
         return YES;
     }

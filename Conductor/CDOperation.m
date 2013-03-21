@@ -101,11 +101,6 @@
 {
     ConductorLogTrace(@"Finished operation: %@", self.identifier);
     [self.delegate operationDidFinish:self];
-    
-    //
-    // Overide this in your subclass, but make sure to call super. Otherwise the operation won't
-    // peel off of the queue it's in properly.
-    //
 }
 
 #pragma mark - Background Tasks

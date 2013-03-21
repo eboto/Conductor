@@ -151,7 +151,6 @@
 
 - (void)cancelAllOperationsInQueueNamed:(NSString *)queueName
 {
-    if (!queueName) return;
     ConductorLogTrace(@"Cancel all operations in queue: %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];
     [queue cancelAllOperations];
@@ -173,7 +172,6 @@
 
 - (void)suspendQueueNamed:(NSString *)queueName
 {
-    if (!queueName) return;
     ConductorLogTrace(@"Suspend queue: %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];;
     [queue setSuspended:YES];
@@ -191,7 +189,6 @@
 
 - (void)resumeQueueNamed:(NSString *)queueName
 {
-    if (!queueName) return;
     ConductorLogTrace(@"Resume queue: %@", queueName);
     CDOperationQueue *queue = [self getQueueNamed:queueName];;
     [queue setSuspended:NO];    
@@ -208,7 +205,6 @@
     
     CDOperationQueue *queue = [self getQueueNamed:queueName];
     
-    if (!queue) return;
     if (!queue.isExecuting) return;
     
     [queue.queue waitUntilAllOperationsAreFinished];
@@ -221,7 +217,6 @@
                     andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock
 {        
     CDOperationQueue *queue = [self getQueueNamed:queueName];
-    if (!queue) return;
     [queue addProgressObserverWithProgressBlock:progressBlock 
                             andCompletionBlock:completionBlock];
 }
@@ -230,7 +225,6 @@
                toQueueNamed:(NSString *)queueName
 {
     CDOperationQueue *queue = [self getQueueNamed:queueName];
-    if (!queue) return;
     [queue addProgressObserver:observer];
 }
 
@@ -238,7 +232,6 @@
                fromQueueNamed:(NSString *)queueName
 {
     CDOperationQueue *queue = [self getQueueNamed:queueName];
-    if (!queue) return;
     [queue removeProgressObserver:observer];
 }
 
@@ -246,7 +239,6 @@
                      toQueueNamed:(NSString *)queueName
 {
     CDOperationQueue *queue = [self getQueueNamed:queueName];
-    if (!queue) return;
     queue.operationsObserver = observer;
 }
 
@@ -254,7 +246,6 @@
                        fromQueueNamed:(NSString *)queueName
 {
     CDOperationQueue *queue = [self getQueueNamed:queueName];
-    if (!queue) return;
     queue.operationsObserver = nil;
 }
 
@@ -262,7 +253,6 @@
 
 - (CDOperationQueue *)getQueueNamed:(NSString *)queueName
 {
-    if (!queueName) return nil;
     CDOperationQueue *queue = [self.queues objectForKey:queueName];
     return queue;
 }

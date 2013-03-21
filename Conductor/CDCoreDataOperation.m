@@ -9,11 +9,8 @@
 #import "CDCoreDataOperation.h"
 
 @interface CDCoreDataOperation ()
-
 @property (nonatomic, strong, readwrite) NSManagedObjectContext *backgroundContext;
-
 - (NSManagedObjectContext *)newThreadSafeManagedObjectContext;
-
 @end
 
 @implementation CDCoreDataOperation
@@ -39,6 +36,8 @@
         self.backgroundContext = [self newThreadSafeManagedObjectContext];
     }
 }
+
+#pragma mark - Contexts
 
 - (BOOL)saveBackgroundContext
 {
