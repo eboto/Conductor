@@ -24,31 +24,12 @@
 //
 
 #import "CDOperation.h"
+
+#import <UIKit/UIApplication.h>
 #import <mach/mach_time.h>
 
-#pragma mark - State
-
-static inline NSString *StringForCDOperationState(CDOperationState state) {
-    switch (state) {
-        case CDOperationStateReady:
-            return @"isReady";
-            break;
-        case CDOperationStateExecuting:
-            return @"isExecuting";
-            break;
-        case CDOperationStateFinished:
-            return @"isFinished";
-            break;
-        default:
-            return nil;
-            break;
-    }
-}
-
-#pragma mark -
-
 @interface CDOperation ()
-@property (nonatomic, assign) CDOperationState state;
+@property (nonatomic, assign) UIBackgroundTaskIdentifier backgroundTaskID;
 @end
 
 @implementation CDOperation
@@ -56,14 +37,17 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
 - (void)dealloc
 {
     _delegate = nil;
+    
+    if (self.backgroundTaskID) {
+        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
+        self.backgroundTaskID = UIBackgroundTaskInvalid;
+    }
 }
 
 - (id)init
 {
     self = [super init];
-    if (self) {
-        self.state = CDOperationStateReady;
-        
+    if (self) {        
         // Stock identifier
         uint64_t absolute_time = mach_absolute_time();
         mach_timebase_info_data_t timebase;
@@ -96,73 +80,56 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
 
 #pragma mark - 
 
-- (void)start
+- (void)main
 {
-    ConductorLogTrace(@"Started operation: %@", self.identifier);
-    
-    if (self.isCancelled) {
-        [self finish];
-        return;
+    @autoreleasepool {
+        //
+        // Respect the cancel
+        //
+        if (self.isCancelled) {
+            [self finish];
+            return;
+        }
+        
+        //
+        // Do your work here
+        //
     }
-
-    // Don't forget to wrap your operation in an autorelease pool
-    
-    self.state = CDOperationStateExecuting;
 }
 
 - (void)finish
 {
     ConductorLogTrace(@"Finished operation: %@", self.identifier);
-        
-    self.state = CDOperationStateFinished;
-    
     [self.delegate operationDidFinish:self];
-}
-
-- (void)cancel
-{
-    [super cancel];
-    ConductorLogTrace(@"Canceled operation: %@", self.identifier);
-}
-
-- (BOOL)isReady
-{
-    return (self.state == CDOperationStateReady);
-}
-
-- (BOOL)isExecuting
-{
-    return (self.state == CDOperationStateExecuting);
-}
-
-- (BOOL)isFinished
-{
-    return (self.state == CDOperationStateFinished);
-}
-
-- (BOOL)isConcurrent
-{
-    return YES;
-}
-
-#pragma mark - Accessors
-
-- (void)setState:(CDOperationState)state
-{
-    // Ensures KVO complience for changes in NSOperation object state
     
-    if (self.state == state) {
-        return;
-    }
+    //
+    // Overide this in your subclass, but make sure to call super. Otherwise the operation won't
+    // peel off of the queue it's in properly.
+    //
+}
+
+#pragma mark - Background Tasks
+
+- (void)beginBackgroundTask
+{
+    UIApplication *application = [UIApplication sharedApplication];
     
-    NSString *oldStateString = StringForCDOperationState(self.state);
-    NSString *newStateString = StringForCDOperationState(state);
+    /**
+     This handler will be called before the allowed background task time runs out.
+     */
+    self.backgroundTaskID = [application beginBackgroundTaskWithExpirationHandler:^{
+        [self backgroundTaskExpirationCleanup];
+        
+        [self cancel];
+        
+        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundTaskID];
+        self.backgroundTaskID = UIBackgroundTaskInvalid;
+    }];
+}
+
+- (void)backgroundTaskExpirationCleanup
+{
     
-    [self willChangeValueForKey:newStateString];
-    [self willChangeValueForKey:oldStateString];
-    _state = state;
-    [self didChangeValueForKey:oldStateString];
-    [self didChangeValueForKey:newStateString];
 }
 
 @end

@@ -73,8 +73,8 @@
     MockQueueObserver *mockObserver = [MockQueueObserver new];
     queue.operationsObserver = mockObserver;
     
-    [queue addOperation:[CDTestOperation operation]];
-    [queue addOperation:[CDTestOperation operation]];
+    [queue addOperation:[CDTestOperation new]];
+    [queue addOperation:[CDTestOperation new]];
     
     // Loop until queue finishes
     NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1.0];

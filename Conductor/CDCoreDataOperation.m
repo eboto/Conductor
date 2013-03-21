@@ -9,7 +9,11 @@
 #import "CDCoreDataOperation.h"
 
 @interface CDCoreDataOperation ()
+
+@property (nonatomic, strong, readwrite) NSManagedObjectContext *backgroundContext;
+
 - (NSManagedObjectContext *)newThreadSafeManagedObjectContext;
+
 @end
 
 @implementation CDCoreDataOperation
@@ -21,33 +25,39 @@
     return operation;
 }
 
-- (void)start 
-{
-    [super start];
-    self.backgroundContext = [self newThreadSafeManagedObjectContext];
-}
-
-- (void)saveBackgroundContext 
+- (void)main
 {    
-    // Save context
-    if (self.backgroundContext.hasChanges) {
-        [self.backgroundContext performBlockAndWait:^{
-            NSError *error = nil;
-            if (![self.backgroundContext save:&error]) {
-                ConductorLogError(@"Save failed: %@", error);
-            };
-            
-//            if (![self.backgroundContext.parentContext save:&error]) {
-//                ConductorLogError(@"Save failed: %@", error);
-//            };
-            
-        }];
+    @autoreleasepool {
+        if (self.isCancelled) {
+            [self finish];
+            return;
+        }
+        
+        //
+        // Spin up a new thread safe context here for thread confinement
+        //
+        self.backgroundContext = [self newThreadSafeManagedObjectContext];
     }
 }
 
-- (void)saveMainContext
+- (BOOL)saveBackgroundContext
 {
-    [self.mainContext performBlock:^ {
+    __block BOOL saved = NO;
+    if (self.backgroundContext.hasChanges) {
+        [self.backgroundContext performBlockAndWait:^{
+            NSError *error;
+            saved = [self.backgroundContext save:&error];
+            if (!saved) {
+                ConductorLogError(@"Save failed: %@", error);
+            };
+        }];
+    }
+    return saved;
+}
+
+- (void)queueMainContextSave
+{
+    [self.mainContext performBlock:^{
         NSError *error;
         if (![self.mainContext save:&error]) {
             ConductorLogError(@"Save failed: %@", error);
@@ -59,11 +69,15 @@
 {
     if (!self.mainContext) return nil;
    
+    //
     // Build private queue context as child of main context
+    //
     NSManagedObjectContext *newContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     [newContext setParentContext:self.mainContext];
     
+    //
     // Optimization
+    //
     [newContext setUndoManager:nil];
 
     return newContext;

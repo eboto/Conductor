@@ -13,18 +13,18 @@
 @synthesize duration;
 
 + (CDLongRunningTestOperation *)longRunningOperationWithDuration:(float)duration {
-    CDLongRunningTestOperation *operation = [CDLongRunningTestOperation operation];
+    CDLongRunningTestOperation *operation = [CDLongRunningTestOperation new];
     operation.duration = duration;
     return operation;
 }
 
-- (void)start {
-    @autoreleasepool {    
-        
-        [super start];
+- (void)main
+{
+    @autoreleasepool {
+        [super main];
         
         sleep(self.duration);
-
+        
         [self finish];
     }
 }

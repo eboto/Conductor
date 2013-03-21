@@ -202,8 +202,8 @@
 - (void)waitForQueueNamed:(NSString *)queueName
 {
     /**
-     This is really only meant for testing async code.  This could be dangerous
-     in production.
+     This is really only meant for testing async code.  This blocks the current thread and dissalows
+     adding more opperations to the queue
      */
     
     CDOperationQueue *queue = [self getQueueNamed:queueName];
@@ -211,12 +211,7 @@
     if (!queue) return;
     if (!queue.isExecuting) return;
     
-    // Loop until queue finishes
-    while (queue && queue.isExecuting) {
-        NSDate *oneSecond = [NSDate dateWithTimeIntervalSinceNow:2.0];
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:oneSecond];
-    }
-
+    [queue.queue waitUntilAllOperationsAreFinished];
 }
 
 #pragma mark - CDOperationQueueDelegate

@@ -26,9 +26,8 @@
 {
     [super tearDown];
     
-    [conductor cancelAllOperations];
     [testOperationQueue cancelAllOperations];
-
+    [conductor cancelAllOperations];
 }
 
 

@@ -36,27 +36,28 @@
     __block BOOL hasFinished = NO;
     
     void (^completionBlock)(void) = ^(void) {
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            hasFinished = YES;        
-        });
-    };         
+        hasFinished = YES;
+    };
     
-    CDTestOperation *op = [CDTestOperation operation];
+    CDTestOperation *op = [CDTestOperation new];
     op.completionBlock = completionBlock;
     
     [conductor addOperation:op
                toQueueNamed:CONDUCTOR_TEST_QUEUE];
         
-    [conductor waitForQueueNamed:CONDUCTOR_TEST_QUEUE];
-            
+    NSDate *time = [NSDate dateWithTimeIntervalSinceNow:0.1];
+    while (!hasFinished) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:time];
+    }
+    
     STAssertTrue(hasFinished, @"Conductor should add and complete test operation");
 }
 
 - (void)testConductorAddOperationThreeTimes
 {    
-    CDTestOperation *op1 = [CDLongRunningTestOperation operation];
-    CDTestOperation *op2 = [CDLongRunningTestOperation operation];
-    CDTestOperation *op3 = [CDLongRunningTestOperation operation];
+    CDLongRunningTestOperation *op1 = [CDLongRunningTestOperation new];
+    CDLongRunningTestOperation *op2 = [CDLongRunningTestOperation new];
+    CDLongRunningTestOperation *op3 = [CDLongRunningTestOperation new];
 
     [conductor addOperation:op1 toQueueNamed:CONDUCTOR_TEST_QUEUE];
     [conductor addOperation:op2 toQueueNamed:CONDUCTOR_TEST_QUEUE];
@@ -72,7 +73,7 @@
 
 - (void)testConductorIsExecuting
 {    
-    CDTestOperation *op = [CDTestOperation operation];
+    CDTestOperation *op = [CDTestOperation new];
     
     [conductor addOperation:op toQueueNamed:CONDUCTOR_TEST_QUEUE];
     
@@ -85,7 +86,7 @@
 
 - (void)testConducturIsQueueExecutingNamed
 {
-    CDTestOperation *op = [CDTestOperation operation];
+    CDTestOperation *op = [CDTestOperation new];
     [conductor addOperation:op toQueueNamed:CONDUCTOR_TEST_QUEUE];
     
     BOOL isExecuting = [conductor isQueueExecutingNamed:CONDUCTOR_TEST_QUEUE];
@@ -99,7 +100,7 @@
 
 - (void)testConductorNumberOfOperationsInQueueNamed
 {
-    CDTestOperation *op = [CDTestOperation operation];
+    CDTestOperation *op = [CDTestOperation new];
     [conductor addOperation:op toQueueNamed:CONDUCTOR_TEST_QUEUE];
     
     NSUInteger num = [conductor numberOfOperationsInQueueNamed:CONDUCTOR_TEST_QUEUE];
@@ -115,7 +116,7 @@
 
 - (void)testConductorCancelAllOperations {
         
-    CDLongRunningTestOperation *op = [CDLongRunningTestOperation operation];
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation new];
     
     [conductor addOperation:op toQueueNamed:CONDUCTOR_TEST_QUEUE];
     
@@ -125,7 +126,7 @@
 }
 
 - (void)testConductureCancelAllOperationsInQueueNamed {
-    CDLongRunningTestOperation *op = [CDLongRunningTestOperation operation];
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation new];
     
     [conductor addOperation:op toQueueNamed:CONDUCTOR_TEST_QUEUE];
     
@@ -135,7 +136,7 @@
 }
 
 - (void)testConductorSuspendAllQueues {
-    CDLongRunningTestOperation *op = [CDLongRunningTestOperation operation];
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation new];
     
     [conductor addOperation:op toQueueNamed:CONDUCTOR_TEST_QUEUE];
     
@@ -147,7 +148,7 @@
 }
 
 - (void)testConductorSuspendQueueNamed {
-    CDLongRunningTestOperation *op = [CDLongRunningTestOperation operation];
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation new];
     
     [conductor addOperation:op toQueueNamed:CONDUCTOR_TEST_QUEUE];
     
@@ -160,12 +161,14 @@
 
 - (void)testConductorResumeAllQueues
 {
+//    [conductor waitForQueueNamed:CONDUCTOR_TEST_QUEUE];
+    
     __block BOOL hasFinished = NO;
     void (^completionBlock)(void) = ^(void) {
-        hasFinished = YES;        
+        hasFinished = YES;
     };         
     
-    CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:2.0];
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:1.0];
     op.completionBlock = completionBlock;
     
     [conductor addOperation:op toQueueNamed:CONDUCTOR_TEST_QUEUE];
@@ -174,6 +177,11 @@
     [conductor resumeAllQueues];
     
     [conductor waitForQueueNamed:CONDUCTOR_TEST_QUEUE];
+    
+//    NSDate *time = [NSDate dateWithTimeIntervalSinceNow:0.1];
+//    while (!hasFinished) {
+//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:time];
+//    }
     
     STAssertTrue(hasFinished, @"Conductor should add and complete test operation");
 }
@@ -185,7 +193,7 @@
         hasFinished = YES;        
     };         
     
-    CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:2.0];
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:1.0];
     op.completionBlock = completionBlock;
     
     [conductor addOperation:op toQueueNamed:CONDUCTOR_TEST_QUEUE];
@@ -194,6 +202,11 @@
     [conductor resumeQueueNamed:CONDUCTOR_TEST_QUEUE];
     
     [conductor waitForQueueNamed:CONDUCTOR_TEST_QUEUE];
+    
+//    NSDate *time = [NSDate dateWithTimeIntervalSinceNow:0.1];
+//    while (!hasFinished) {
+//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:time];
+//    }
     
     STAssertTrue(hasFinished, @"Conductor should add and complete test operation");
 }

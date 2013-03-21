@@ -29,7 +29,7 @@
         });
     };         
     
-    CDTestOperation *op = [CDTestOperation operation];
+    CDTestOperation *op = [CDTestOperation new];
     op.completionBlock = completionBlock;
     
     [testOperationQueue addOperation:op];
@@ -53,7 +53,7 @@
         });
     };         
     
-    CDTestOperation *op = [CDTestOperation operation];
+    CDTestOperation *op = [CDTestOperation new];
     op.completionBlock = completionBlock;
     op.queuePriority = NSOperationQueuePriorityVeryLow;
     
@@ -78,7 +78,7 @@
         });
     };     
     
-    CDTestOperation *op = [CDTestOperation operation];
+    CDTestOperation *op = [CDTestOperation new];
     op.completionBlock = completionBlock;
 
     [testOperationQueue addOperation:op];
@@ -155,7 +155,7 @@
     
     __block BOOL hasFinished = NO;
     
-    CDTestOperation *op = [CDTestOperation operation];
+    CDTestOperation *op = [CDTestOperation new];
     
     CDOperationQueueProgressObserver *observer = [CDOperationQueueProgressObserver progressObserverWithStartingOperationCount:0
                                                                                                                 progressBlock:nil
@@ -182,9 +182,9 @@
 }
 
 - (void)testOperationCountQueue {
-    CDLongRunningTestOperation *op1 = [CDLongRunningTestOperation operation];
-    CDLongRunningTestOperation *op2 = [CDLongRunningTestOperation operation];    
-    CDLongRunningTestOperation *op3 = [CDLongRunningTestOperation operation];    
+    CDLongRunningTestOperation *op1 = [CDLongRunningTestOperation new];
+    CDLongRunningTestOperation *op2 = [CDLongRunningTestOperation new];    
+    CDLongRunningTestOperation *op3 = [CDLongRunningTestOperation new];    
 
     [testOperationQueue addOperation:op1];
     [testOperationQueue addOperation:op2];
@@ -195,7 +195,7 @@
 
 - (void)testOperationCountAfterOperationFinishes {      
     
-    CDTestOperation *op = [CDTestOperation operation];
+    CDTestOperation *op = [CDTestOperation new];
     
     [testOperationQueue addOperation:op];
     
@@ -214,7 +214,7 @@
 
 - (void)testOperationQueueShouldReportExecuting {
     
-    CDTestOperation *op = [CDTestOperation operation];
+    CDTestOperation *op = [CDTestOperation new];
     
     [testOperationQueue addOperation:op];
     
@@ -231,7 +231,7 @@
 
 - (void)testOperationQueueShouldReportFinished {      
     
-    CDTestOperation *op = [CDTestOperation operation];
+    CDTestOperation *op = [CDTestOperation new];
     [testOperationQueue addOperation:op];
         
     STAssertFalse(testOperationQueue.isFinished, @"Operation queue should not be finished");
@@ -247,7 +247,7 @@
 }
 
 - (void)testOperationQueueShouldReportSuspended {
-    CDLongRunningTestOperation *op = [CDLongRunningTestOperation operation];    
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation new];    
     [testOperationQueue addOperation:op];
     
     STAssertFalse(testOperationQueue.isSuspended, @"Operation queue should not be suspended");

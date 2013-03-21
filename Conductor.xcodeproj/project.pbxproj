@@ -33,8 +33,6 @@
 		DB9F94E01598E06500A97A05 /* ConductorTestDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DB9F94DE1598E06500A97A05 /* ConductorTestDataModel.xcdatamodeld */; };
 		DB9F94E41598E38D00A97A05 /* CDTestCoreDataOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB9F94E31598E38D00A97A05 /* CDTestCoreDataOperation.m */; };
 		DBA5F95514560E1D00EBFF68 /* Conductor.h in Headers */ = {isa = PBXBuildFile; fileRef = DB83D1A21451F1B200D94890 /* Conductor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DBB8D6D115B4EBE9007417CA /* CDBackgroundTaskOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DBB8D6CF15B4EBE9007417CA /* CDBackgroundTaskOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DBB8D6D215B4EBE9007417CA /* CDBackgroundTaskOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB8D6D015B4EBE9007417CA /* CDBackgroundTaskOperation.m */; };
 		DBD17292167948B80019FF3D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB39B5C315BF2F7C0046FD96 /* UIKit.framework */; };
 		DBD17293167948B80019FF3D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
 		DBD17295167948B80019FF3D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBD17294167948B80019FF3D /* CoreGraphics.framework */; };
@@ -111,8 +109,6 @@
 		DB9F94E11598E15A00A97A05 /* ConductorTestMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConductorTestMacros.h; sourceTree = "<group>"; };
 		DB9F94E21598E38D00A97A05 /* CDTestCoreDataOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDTestCoreDataOperation.h; sourceTree = "<group>"; };
 		DB9F94E31598E38D00A97A05 /* CDTestCoreDataOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDTestCoreDataOperation.m; sourceTree = "<group>"; };
-		DBB8D6CF15B4EBE9007417CA /* CDBackgroundTaskOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDBackgroundTaskOperation.h; sourceTree = "<group>"; };
-		DBB8D6D015B4EBE9007417CA /* CDBackgroundTaskOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDBackgroundTaskOperation.m; sourceTree = "<group>"; };
 		DBD17290167948B80019FF3D /* ConductorApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ConductorApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DBD17294167948B80019FF3D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		DBD17298167948B80019FF3D /* ConductorApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ConductorApp-Info.plist"; sourceTree = "<group>"; };
@@ -228,8 +224,6 @@
 				DB83D1D91451F89E00D94890 /* CDOperationQueue.m */,
 				DB83D1DC1451FB1900D94890 /* CDOperation.h */,
 				DB83D1DD1451FB1900D94890 /* CDOperation.m */,
-				DBB8D6CF15B4EBE9007417CA /* CDBackgroundTaskOperation.h */,
-				DBB8D6D015B4EBE9007417CA /* CDBackgroundTaskOperation.m */,
 				DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */,
 				DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */,
 				DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressObserver.h */,
@@ -326,7 +320,6 @@
 				DB6BABC6154F69FC004842D2 /* CDOperationQueueProgressObserver.h in Headers */,
 				DB4F2D9D155320EF00216AB9 /* ConductorLogging.h in Headers */,
 				DBDB9729158EF35C004BB06F /* CDCoreDataOperation.h in Headers */,
-				DBB8D6D115B4EBE9007417CA /* CDBackgroundTaskOperation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,7 +457,6 @@
 				DB83D1DF1451FB1900D94890 /* CDOperation.m in Sources */,
 				DB6BABC7154F69FC004842D2 /* CDOperationQueueProgressObserver.m in Sources */,
 				DBDB972A158EF35C004BB06F /* CDCoreDataOperation.m in Sources */,
-				DBB8D6D215B4EBE9007417CA /* CDBackgroundTaskOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

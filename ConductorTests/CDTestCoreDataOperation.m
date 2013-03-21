@@ -10,22 +10,22 @@
 
 @implementation CDTestCoreDataOperation
 
-- (void)start {
+- (void)main
+{
     @autoreleasepool {
-        [super start];
+        [super main];
         
-        NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Employee" 
+        NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Employee"
                                                                 inManagedObjectContext:self.backgroundContext];
         
         [object setValue:@1 forKey:@"employeeID"];
         [object setValue:@"Created" forKey:@"firstname"];
         [object setValue:@"InBackground" forKey:@"lastname"];
-        
+            
         [self saveBackgroundContext];
-        
+                
         [self finish];
     }
 }
-
 
 @end

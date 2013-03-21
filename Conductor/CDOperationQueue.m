@@ -47,7 +47,7 @@
         _queue                    = [[NSOperationQueue alloc] init];
         _operations               = [[NSMutableDictionary alloc] init];
         _progressObservers        = [[NSMutableSet alloc] init];
-        self.maxQueuedOperationsCount = CDOperationQueueCountMax;
+        _maxQueuedOperationsCount = CDOperationQueueCountMax;
     }
     return self;
 }
@@ -62,7 +62,12 @@
 - (void)queueDidFinish
 {
     [self.progressObservers makeObjectsPerformSelector:@selector(runCompletionBlock)];
+    
     [self removeAllProgressObservers];
+    
+    //
+    // Alert Conductor that the queue has finished
+    //
     [self.delegate queueDidFinish:self];
 }
 
@@ -107,10 +112,10 @@
 
 - (void)removeOperation:(CDOperation *)operation
 {
-    if (![self.operations objectForKey:operation.identifier]) return;
-    
-    @synchronized(self.operations ) {
+    @synchronized(self.operations) {
         ConductorLogTrace(@"Removing operation %@ from queue %@", operation.identifier, self.name);
+       
+        if (![self.operations objectForKey:operation.identifier]) return;
         
         [self.operations removeObjectForKey:operation.identifier];
                 

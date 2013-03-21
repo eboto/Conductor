@@ -42,8 +42,7 @@
 
 - (void)runCompletionBlock
 {
-    if (!self.completionBlock) return;
-    self.completionBlock();
+    if (self.completionBlock) self.completionBlock();
 }
 
 - (void)addToStartingOperationCount:(NSNumber *)numberToAdd

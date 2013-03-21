@@ -27,12 +27,13 @@
 
 @implementation CDTestOperation
 
-- (void)start {
+- (void)main
+{
     @autoreleasepool {
-        [super start];
-    
+        [super main];
+        
         sleep(0.4);
-    
+        
         [self finish];
     }
 }

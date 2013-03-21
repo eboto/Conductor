@@ -19,7 +19,7 @@
 }
 
 - (void)testCreateOperationWithoutIdentifier {
-    CDOperation *op = [CDOperation operation];
+    CDOperation *op = [CDOperation new];
     STAssertNotNil(op.identifier, @"Operation should have an identifier");
 }
 
@@ -33,7 +33,7 @@
         });
     };         
     
-    CDTestOperation *op = [CDTestOperation operation];
+    CDTestOperation *op = [CDTestOperation new];
     op.completionBlock = completionBlock;
     
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
@@ -51,7 +51,7 @@
 
 - (void)testCancelOperation {       
     
-    CDTestOperation *op = [CDTestOperation operation];
+    CDTestOperation *op = [CDTestOperation new];
     
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     [queue addOperation:op];

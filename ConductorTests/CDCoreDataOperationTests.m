@@ -16,6 +16,8 @@
 - (void)setUp {
     [super setUp];
     
+    DeleteDataStore();
+    
     // Build Model
     model = [[NSManagedObjectModel alloc] initWithContentsOfURL:DataModelURL()];
     
@@ -37,19 +39,12 @@
     [context setPersistentStoreCoordinator:coord];
 }
 
-- (void)tearDown {
-    context = nil;
-    
+- (void)tearDown
+{
     NSError *error = nil;
     STAssertTrue([coord removePersistentStore:store error:&error], 
                  @"couldn't remove persistent store: %@", error);
-    
-    store = nil;
-    coord = nil;
-    model = nil;  
         
-    DeleteDataStore();
-
     [super tearDown];
 }
 
@@ -61,35 +56,38 @@
     STAssertNotNil(operation.backgroundContext, @"Operation background context should not be nil!");
 }
 
-- (void)testBackgroundContextDidSave {
-    
-    __block BOOL hasFinished = NO;
-    
-    void (^completionBlock)(void) = ^(void) {
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            hasFinished = YES;        
-        });
-    };         
-    
-    CDTestCoreDataOperation *operation = (CDTestCoreDataOperation *)[CDTestCoreDataOperation operationWithMainContext:context];
-    operation.completionBlock = completionBlock;
-    
-    [conductor addOperation:operation toQueueNamed:CONDUCTOR_TEST_QUEUE]; 
-    
-    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.2];
-    while (hasFinished == NO) {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-                                 beforeDate:loopUntil];
-    }    
-
-    
+- (void)testBackgroundContextDidSave
+{    
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Employee" inManagedObjectContext:context];
     [request setEntity:entity];
     [request setPredicate:[NSPredicate predicateWithFormat:@"1 = 1"]];
-
+    
     NSError *error = nil;
     NSArray *results = [context executeFetchRequest:request error:&error];
+    
+    STAssertEquals([results count], 0U, @"Should only have one employee");
+
+    __block BOOL hasFinished = NO;
+    void (^completionBlock)(void) = ^(void) {
+        hasFinished = YES;
+    };
+    
+    
+    CDTestCoreDataOperation *operation = (CDTestCoreDataOperation *)[CDTestCoreDataOperation operationWithMainContext:context];
+    operation.completionBlock = completionBlock;
+    
+    [conductor addOperation:operation toQueueNamed:CONDUCTOR_TEST_QUEUE];
+        
+    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.1];
+    while (hasFinished == NO) {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
+                                 beforeDate:loopUntil];
+    }
+    
+    [conductor waitForQueueNamed:CONDUCTOR_TEST_QUEUE];
+    
+    results = [context executeFetchRequest:request error:&error];
     
     NSManagedObject *employee = [results lastObject];
 

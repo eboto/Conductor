@@ -25,12 +25,6 @@
 
 #import <Foundation/Foundation.h>
 
-typedef enum {
-    CDOperationStateReady,
-    CDOperationStateExecuting,
-    CDOperationStateFinished,
-} CDOperationState;
-
 @protocol CDOperationDelegate;
 
 @interface CDOperation : NSOperation {}
@@ -58,13 +52,18 @@ typedef enum {
 /**
  * Factory for creating a new operation
  */
-+ (id)operation;
++ (id)operation DEPRECATED_ATTRIBUTE;
 
 /**
  * Call this when the main operation is finished running.  Subclasses can use
  * this to run any necessary cleanup when finished.
  */
 - (void)finish;
+
+/**
+ Subclasses can override this to cleanup anything extra before the task is shut down by the OS
+ */
+- (void)backgroundTaskExpirationCleanup;
 
 @end
 

@@ -59,9 +59,9 @@
 
 - (void)testStartingOperationCount
 {
-    CDLongRunningTestOperation *op1 = [CDLongRunningTestOperation operation];
-    CDLongRunningTestOperation *op2 = [CDLongRunningTestOperation operation];    
-    CDLongRunningTestOperation *op3 = [CDLongRunningTestOperation operation];    
+    CDLongRunningTestOperation *op1 = [CDLongRunningTestOperation new];
+    CDLongRunningTestOperation *op2 = [CDLongRunningTestOperation new];    
+    CDLongRunningTestOperation *op3 = [CDLongRunningTestOperation new];    
     
     [testOperationQueue addOperation:op1];
     [testOperationQueue addOperation:op2];
@@ -97,9 +97,9 @@
 }
 
 - (void)testRunWatcherProgressAndCompletionBlocks {
-    CDTestOperation *op1 = [CDTestOperation operation];
-    CDTestOperation *op2 = [CDTestOperation operation];
-    CDTestOperation *op3 = [CDTestOperation operation];
+    CDTestOperation *op1 = [CDTestOperation new];
+    CDTestOperation *op2 = [CDTestOperation new];
+    CDTestOperation *op3 = [CDTestOperation new];
     
     [testOperationQueue addOperation:op1];
     [testOperationQueue addOperation:op2];
