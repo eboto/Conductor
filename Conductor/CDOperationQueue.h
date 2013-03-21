@@ -38,9 +38,7 @@ typedef enum {
     CDOperationQueueCountHigh   = 6,
 } CDOperationQueueCount;
 
-@interface CDOperationQueue : NSObject <CDOperationDelegate> {}
-
-@property (nonatomic, weak) id <CDOperationQueueDelegate> delegate;
+@interface CDOperationQueue : NSObject <CDOperationDelegate>
 
 @property (nonatomic, weak) id <CDOperationQueueOperationsObserver> operationsObserver;
 
@@ -134,10 +132,6 @@ andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBl
 - (void)removeProgressObserver:(CDOperationQueueProgressObserver *)observer;
 - (void)removeAllProgressObservers;
 
-@end
-
-@protocol CDOperationQueueDelegate <NSObject>
-- (void)queueDidFinish:(CDOperationQueue *)queue;
 @end
 
 @protocol CDOperationQueueOperationsObserver <NSObject>

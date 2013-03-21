@@ -203,7 +203,7 @@
 {
     /**
      This is really only meant for testing async code.  This blocks the current thread and dissalows
-     adding more opperations to the queue
+     adding more opperations to the queue from this thread.
      */
     
     CDOperationQueue *queue = [self getQueueNamed:queueName];
@@ -212,13 +212,6 @@
     if (!queue.isExecuting) return;
     
     [queue.queue waitUntilAllOperationsAreFinished];
-}
-
-#pragma mark - CDOperationQueueDelegate
-
-- (void)queueDidFinish:(CDOperationQueue *)queue
-{
-    // noop
 }
 
 #pragma mark - Queue Progress
@@ -267,18 +260,11 @@
 
 #pragma mark - Accessors
 
-
 - (CDOperationQueue *)getQueueNamed:(NSString *)queueName
 {
     if (!queueName) return nil;
-    
-    id queue = [self.queues objectForKey:queueName];
-    
-    if (!queue) {
-        return nil;
-    }
-    
-    return (CDOperationQueue *)queue;
+    CDOperationQueue *queue = [self.queues objectForKey:queueName];
+    return queue;
 }
 
 - (BOOL)addQueue:(CDOperationQueue *)queue
@@ -301,7 +287,6 @@
         
         ConductorLogTrace(@"Adding queue named: %@", queue.name);
         
-        queue.delegate = self;
         [self.queues setObject:queue forKey:queue.name];
         
         return YES;

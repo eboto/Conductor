@@ -29,8 +29,11 @@
 #import "CDOperationQueue.h"
 #import "CDOperationQueueProgressObserver.h"
 
-@interface Conductor : NSObject <CDOperationQueueDelegate> {}
+@interface Conductor : NSObject
 
+/**
+ A key store for all the queues that this instance manages
+ */
 @property (nonatomic, readonly) NSMutableDictionary *queues;
 
 /**
@@ -53,17 +56,17 @@
                                   toNewPriority:(NSOperationQueuePriority)priority;
 
 /**
- Returns YES if the queue with the given name has an operation either running or
- queued up to run with the identifier.
- */
-- (BOOL)hasOperationWithIdentifier:(NSString *)identifier 
-                      inQueueNamed:(NSString *)queueName;
-
-/**
  * Returns the operation in the given queue
  */
 - (CDOperation *)operationWithIdentifier:(NSString *)identifier
                             inQueueNamed:(NSString *)queueName;
+
+/**
+ Returns YES if the queue with the given name has an operation either running or
+ queued up to run with the identifier.
+ */
+- (BOOL)hasOperationWithIdentifier:(NSString *)identifier
+                      inQueueNamed:(NSString *)queueName;
 
 /**
  Adds progress watcher to queue

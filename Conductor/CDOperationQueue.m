@@ -36,7 +36,6 @@
 
 - (void)dealloc
 {
-    _delegate = nil;
     _operationsObserver = nil;
 }
 
@@ -64,11 +63,6 @@
     [self.progressObservers makeObjectsPerformSelector:@selector(runCompletionBlock)];
     
     [self removeAllProgressObservers];
-    
-    //
-    // Alert Conductor that the queue has finished
-    //
-    [self.delegate queueDidFinish:self];
 }
 
 #pragma mark - Operations API
