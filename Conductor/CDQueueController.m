@@ -48,6 +48,38 @@
 
 #pragma mark - Queues
 
+- (BOOL)addQueue:(CDOperationQueue *)queue
+{
+    @synchronized (self.queues) {
+        if (!queue) {
+            NSAssert(NO, @"Cannot add a nil queue to Conductor.");
+            return NO;
+        }
+        
+        if (!queue.name) {
+            NSAssert(NO, @"Cannot add a queue without a name to Conductor.");
+            return NO;
+        }
+        
+        if ([self getQueueNamed:queue.name]) {
+            ConductorLogTrace(@"Conductor already has queue named %@", queue.name);
+            return NO;
+        }
+        
+        ConductorLogTrace(@"Adding queue named: %@", queue.name);
+        
+        [self.queues setObject:queue forKey:queue.name];
+        
+        return YES;
+    }
+}
+
+- (CDOperationQueue *)getQueueNamed:(NSString *)queueName
+{
+    CDOperationQueue *queue = [self.queues objectForKey:queueName];
+    return queue;
+}
+
 - (NSArray *)allQueueNames
 {
     return [self.queues allKeys];
@@ -64,10 +96,8 @@
         toQueueNamed:(NSString *)queueName 
 {        
     CDOperationQueue *queue = [self getQueueNamed:queueName];
-    if (!queue) {
-        NSAssert(NO, @"Tried to add an operation to a queue that doesnt exist. Create the queue, then add it to Conductor.");
-        return;
-    };
+    NSAssert(queue, @"Tried to add an operation to a queue that doesnt exist. Create the queue, then add it to Conductor.");
+    if (!queue) return;
     
     ConductorLogTrace(@"Adding operation to queue: %@", queue.name);
         
@@ -104,110 +134,11 @@
     return [queue getOperationWithIdentifier:identifier];
 }
 
-#pragma mark - Executing
-
-- (BOOL)isExecuting
-{
-    __block BOOL isExecuting = NO;
-    @synchronized (self.queues)
-    {
-        [self.queues enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
-            if (queue.isExecuting) {
-                isExecuting = YES;
-                *stop = YES;
-            }
-        }];
-    };
-    return isExecuting;
-}
-
-- (BOOL)isQueueExecutingNamed:(NSString *)queueName
-{
-    CDOperationQueue *queue = [self getQueueNamed:queueName];
-    if (!queue) return NO;
-    return queue.isExecuting;
-}
-
 - (NSUInteger)numberOfOperationsInQueueNamed:(NSString *)queueName
 {
     CDOperationQueue *queue = [self getQueueNamed:queueName];
     if (!queue) return 0;
     return [queue operationCount];
-}
-
-#pragma mark - Cancel
-
-- (void)cancelAllOperations
-{
-    ConductorLogTrace(@"Cancel all operations");
-    
-    // Grabbing queue names prevents mutation while enumeration of queues dict
-    NSArray *queuesNamesToCancel = [self allQueueNames]; 
-    
-    for (NSString *queueName in queuesNamesToCancel) {
-        [self cancelAllOperationsInQueueNamed:queueName];
-    }
-}
-
-- (void)cancelAllOperationsInQueueNamed:(NSString *)queueName
-{
-    ConductorLogTrace(@"Cancel all operations in queue: %@", queueName);
-    CDOperationQueue *queue = [self getQueueNamed:queueName];
-    [queue cancelAllOperations];
-}
-
-#pragma mark - Suspend
-
-- (void)suspendAllQueues
-{
-    ConductorLogTrace(@"Suspend all queues");
-    
-    // Grabbing queue names prevents mutation while enumeration of queues dict
-    NSArray *queuesNamesToSuspend = [self allQueueNames]; 
-    
-    for (NSString *queueName in queuesNamesToSuspend) {
-        [self suspendQueueNamed:queueName];
-    }
-}
-
-- (void)suspendQueueNamed:(NSString *)queueName
-{
-    ConductorLogTrace(@"Suspend queue: %@", queueName);
-    CDOperationQueue *queue = [self getQueueNamed:queueName];;
-    [queue setSuspended:YES];
-}
-
-#pragma mark - Resume
-
-- (void)resumeAllQueues
-{
-    ConductorLogTrace(@"Resume all queues");
-    for (NSString *queueName in self.queues) {
-        [self resumeQueueNamed:queueName];
-    }
-}
-
-- (void)resumeQueueNamed:(NSString *)queueName
-{
-    ConductorLogTrace(@"Resume queue: %@", queueName);
-    CDOperationQueue *queue = [self getQueueNamed:queueName];;
-    [queue setSuspended:NO];    
-}
-
-#pragma mark - Wait
-
-- (void)waitForQueueNamed:(NSString *)queueName
-{
-    /**
-     This is really only meant for testing async code.  This blocks the current thread and dissalows
-     adding more opperations to the queue from this thread.
-     */
-    
-    CDOperationQueue *queue = [self getQueueNamed:queueName];
-    
-    if (!queue.isExecuting) return;
-    
-    [queue.queue waitUntilAllOperationsAreFinished];
 }
 
 #pragma mark - Queue Progress
@@ -247,40 +178,6 @@
 {
     CDOperationQueue *queue = [self getQueueNamed:queueName];
     queue.operationsObserver = nil;
-}
-
-#pragma mark - Accessors
-
-- (CDOperationQueue *)getQueueNamed:(NSString *)queueName
-{
-    CDOperationQueue *queue = [self.queues objectForKey:queueName];
-    return queue;
-}
-
-- (BOOL)addQueue:(CDOperationQueue *)queue
-{
-    @synchronized (self.queues) {
-        if (!queue) {
-            NSAssert(NO, @"Cannot add a nil queue to Conductor.");
-            return NO;
-        }
-        
-        if (!queue.name) {
-            NSAssert(NO, @"Cannot add a queue without a name to Conductor.");
-            return NO;
-        }
-        
-        if ([self getQueueNamed:queue.name]) {
-            ConductorLogTrace(@"Conductor already has queue named %@", queue.name);
-            return NO;
-        }
-        
-        ConductorLogTrace(@"Adding queue named: %@", queue.name);
-        
-        [self.queues setObject:queue forKey:queue.name];
-        
-        return YES;
-    }
 }
 
 @end

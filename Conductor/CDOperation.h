@@ -27,7 +27,7 @@
 
 @protocol CDOperationDelegate;
 
-@interface CDOperation : NSOperation {}
+@interface CDOperation : NSOperation
 
 @property (nonatomic, weak) id <CDOperationDelegate> delegate;
 
@@ -69,4 +69,5 @@
 
 @protocol CDOperationDelegate <NSObject>
 - (void)operationDidFinish:(CDOperation *)operation;
+- (void)operationWasCanceled:(CDOperation *)operation;
 @end

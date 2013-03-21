@@ -22,7 +22,7 @@
 {
     @autoreleasepool {
         [super main];
-        
+                
         sleep(self.duration);
         
         [self finish];

@@ -35,4 +35,23 @@
     }
 }
 
+- (IBAction)runAndCancel:(id)sender
+{
+    for (int i = 0; i < 100; i++){
+        CDSuperLongTaskOperation *op = [CDSuperLongTaskOperation new];
+        op.identifier = [NSString stringWithFormat:@"%i", i];
+        
+        __weak CDSuperLongTaskOperation *weakOp = op;
+        op.completionBlock = ^{
+            __strong CDSuperLongTaskOperation *strongOp = weakOp;
+            NSLog(@"%@ complete", strongOp.identifier);
+        };
+        
+        [[CDQueueController sharedInstance] addOperation:op
+                                            toQueueNamed:CONDUCTOR_APP_QUEUE];
+    }
+    
+    [[CDQueueController sharedInstance] cancelAllOperations];
+}
+
 @end

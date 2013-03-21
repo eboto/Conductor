@@ -10,15 +10,21 @@
 
 @implementation CDSuperLongTaskOperation
 
-- (void)start {
+- (void)main
+{
     @autoreleasepool {
-        
-        [super start];
+        [super main];
         
         NSLog(@"Starting super long operation");
         
         // Slightly longer than the permitted 10 minutes
-        for (int i=0; i < 620; i++) {
+        for (int i = 0; i < 620; i++) {
+            
+            if (self.isCancelled) {
+                [self finish];
+                return;
+            }
+            
             NSLog(@"time: %i", i);
             sleep(1);
         }

@@ -10,6 +10,9 @@
 #define Conductor_Conductor_h
 
 #import "CDQueueController.h"
+#import "CDQueueController+State.h"
+#import "CDQueueController+Test.h"
+
 #import "CDOperationQueue.h"
 #import "CDOperation.h"
 #import "CDCoreDataOperation.h"

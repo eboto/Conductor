@@ -47,7 +47,11 @@
 		DBD172B516794A650019FF3D /* CDSuperLongTaskOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBD172B416794A650019FF3D /* CDSuperLongTaskOperation.m */; };
 		DBD172B816794B280019FF3D /* libConductor.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19A1451F1B200D94890 /* libConductor.a */; };
 		DBD172B916794B3A0019FF3D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB9F94D81598DE8300A97A05 /* CoreData.framework */; };
-		DBDA920F16FB9E2A00916FE4 /* Conductor.h in Headers */ = {isa = PBXBuildFile; fileRef = DBDA920E16FB9E2A00916FE4 /* Conductor.h */; };
+		DBDA920F16FB9E2A00916FE4 /* Conductor.h in Headers */ = {isa = PBXBuildFile; fileRef = DBDA920E16FB9E2A00916FE4 /* Conductor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DBDA921216FB9EA400916FE4 /* CDQueueController+State.h in Headers */ = {isa = PBXBuildFile; fileRef = DBDA921016FB9EA400916FE4 /* CDQueueController+State.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DBDA921316FB9EA400916FE4 /* CDQueueController+State.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDA921116FB9EA400916FE4 /* CDQueueController+State.m */; };
+		DBDA921616FB9FA300916FE4 /* CDQueueController+Test.h in Headers */ = {isa = PBXBuildFile; fileRef = DBDA921416FB9FA300916FE4 /* CDQueueController+Test.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DBDA921716FB9FA300916FE4 /* CDQueueController+Test.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDA921516FB9FA300916FE4 /* CDQueueController+Test.m */; };
 		DBDB9729158EF35C004BB06F /* CDCoreDataOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DBDB972A158EF35C004BB06F /* CDCoreDataOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */; };
 		DBE4976816EBD80E00C4EF18 /* CDIsExecutingQueryOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DBE4976716EBD80E00C4EF18 /* CDIsExecutingQueryOperation.m */; };
@@ -127,6 +131,10 @@
 		DBD172B316794A650019FF3D /* CDSuperLongTaskOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDSuperLongTaskOperation.h; sourceTree = "<group>"; };
 		DBD172B416794A650019FF3D /* CDSuperLongTaskOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDSuperLongTaskOperation.m; sourceTree = "<group>"; };
 		DBDA920E16FB9E2A00916FE4 /* Conductor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Conductor.h; sourceTree = "<group>"; };
+		DBDA921016FB9EA400916FE4 /* CDQueueController+State.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CDQueueController+State.h"; sourceTree = "<group>"; };
+		DBDA921116FB9EA400916FE4 /* CDQueueController+State.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CDQueueController+State.m"; sourceTree = "<group>"; };
+		DBDA921416FB9FA300916FE4 /* CDQueueController+Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CDQueueController+Test.h"; sourceTree = "<group>"; };
+		DBDA921516FB9FA300916FE4 /* CDQueueController+Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CDQueueController+Test.m"; sourceTree = "<group>"; };
 		DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDCoreDataOperation.h; sourceTree = "<group>"; };
 		DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDCoreDataOperation.m; sourceTree = "<group>"; };
 		DBE4976616EBD80E00C4EF18 /* CDIsExecutingQueryOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDIsExecutingQueryOperation.h; sourceTree = "<group>"; };
@@ -223,6 +231,10 @@
 				DBDA920E16FB9E2A00916FE4 /* Conductor.h */,
 				DB83D1A21451F1B200D94890 /* CDQueueController.h */,
 				DB83D1A31451F1B200D94890 /* CDQueueController.m */,
+				DBDA921416FB9FA300916FE4 /* CDQueueController+Test.h */,
+				DBDA921516FB9FA300916FE4 /* CDQueueController+Test.m */,
+				DBDA921016FB9EA400916FE4 /* CDQueueController+State.h */,
+				DBDA921116FB9EA400916FE4 /* CDQueueController+State.m */,
 				DB83D1D81451F89E00D94890 /* CDOperationQueue.h */,
 				DB83D1D91451F89E00D94890 /* CDOperationQueue.m */,
 				DB83D1DC1451FB1900D94890 /* CDOperation.h */,
@@ -324,6 +336,8 @@
 				DB4F2D9D155320EF00216AB9 /* ConductorLogging.h in Headers */,
 				DBDB9729158EF35C004BB06F /* CDCoreDataOperation.h in Headers */,
 				DBDA920F16FB9E2A00916FE4 /* Conductor.h in Headers */,
+				DBDA921216FB9EA400916FE4 /* CDQueueController+State.h in Headers */,
+				DBDA921616FB9FA300916FE4 /* CDQueueController+Test.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,6 +475,8 @@
 				DB83D1DF1451FB1900D94890 /* CDOperation.m in Sources */,
 				DB6BABC7154F69FC004842D2 /* CDOperationQueueProgressObserver.m in Sources */,
 				DBDB972A158EF35C004BB06F /* CDCoreDataOperation.m in Sources */,
+				DBDA921316FB9EA400916FE4 /* CDQueueController+State.m in Sources */,
+				DBDA921716FB9FA300916FE4 /* CDQueueController+Test.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -706,6 +722,7 @@
 				INFOPLIST_FILE = "ConductorApp/ConductorApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -731,6 +748,7 @@
 				INFOPLIST_FILE = "ConductorApp/ConductorApp-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;

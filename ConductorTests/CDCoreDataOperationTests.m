@@ -6,7 +6,10 @@
 //  Copyright (c) 2012 Andrew B. Smith. All rights reserved.
 //
 
+
 #import "CDCoreDataOperationTests.h"
+#import "Conductor.h"
+
 #import "CDCoreDataOperation.h"
 #import "CDTestCoreDataOperation.h"
 #import "ConductorTestMacros.h"

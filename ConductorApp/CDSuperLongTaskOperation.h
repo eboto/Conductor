@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Andrew B. Smith. All rights reserved.
 //
 
-#import <Conductor/CDBackgroundTaskOperation.h>
+#import <Conductor/Conductor.h>
 
-@interface CDSuperLongTaskOperation : CDBackgroundTaskOperation
+@interface CDSuperLongTaskOperation : CDOperation
 
 @end

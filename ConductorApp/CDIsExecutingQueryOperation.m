@@ -7,7 +7,7 @@
 //
 
 #import "CDIsExecutingQueryOperation.h"
-#import "Conductor.h"
+#import <Conductor/Conductor.h>
 
 @implementation CDIsExecutingQueryOperation
 
@@ -25,7 +25,7 @@
             
         // Slightly longer than the permitted 10 minutes
         for (int i = 0; i < self.numCycles; i++) {
-            [[Conductor sharedInstance] isExecuting];
+            [[CDQueueController sharedInstance] isExecuting];
         }
         
         [self finish];

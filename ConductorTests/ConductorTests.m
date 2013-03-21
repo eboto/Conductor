@@ -25,6 +25,8 @@
 
 #import "ConductorTests.h"
 
+#import "Conductor.h"
+
 #import "CDOperation.h"
 #import "CDTestOperation.h"
 #import "CDLongRunningTestOperation.h"
@@ -160,9 +162,7 @@
 }
 
 - (void)testConductorResumeAllQueues
-{
-//    [conductor waitForQueueNamed:CONDUCTOR_TEST_QUEUE];
-    
+{    
     __block BOOL hasFinished = NO;
     void (^completionBlock)(void) = ^(void) {
         hasFinished = YES;
@@ -177,11 +177,6 @@
     [conductor resumeAllQueues];
     
     [conductor waitForQueueNamed:CONDUCTOR_TEST_QUEUE];
-    
-//    NSDate *time = [NSDate dateWithTimeIntervalSinceNow:0.1];
-//    while (!hasFinished) {
-//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:time];
-//    }
     
     STAssertTrue(hasFinished, @"Conductor should add and complete test operation");
 }
@@ -203,61 +198,48 @@
     
     [conductor waitForQueueNamed:CONDUCTOR_TEST_QUEUE];
     
-//    NSDate *time = [NSDate dateWithTimeIntervalSinceNow:0.1];
-//    while (!hasFinished) {
-//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:time];
-//    }
-    
     STAssertTrue(hasFinished, @"Conductor should add and complete test operation");
 }
 
-//- (void)testConductorTryToBreakIt {
-//    
-//    NSString *customQueueName = @"CustomQueueName2";
-//    
-//    [conductor setMaxConcurrentOperationCount:1 forQueueNamed:customQueueName];
-//    
-////    [conductor addProgressObserverToQueueNamed:customQueueName
-////                             withProgressBlock:nil
-////                            andCompletionBlock:completionBlock];
-//
-//    
-//    for (int i = 0; i < 50; i++) {
-//        CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:0.3];
-//        [conductor addOperation:op toQueueNamed:customQueueName];
-//    }
-//    
-//    [conductor cancelAllOperations];
-//    
-//    
-//    __block BOOL completionBlockDidRun = NO;
-//    
-//    CDOperationQueueProgressObserverCompletionBlock completionBlock = ^(void) {
-//        completionBlockDidRun = YES;
-//    };
-//    
-//    [conductor addProgressObserverToQueueNamed:customQueueName
-//                             withProgressBlock:nil
-//                            andCompletionBlock:completionBlock];
-//    
-//    CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:5.0];
-//    [conductor addOperation:op toQueueNamed:customQueueName];
-//        
-//    CDOperationQueue *queue = [conductor queueForQueueName:customQueueName shouldCreate:NO];
-//    
-//    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.1];
-//    while (completionBlockDidRun == NO) {
-//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-//                                 beforeDate:loopUntil];
-//    }
-//    
-//    NSDate *loopUntil2 = [NSDate dateWithTimeIntervalSinceNow:0.2];
-//    while (queue.isExecuting == YES) {
-//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-//                                 beforeDate:loopUntil2];
-//    }
-//    
-//    NSLog(@"finished!");
-//}
+- (void)testConductorTryToBreakIt
+{
+    for (int i = 0; i < 50; i++) {
+        CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:0.3];
+        
+        op.identifier = [NSString stringWithFormat:@"%i", i];
+        
+        __weak CDLongRunningTestOperation *weakOp = op;
+        op.completionBlock = ^{
+            __strong CDLongRunningTestOperation *strongOp = weakOp;
+            NSLog(@"%@ complete", strongOp.identifier);
+        };
+        
+        [conductor addOperation:op toQueueNamed:CONDUCTOR_TEST_QUEUE];
+    }
+    
+    [conductor cancelAllOperations];
+    
+    __block BOOL completionBlockDidRun = NO;
+    CDOperationQueueProgressObserverCompletionBlock completionBlock = ^(void) {
+        completionBlockDidRun = YES;
+    };
+    
+    __block float queueProgress = 0.0;
+    CDOperationQueueProgressObserverProgressBlock progressBlock = ^(float progress) {
+        queueProgress = progress;
+    };
+    
+    [conductor addProgressObserverToQueueNamed:CONDUCTOR_TEST_QUEUE
+                             withProgressBlock:progressBlock
+                             andCompletionBlock:completionBlock];
+    
+    CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:1.0];
+    [conductor addOperation:op toQueueNamed:CONDUCTOR_TEST_QUEUE];
+    
+    [conductor waitForQueueNamed:CONDUCTOR_TEST_QUEUE];
+    
+    STAssertTrue(completionBlockDidRun, @"Completion block should have run!");
+    STAssertEquals(queueProgress, 1.0f, @"Progress should be at 100%");
+}
 
 @end

@@ -90,52 +90,11 @@
 - (void)addQueueOperationObserver:(id)observer
                      toQueueNamed:(NSString *)queueName;
 
-/**
- * Cancels all operations in all queues.  Useful when you need to cleanup before
- * shutting the app down.
- */
-- (void)cancelAllOperations;
-
-/**
- * Cancels all the operations is a specific queue
- */
-- (void)cancelAllOperationsInQueueNamed:(NSString *)queueName;
-
-/**
- Suspends all the operation queues.
- */
-- (void)suspendAllQueues;
-
-/**
- Suspends a specific queue
- */
-- (void)suspendQueueNamed:(NSString *)queueName;
-
-/**
- Resumes any suspended queues
- */
-- (void)resumeAllQueues;
-
-/**
- Resumes a specific queue
- */
-- (void)resumeQueueNamed:(NSString *)queueName;
 
 /**
  * List of all queue names
  */
 - (NSArray *)allQueueNames;
-
-/**
- Queries all queues to see if any are running.
- */
-- (BOOL)isExecuting;
-
-/**
- Returns YES if the queue with the given name has operations either executing
- or in the queue.
- */
-- (BOOL)isQueueExecutingNamed:(NSString *)queueName;
 
 /**
  Returns the number of operations currently in the queue.  Returns 0 if there is no queue of that
@@ -148,13 +107,6 @@
  tests.
  */
 - (BOOL)hasQueues;
-
-/**
- Blocks the calling thread until all jobs in the designated queue finish.  This
- can be useful for unit testing asynchronous code.  This could be dangerous in
- production.
- */
-- (void)waitForQueueNamed:(NSString *)queueName;
 
 - (CDOperationQueue *)getQueueNamed:(NSString *)queueName;
 

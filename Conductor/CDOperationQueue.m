@@ -74,11 +74,15 @@
     
     @synchronized(self.operations)
     {
+        //
         // Add operation to dict
+        //
         [self.operations setObject:operation 
                             forKey:operation.identifier];
         
+        //
         // Update progress watcher count
+        //
         [self.progressObservers makeObjectsPerformSelector:@selector(addToStartingOperationCount:)
                                                 withObject:@(1)];
         
@@ -150,6 +154,11 @@
     if (self.operationCount == 0) {
         [self queueDidFinish];
     }
+}
+
+- (void)operationWasCanceled:(CDOperation *)operation
+{
+    
 }
 
 #pragma mark - State

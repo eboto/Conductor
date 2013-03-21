@@ -7,6 +7,7 @@
 //
 
 #import "CDTest.h"
+#import "Conductor.h"
 
 @implementation CDTest
 
@@ -18,7 +19,6 @@
     
     testOperationQueue = [CDOperationQueue queueWithName:CONDUCTOR_TEST_QUEUE];
     [testOperationQueue setMaxConcurrentOperationCount:1];
-    
     [conductor addQueue:testOperationQueue];
 }
 

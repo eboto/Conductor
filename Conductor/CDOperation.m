@@ -87,14 +87,26 @@
         // Respect the cancel
         //
         if (self.isCancelled) {
+            NSLog(@"canceled");
             [self finish];
             return;
         }
         
         //
-        // Do your work here
+        // Do your work here, then finish
         //
     }
+}
+
+- (void)cancel
+{
+    [super cancel];
+    
+    /**
+     Respond to a cancel command by finishing up the operation
+     */
+        
+    [self.delegate operationDidFinish:self];
 }
 
 - (void)finish
