@@ -37,7 +37,7 @@ Conductor is built as a static library, based on some of the excellent conventio
 
 ### The CDQueueController
 
-The CDQueueController is the main component of Conductor. You will do most of your interaction with this object. It manages multiple `CDOperationQueues` for you, making it convenient and simple to add operations and keep track of queues. You can create and keep track of as many CDQueueControllers as you want, but I usually end up using one and storing it on the App Delegate.
+The `CDQueueController` is the main component of Conductor. You will do most of your interaction with this object. It manages multiple `CDOperationQueues` for you, making it convenient and simple to add operations and keep track of queues. You can create and keep track of as many CDQueueControllers as you want, but I usually end up using one and storing it on the App Delegate.
 
 ```objective-c
 #import <UIKit/UIKit.h>
@@ -54,7 +54,7 @@ The CDQueueController is the main component of Conductor. You will do most of yo
 
 ### Building A Queue
 
-After we have a new `CDQueueController`, we can create a queue and add it. For this example we will create a serial queue. I usually do this after the application has finished launching.
+After we have a new `CDQueueController`, we can create a queue and add it. For this example we will create a serial queue. I usually do this after the application has finished launching. Give it a meaningful name, that will be useful later on in your logging when you want to know which queue an error went down.
 
 ```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
