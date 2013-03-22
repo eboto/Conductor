@@ -25,9 +25,10 @@ Conductor is built as a static library, based on some of the excellent conventio
 2. Add `Conductor.xcodeproj` to your project. `File > Add Files to "MyProject"…`
 3. Add Conductor as a target dependency to your app target under the `Build Phases` menu.
 4. Link the binary to the Conductor library.
-5. Add `$(OBJROOT)/UninstalledProducts/include` to your **User Header Search Paths**, and set **Always Search User Paths** to Yes.
-6. Import Conductor with `#import <Conductor/Conductor.h>`
-7. Build the project to check and make sure you setup everything correctly.
+5. Add `$(OBJROOT)/UninstalledProducts/include` to your **User Header Search Paths**, and set **Always Search User Paths** to Yes. This prevents a missing header problem when archiving your app.
+6. Make sure your `Other Linker Flags` includes `-ObjC` to properly load categories.
+7. Import Conductor with `#import <Conductor/Conductor.h>`
+8. Build the project to check and make sure you setup everything correctly.
 
 ##Using Conductor
 
