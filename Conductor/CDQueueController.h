@@ -27,7 +27,7 @@
 
 #import "CDOperation.h"
 #import "CDOperationQueue.h"
-#import "CDOperationQueueProgressObserver.h"
+#import "CDProgressObserver.h"
 
 @interface CDQueueController : NSObject
 
@@ -79,11 +79,11 @@
  Adds progress watcher to queue
  */
 - (void)addProgressObserverToQueueNamed:(NSString *)queueName
-                      withProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock
-                     andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock DEPRECATED_ATTRIBUTE;
+                      withProgressBlock:(CDProgressObserverProgressBlock)progressBlock
+                     andCompletionBlock:(CDProgressObserverCompletionBlock)completionBlock DEPRECATED_ATTRIBUTE;
 
-- (void)addProgressObserver:(CDOperationQueueProgressObserver *)observer toQueueNamed:(NSString *)queueName;
-- (void)removeProgresObserver:(CDOperationQueueProgressObserver *)observer fromQueueNamed:(NSString *)queueName;
+- (void)addProgressObserver:(CDProgressObserver *)observer toQueueNamed:(NSString *)queueName;
+- (void)removeProgresObserver:(CDProgressObserver *)observer fromQueueNamed:(NSString *)queueName;
 
 /**
  Gets messages when the max number of queued operations is reached, and when

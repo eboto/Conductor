@@ -47,8 +47,11 @@
 - (id)init
 {
     self = [super init];
-    if (self) {        
-        // Stock identifier
+    if (self) {
+        //
+        // This is simply a unique string added to the operation. Defaults to this in case none is
+        // provided by the user.
+        //
         uint64_t absolute_time = mach_absolute_time();
         mach_timebase_info_data_t timebase;
         mach_timebase_info(&timebase);
@@ -78,6 +81,18 @@
     return [self new];
 }
 
+#pragma mark - API
+
+- (void)work
+{
+    // Subclass does stuff here
+}
+
+- (void)cleanup
+{
+    // Subclass does stuff here
+}
+
 #pragma mark - 
 
 - (void)main
@@ -103,11 +118,6 @@
     }
 }
 
-- (void)work
-{
-    // Subclass does stuff here
-}
-
 - (void)cancel
 {
     [super cancel];
@@ -121,7 +131,7 @@
 
 - (void)finish
 {
-    ConductorLogTrace(@"Finished operation: %@", self.identifier);
+    [self cleanup];
     [self.delegate operationDidFinish:self];
 }
 

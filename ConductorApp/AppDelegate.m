@@ -23,9 +23,11 @@
      - Add a non-serial queue
      
      */
-    CDOperationQueue *conQueue = [CDOperationQueue queueWithName:CONDUCTOR_APP_QUEUE];
-    [conQueue setMaxConcurrentOperationCount:1];
-    [[CDQueueController sharedInstance] addQueue:conQueue];
+    self.mainQueueController = [CDQueueController new];
+    
+    CDOperationQueue *serialQueue = [CDOperationQueue queueWithName:CONDUCTOR_APP_QUEUE];
+    [serialQueue setMaxConcurrentOperationCount:1];
+    [[CDQueueController sharedInstance] addQueue:serialQueue];
     
     CDOperationQueue *nonConQueue = [CDOperationQueue queueWithName:CONDUCTOR_NONCON_APP_QUEUE];
     [[CDQueueController sharedInstance] addQueue:nonConQueue];

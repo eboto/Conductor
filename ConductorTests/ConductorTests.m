@@ -220,12 +220,12 @@
     [conductor cancelAllOperations];
     
     __block BOOL completionBlockDidRun = NO;
-    CDOperationQueueProgressObserverCompletionBlock completionBlock = ^(void) {
+    CDProgressObserverCompletionBlock completionBlock = ^(void) {
         completionBlockDidRun = YES;
     };
     
     __block float queueProgress = 0.0;
-    CDOperationQueueProgressObserverProgressBlock progressBlock = ^(float progress) {
+    CDProgressObserverProgressBlock progressBlock = ^(float progress) {
         queueProgress = progress;
     };
     

@@ -14,8 +14,8 @@
 		DB4F2D9B1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D9A1551F60200216AB9 /* CDOperationQueueProgressWatcherTests.m */; };
 		DB4F2D9D155320EF00216AB9 /* ConductorLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = DB4F2D9C155320EF00216AB9 /* ConductorLogging.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB4F2DA01553329900216AB9 /* CDTest.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D9F1553329900216AB9 /* CDTest.m */; };
-		DB6BABC6154F69FC004842D2 /* CDOperationQueueProgressObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DB6BABC7154F69FC004842D2 /* CDOperationQueueProgressObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressObserver.m */; };
+		DB6BABC6154F69FC004842D2 /* CDProgressObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = DB6BABC4154F69FC004842D2 /* CDProgressObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DB6BABC7154F69FC004842D2 /* CDProgressObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6BABC5154F69FC004842D2 /* CDProgressObserver.m */; };
 		DB776C42160E63D900217625 /* CDOperationQueueMaxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB776C41160E63D900217625 /* CDOperationQueueMaxTests.m */; };
 		DB83D19E1451F1B200D94890 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
 		DB83D1A41451F1B200D94890 /* CDQueueController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1A31451F1B200D94890 /* CDQueueController.m */; };
@@ -92,8 +92,8 @@
 		DB4F2D9C155320EF00216AB9 /* ConductorLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConductorLogging.h; sourceTree = "<group>"; };
 		DB4F2D9E1553329900216AB9 /* CDTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDTest.h; sourceTree = "<group>"; };
 		DB4F2D9F1553329900216AB9 /* CDTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDTest.m; sourceTree = "<group>"; };
-		DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperationQueueProgressObserver.h; sourceTree = "<group>"; };
-		DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationQueueProgressObserver.m; sourceTree = "<group>"; };
+		DB6BABC4154F69FC004842D2 /* CDProgressObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDProgressObserver.h; sourceTree = "<group>"; };
+		DB6BABC5154F69FC004842D2 /* CDProgressObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDProgressObserver.m; sourceTree = "<group>"; };
 		DB776C40160E63D900217625 /* CDOperationQueueMaxTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDOperationQueueMaxTests.h; sourceTree = "<group>"; };
 		DB776C41160E63D900217625 /* CDOperationQueueMaxTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDOperationQueueMaxTests.m; sourceTree = "<group>"; };
 		DB83D19A1451F1B200D94890 /* libConductor.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libConductor.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -254,8 +254,8 @@
 				DB83D1DD1451FB1900D94890 /* CDOperation.m */,
 				DBDB9727158EF35B004BB06F /* CDCoreDataOperation.h */,
 				DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */,
-				DB6BABC4154F69FC004842D2 /* CDOperationQueueProgressObserver.h */,
-				DB6BABC5154F69FC004842D2 /* CDOperationQueueProgressObserver.m */,
+				DB6BABC4154F69FC004842D2 /* CDProgressObserver.h */,
+				DB6BABC5154F69FC004842D2 /* CDProgressObserver.m */,
 				DB4F2D9C155320EF00216AB9 /* ConductorLogging.h */,
 				DB83D1A01451F1B200D94890 /* Supporting Files */,
 			);
@@ -367,7 +367,7 @@
 				DB83D1DA1451F89E00D94890 /* CDOperationQueue.h in Headers */,
 				DB83D1DE1451FB1900D94890 /* CDOperation.h in Headers */,
 				DBA5F95514560E1D00EBFF68 /* CDQueueController.h in Headers */,
-				DB6BABC6154F69FC004842D2 /* CDOperationQueueProgressObserver.h in Headers */,
+				DB6BABC6154F69FC004842D2 /* CDProgressObserver.h in Headers */,
 				DB4F2D9D155320EF00216AB9 /* ConductorLogging.h in Headers */,
 				DBDB9729158EF35C004BB06F /* CDCoreDataOperation.h in Headers */,
 				DBDA920F16FB9E2A00916FE4 /* Conductor.h in Headers */,
@@ -508,7 +508,7 @@
 				DB83D1A41451F1B200D94890 /* CDQueueController.m in Sources */,
 				DB83D1DB1451F89E00D94890 /* CDOperationQueue.m in Sources */,
 				DB83D1DF1451FB1900D94890 /* CDOperation.m in Sources */,
-				DB6BABC7154F69FC004842D2 /* CDOperationQueueProgressObserver.m in Sources */,
+				DB6BABC7154F69FC004842D2 /* CDProgressObserver.m in Sources */,
 				DBDB972A158EF35C004BB06F /* CDCoreDataOperation.m in Sources */,
 				DBDA921316FB9EA400916FE4 /* CDQueueController+State.m in Sources */,
 				DBDA921716FB9FA300916FE4 /* CDQueueController+Test.m in Sources */,

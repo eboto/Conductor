@@ -8,8 +8,8 @@
 #warning "This project uses features only available in iOS SDK 5.0 and later."
 #endif
 
-#define CONDUCTOR_APP_QUEUE @"com.conductorapp.concurrentQueue"
-#define CONDUCTOR_NONCON_APP_QUEUE @"com.conductorapp.nonConcurrentQueue"
+#define CONDUCTOR_APP_QUEUE @"com.conductorapp.serialQueue"
+#define CONDUCTOR_NONCON_APP_QUEUE @"com.conductorapp.concurrentQueue"
 
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>

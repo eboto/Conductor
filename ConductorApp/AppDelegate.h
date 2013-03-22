@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Conductor/Conductor.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (nonatomic, strong) CDQueueController *mainQueueController;
 
 @end

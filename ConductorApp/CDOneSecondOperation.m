@@ -15,4 +15,9 @@
     sleep(1);
 }
 
+- (void)cleanup
+{
+    // noop
+}
+
 @end

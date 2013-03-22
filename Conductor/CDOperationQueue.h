@@ -26,7 +26,7 @@
 #import <Foundation/Foundation.h>
 
 #import "CDOperation.h"
-#import "CDOperationQueueProgressObserver.h"
+#import "CDProgressObserver.h"
 
 @protocol CDOperationQueueDelegate;
 @protocol CDOperationQueueOperationsObserver;
@@ -125,11 +125,11 @@ typedef enum {
 /**
  
  */
-- (void)addProgressObserverWithProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock
-andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock DEPRECATED_ATTRIBUTE;
+- (void)addProgressObserverWithProgressBlock:(CDProgressObserverProgressBlock)progressBlock
+andCompletionBlock:(CDProgressObserverCompletionBlock)completionBlock DEPRECATED_ATTRIBUTE;
 
-- (void)addProgressObserver:(CDOperationQueueProgressObserver *)observer;
-- (void)removeProgressObserver:(CDOperationQueueProgressObserver *)observer;
+- (void)addProgressObserver:(CDProgressObserver *)observer;
+- (void)removeProgressObserver:(CDProgressObserver *)observer;
 - (void)removeAllProgressObservers;
 
 @end

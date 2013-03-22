@@ -16,6 +16,6 @@
 #import "CDOperationQueue.h"
 #import "CDOperation.h"
 #import "CDCoreDataOperation.h"
-#import "CDOperationQueueProgressObserver.h"
+#import "CDProgressObserver.h"
 
 #endif

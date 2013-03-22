@@ -24,7 +24,31 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-        
+    
+    
+    CDProgressObserver *observer = [CDProgressObserver new];
+    
+    observer.progressBlock = ^(CGFloat progress) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"Makin progress: %f", progress);            
+        })
+    };
+    
+    observer.completionBlock = ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"I'm done");
+        })
+    };
+    
+    [[CDQueueController sharedInstance] addProgressObserver:observer
+                                               toQueueNamed:CONDUCTOR_APP_QUEUE];
+    
+    for (int i = 0; i < 100; i++) {
+        CDOneSecondOperation *operation = [CDOneSecondOperation new];
+        [[CDQueueController sharedInstance] addOperation:operation
+                                            toQueueNamed:CONDUCTOR_APP_QUEUE];
+    }
+    
     // Left side
     self.leftSideOperations = [NSMutableArray new];
     self.leftOperationView.numberOfOperationViews = NUMBER_OF_OPERATIONS_PER_SIDE;

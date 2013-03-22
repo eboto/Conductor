@@ -215,18 +215,18 @@
 
 #pragma mark - Progress
 
-- (void)addProgressObserverWithProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock
-                         andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock
+- (void)addProgressObserverWithProgressBlock:(CDProgressObserverProgressBlock)progressBlock
+                         andCompletionBlock:(CDProgressObserverCompletionBlock)completionBlock
 {       
     ConductorLogTrace(@"Adding progress watcher to queue %@", self.name);
     
-    CDOperationQueueProgressObserver *watcher = [CDOperationQueueProgressObserver progressObserverWithStartingOperationCount:self.operationCount
+    CDProgressObserver *watcher = [CDProgressObserver progressObserverWithStartingOperationCount:self.operationCount
                                                                                                             progressBlock:progressBlock
                                                                                                        andCompletionBlock:completionBlock];
     [self addProgressObserver:watcher];
 }
 
-- (void)addProgressObserver:(CDOperationQueueProgressObserver *)observer
+- (void)addProgressObserver:(CDProgressObserver *)observer
 {
     @synchronized (self.progressObservers)
     {
@@ -235,7 +235,7 @@
     }
 }
 
-- (void)removeProgressObserver:(CDOperationQueueProgressObserver *)observer
+- (void)removeProgressObserver:(CDProgressObserver *)observer
 {
     @synchronized (self.progressObservers)
     {

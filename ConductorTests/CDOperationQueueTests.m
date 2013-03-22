@@ -157,7 +157,7 @@
     
     CDTestOperation *op = [CDTestOperation new];
     
-    CDOperationQueueProgressObserver *observer = [CDOperationQueueProgressObserver progressObserverWithStartingOperationCount:0
+    CDProgressObserver *observer = [CDProgressObserver progressObserverWithStartingOperationCount:0
                                                                                                                 progressBlock:nil
                                                                                                            andCompletionBlock:^ {
                                                                                                                hasFinished = YES;

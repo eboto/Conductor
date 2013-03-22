@@ -8,14 +8,14 @@
 
 #import "CDOperationQueueProgressWatcherTests.h"
 
-#import "CDOperationQueueProgressObserver.h"
+#import "CDProgressObserver.h"
 #import "CDTestOperation.h"
 #import "CDLongRunningTestOperation.h"
 
 @implementation CDOperationQueueProgressWatcherTests
 
 - (void)testCreateWatcher {
-    CDOperationQueueProgressObserver *watcher = [CDOperationQueueProgressObserver progressObserverWithStartingOperationCount:10
+    CDProgressObserver *watcher = [CDProgressObserver progressObserverWithStartingOperationCount:10
                                                                                                             progressBlock:nil
                                                                                                        andCompletionBlock:nil];
     
@@ -27,11 +27,11 @@
     
     __block float progressIndicator = 0.0f;
     
-    CDOperationQueueProgressObserverProgressBlock progressBlock = ^(float progress) {
+    CDProgressObserverProgressBlock progressBlock = ^(float progress) {
         progressIndicator = progress;
     };
     
-    CDOperationQueueProgressObserver *watcher = [CDOperationQueueProgressObserver progressObserverWithStartingOperationCount:10
+    CDProgressObserver *watcher = [CDProgressObserver progressObserverWithStartingOperationCount:10
                                                                                                             progressBlock:progressBlock
                                                                                                        andCompletionBlock:nil];
     
@@ -44,11 +44,11 @@
     
     __block BOOL completionBlockDidRun = NO;
     
-    CDOperationQueueProgressObserverCompletionBlock completionBlock = ^(void) {
+    CDProgressObserverCompletionBlock completionBlock = ^(void) {
         completionBlockDidRun = YES;
     };
     
-    CDOperationQueueProgressObserver *watcher = [CDOperationQueueProgressObserver progressObserverWithStartingOperationCount:10
+    CDProgressObserver *watcher = [CDProgressObserver progressObserverWithStartingOperationCount:10
                                                                                                             progressBlock:nil
                                                                                                        andCompletionBlock:completionBlock];
     
@@ -70,7 +70,7 @@
     [testOperationQueue addProgressObserverWithProgressBlock:nil andCompletionBlock:nil];
     
     NSArray *watchers = [[testOperationQueue progressObservers] allObjects];
-    CDOperationQueueProgressObserver *watcher = (CDOperationQueueProgressObserver *)watchers[0];
+    CDProgressObserver *watcher = (CDProgressObserver *)watchers[0];
     
     STAssertEquals(watcher.startingOperationCount, 3, @"Progress watcher should have correct starting operation count");    
 }
@@ -91,7 +91,7 @@
     [testOperationQueue addOperation:op4];
     
     NSArray *watchers = [[testOperationQueue progressObservers] allObjects];
-    CDOperationQueueProgressObserver *watcher = (CDOperationQueueProgressObserver *)watchers[0];
+    CDProgressObserver *watcher = (CDProgressObserver *)watchers[0];
     
     STAssertEquals(watcher.startingOperationCount, 4, @"Progress watcher should have correct starting operation count");    
 }
@@ -107,13 +107,13 @@
     
     __block float progressIndicator = 0.0f;
     
-    CDOperationQueueProgressObserverProgressBlock progressBlock = ^(float progress) {
+    CDProgressObserverProgressBlock progressBlock = ^(float progress) {
         progressIndicator = progress;
     };
     
     __block BOOL completionBlockDidRun = NO;
     
-    CDOperationQueueProgressObserverCompletionBlock completionBlock = ^(void) {
+    CDProgressObserverCompletionBlock completionBlock = ^(void) {
         completionBlockDidRun = YES;
     };
     

@@ -144,22 +144,22 @@
 #pragma mark - Queue Progress
 
 - (void)addProgressObserverToQueueNamed:(NSString *)queueName 
-                     withProgressBlock:(CDOperationQueueProgressObserverProgressBlock)progressBlock 
-                    andCompletionBlock:(CDOperationQueueProgressObserverCompletionBlock)completionBlock
+                     withProgressBlock:(CDProgressObserverProgressBlock)progressBlock 
+                    andCompletionBlock:(CDProgressObserverCompletionBlock)completionBlock
 {        
     CDOperationQueue *queue = [self getQueueNamed:queueName];
     [queue addProgressObserverWithProgressBlock:progressBlock 
                             andCompletionBlock:completionBlock];
 }
 
-- (void)addProgressObserver:(CDOperationQueueProgressObserver *)observer
+- (void)addProgressObserver:(CDProgressObserver *)observer
                toQueueNamed:(NSString *)queueName
 {
     CDOperationQueue *queue = [self getQueueNamed:queueName];
     [queue addProgressObserver:observer];
 }
 
-- (void)removeProgresObserver:(CDOperationQueueProgressObserver *)observer
+- (void)removeProgresObserver:(CDProgressObserver *)observer
                fromQueueNamed:(NSString *)queueName
 {
     CDOperationQueue *queue = [self getQueueNamed:queueName];

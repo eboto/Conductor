@@ -60,8 +60,12 @@
 - (void)work;
 
 /**
- * Call this when the main operation is finished running.  Subclasses can use
- * this to run any necessary cleanup when finished.
+ Do whatever you gotta do after the operation is complete.
+ */
+- (void)cleanup;
+
+/**
+ Runs the cleanup and alerts the delegate that the operation has finished
  */
 - (void)finish;
 
