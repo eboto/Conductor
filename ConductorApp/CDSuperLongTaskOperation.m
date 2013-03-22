@@ -14,6 +14,8 @@
 {
     NSLog(@"Starting super long operation");
     
+    [self beginBackgroundTask];
+    
     // Slightly longer than the permitted 10 minutes
     for (int i = 0; i < 620; i++) {
         

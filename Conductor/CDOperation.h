@@ -66,6 +66,11 @@
 - (void)finish;
 
 /**
+ Run this in your "work" method to allow the task to continue even if the app has been backgrounded
+ */
+- (void)beginBackgroundTask;
+
+/**
  Subclasses can override this to cleanup anything extra before the task is shut down by the OS
  */
 - (void)backgroundTaskExpirationCleanup;
