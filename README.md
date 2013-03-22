@@ -37,7 +37,7 @@ Conductor is built as a static library, based on some of the excellent conventio
 
 ### The CDQueueController
 
-You can create and keep track of as many CDQueueControllers as you want, but I usually end up using one and storing it on the App Delegate.
+The CDQueueController is the main component of Conductor. You will do most of your interaction with this object. It manages multiple `CDOperationQueues` for you, making it convenient and simple to add operations and keep track of queues. You can create and keep track of as many CDQueueControllers as you want, but I usually end up using one and storing it on the App Delegate.
 
 ```objective-c
 #import <UIKit/UIKit.h>
@@ -54,93 +54,120 @@ You can create and keep track of as many CDQueueControllers as you want, but I u
 
 ### Building A Queue
 
-The first step is to build a queue.
+After we have a new `CDQueueController`, we can create a queue and add it. For this example we will create a serial queue. I usually do this after the application has finished launching.
+
+```objective-c
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.mainQueueController = [CDQueueController new];
+    
+    CDOperationQueue *serialQueue = [CDOperationQueue queueWithName:@"com.conductor.serialQueue"];
+    [serialQueue setMaxConcurrentOperationCount:1];
+    
+    [self.mainQueueController addQueue:serialQueue];
+    
+    return YES;
+}
+```
+
+### Sublcassing CDOperation
+
+Understanding how to sublcass `NSOperation` can take some time. It's probably a good idea to read Apple's guide on [subclassing NSOperation](https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/NSOperation_class/Reference/Reference.html#//apple_ref/doc/uid/TP40004591-RH2-SW18) to understand how the design works.  Subclasses have to properly [respond to the cancel command](https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/NSOperation_class/Reference/Reference.html#//apple_ref/doc/uid/TP40004591-RH2-SW18). This topic is a work in progress and probably deserves it's own blog post. 
+
+For starters, let's build an operation that simply sleeps for one second. There are two methods you should be aware of.
+
+* `-(void)work;` : This is where you do task.
+* `-(void)cleanup;` : This is where you can optionally run some cleanup after the work is done.
+
+```objective-c
+#import "CDOneSecondOperation.h"
+
+@implementation CDOneSecondOperation
+
+- (void)work
+{
+    sleep(1);
+}
+
+- (void)cleanup
+{
+    NSLog(@"I'm done!");
+}
+
+@end
+```
+
+Pretty simple, right? CDOperation takes care of wrapping everything you do in an autorelease pool, so no need to worry about that. No need to worry about whether or not you use `-(void)start` or `-(void)main`, or worrying about making sure you have done proper KVO for `isReady` or `isFinished`; that work for you. Just worry about running the task you want to run!
 
 ### Adding Operations
 
-To use Conductor, first you have to subclass `CDOperation`, which is itself an `NSOperation` subclass.  Lets build a really simple operation to play around with, which is the same as the `CDTestOperation` in ConductorTests.
+Once you have a `CDOperation` ready to go, you add it to your queue. Let's imagine we want to start a task from a button press in a `UIViewController`. As far as keeping track of your main `CDQueueController`, that is up to you, but let's imagine we pass in the instance from the `AppDelegate` to our `UIViewController` before we show it.
 
 ```objective-c
-#import "Conductor/CDOperation.h"
-
-@interface TestOperation : CDOperation
-
-@end
-
-@implementation TestOperation
-
-- (void)start {
-    @autoreleasepool {
-        [super start];
-    
-        sleep(1.0);
-    
-        [self finish];
-    }
-}
-
-@end
-```
-
-As you can see, this operation just waits for one second before finishing.  Now lets add a bunch of operations to our Conductor singleton.  To slow things down, let's set the max concurrency operation count to 1 for our queue.  This will result in serial operation of our `TestOperation` so we can see what is happening in the log.
-
-```objective-c
-Conductor *conductor = [Conductor sharedInstance];
-NSString *myQueueName = @"MyQueueName";
-
-[conductor addProgressObserverToQueueNamed:myQueueName 
-                         withProgressBlock:^(float progress) {
-                             NSLog(@"progress: %f", progress);
-                         }
-                        andCompletionBlock:^ {
-                            NSLog(@"Finished!");
-                        }];
-
-[conductor setMaxConcurrentOperationCount:1 
-                            forQueueNamed:myQueueName];
-    
-for (NSInteger i = 0; i < 100; i++) {
-    TestOperation *operation = [TestOperation operation];
-    [conductor addOperation:operation toQueueNamed:myQueueName]; 
+- (IBAction)start:(id)sender
+{
+    CDOneSecondOperation *operation = [CDOneSecondOperation new];
+    [self.mainQueueController addOperation:operation
+                              toQueueNamed:@"com.conductor.serialQueue"];
 }
 ```
 
-##Subclassing CDOperation
+`NSOperationQueues` are first-in-first-out, or FIFO.  The operation will start the second it's on the queue, provided there aren't any operations already in the queue.
 
-Safe methods available to override in CDOperation subclasses included `start` and `finish.` Conductor uses KVO to keep track of when operations finish by observing the `isFinished` property on CDOperation.  It's probably a good idea to read Apple's guide on [subclassing NSOperation](https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/NSOperation_class/Reference/Reference.html#//apple_ref/doc/uid/TP40004591-RH2-SW18) to understand how the design works.  Subclasses have to properly [respond to the cancel command](https://developer.apple.com/library/mac/#documentation/Cocoa/Reference/NSOperation_class/Reference/Reference.html#//apple_ref/doc/uid/TP40004591-RH2-SW18).  The `start` method of CDOperation does some of that work for you.
+### Be Responive
+
+Conductor allows you to keep track of specific operations by specifying operation identifier, which you can use to change the priority of an operation in a queue to improve the responsiveness of your app. You can either assign your own identifier to an operations, otherwise it the operation will get a unique string. Imagine that you have 100 operations in your queue. When you hit the start button in your `UIViewController`, the operation will be added and sit there until all 100 of the other operations finish. Let's add a button that increases the operations priority.
 
 ```objective-c
-- (void)start {
-    ConductorLogTrace(@"Started operation: %@", self.identifier);
-    
-    if (self.isCancelled) {
-        [self finish];
-        return;
-    }
+- (IBAction)start:(id)sender
+{
+    CDOneSecondOperation *operation = [CDOneSecondOperation new];
+    operation.identifier = @"ImportantOperation";
+    [self.mainQueueController addOperation:operation
+                              toQueueNamed:@"com.conductor.serialQueue"];
+}
 
-    // Don't forget to wrap your operation in an autorelease pool
-    
-    self.state = CDOperationStateExecuting;
+- (IBAction)increasePriority:(id)sender
+{
+    [self.mainQueueController updatePriorityOfOperationWithIdentifier:@"ImportantOperation"
+                                                        toNewPriority:NSOperationQueuePriorityVeryHigh];
 }
 ```
 
-Remember to call `[super start]` in your subclass.  If you have a particularly long running operation, it is up to you to decide when you might need to respond to a cancel command.  Sometimes it's best to let operations finish, sometimes it's best to respond mid execution;  your design depends on your needs.
+While this seems trivial, imagine you have a table view that can display 10 cells at a time. The data source has 100 items in it, where each item has the URL for an image on a server somewhere. You want to download and display these images in each one of the cells. The niave approach would be to start at cell 1 and add 100 `CDOperation` subclasses that download a single image each. But what happens if the user scrolls to the very bottom of the list? Now they have to wait for 90 other images to download and clear out before the content on their screen shows up. That's bad. With Conductor, you can keep track of what cells are displayed on the screen and continually adjust download priority based on what content the user is looking at.
 
-Besides the implementing the`start` method, you also need to call `[self finish]` when your operation is done to trigger KVO.  You don't have to implement it, but it might be useful for some custom cleanup.
+In this case, it's better to be responsive than fast. You could have the fastest image downloader on the planet, but your users will still think you app drags if the content they are looking at isn't loading. While it is trickier, you are way better off properly managing your queue's priority.
 
-##Updating Priority
+### Tracking Progress
 
-Conductor allows you to keep track of specific operations by using the operations identifier.  You can either assign your own identifier to an operations, or get a unique string on query.  Store these identifiers to update priority.
+Let's add 100 1-second `CDOperations` to our queue. With `CDProgressObserver`, you can keep track of the percent completion of your queue, as well as when it is finished. It's up to you to make sure you add and remove the observers yourself. Let's add 100 operations in our `UIViewController` `viewDidLoad` method.
 
 ```objective-c
-Conductor *conductor = [Conductor sharedInstance];
-NSString *myQueueName = @"MyQueueName";
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    CDProgressObserver *observer = [CDProgressObserver new];
+    
+    observer.progressBlock = ^(CGFloat progress) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"Makin progress: %f", progress);            
+        })
+    };
+    
+    observer.completionBlock = ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"I'm done");
+        })
+    };
+    
+    [self.mainQueueController addProgressObserver:observer
+                                     toQueueNamed:@"com.conductor.serialQueue"];
+}
+```
 
-TestOperation *operation = [TestOperation operation];
-[conductor addOperation:operation];
+You're probably doing stuff like updating the UI when you track progress, which is why the `dispatch_async` calls are there. Always update the UI on the main thread, otherwise you could see some strange behavior.
 
-[conductor updatePriorityOfOperationWithIdentifier:operation.identifier 
-                                             					 toNewPriority:NSOperationQueuePriorityVeryHigh];
 ```
 
 ##Contributing
