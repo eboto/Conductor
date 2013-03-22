@@ -15,11 +15,7 @@ Conductor is a useful way to keep track of asynchronous `NSOperation` jobs in an
 
 Often times in iOS apps there is a need to manage long running tasks. Whether it is downloading images from a server, parsing JSON from an API, or fetching Core Data objects, it's vital to move these tasks off of the main thread for a good user experience.
 
-The iOS SDK offers several ways to run tasks in the background.  CGD is fantastic for one off asynchronous operations.  The `NSOperationQueue` class is a great way to treat tasks as objects using the `NSOperation` class. However, it's immediately obvious how to subclass `NSOperation`, or how to track queue progress. Conductor was written because I frequently found myself solving the same problems over and over. With Conductor, you can:
-
-* Keep track of multiple `NSOperationQueue` objects.  Use one for image downloading and one for JSON operations.  Easily suspend all image downloads, or cancel them outright when the user switches screens.
-* Observe the progress of a given queue.  Add a `UIProgressView` and show the user your image download progress and execute a completion block when the queue is finished.
-* Change the `NSOperationQueuePriority` for a specific operation in a queue.  For example, change the priority of thumbnail image downloads as the user scrolls a `UITableView`.
+The iOS SDK offers several ways to run tasks in the background.  CGD is fantastic for one off asynchronous operations.  The `NSOperationQueue` class is a great way to treat tasks as objects using the `NSOperation` class. However, it's not immediately obvious how to subclass `NSOperation`, or how to track queue progress. I use Conductor in pretty much every iOS app I write, often as the starting point for things like network request queues, or image processing tasks. Checkout [Latergram](https://itunes.apple.com/pl/app/latergram/id511356446?mt=8) for an app that uses Conductor to manage long running tasks in the background. All image processing is done using `CDOperation` subclasses.
 
 ##Installation
 
