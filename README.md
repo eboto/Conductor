@@ -51,7 +51,7 @@ The `CDQueueController` is the main component of Conductor. You will do most of 
 
 ### Building A Queue
 
-After we have a new `CDQueueController`, we can create a queue and add it. For this example we will create a serial queue. I usually do this after the application has finished launching. Give it a meaningful name, that will be useful later on in your logging when you want to know which queue an error went down.
+After we have a new `CDQueueController`, we can create a queue and add it. For this example we will create a serial queue. I usually do this after the application has finished launching. Give it a meaningful name, that will be useful later on in your logging when you want to know where an error occurred.
 
 ```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -94,7 +94,7 @@ For starters, let's build an operation that simply sleeps for one second. There 
 @end
 ```
 
-Pretty simple, right? CDOperation takes care of wrapping everything you do in an autorelease pool, so no need to worry about that. No need to worry about whether or not you use `-(void)start` or `-(void)main`, or worrying about making sure you have done proper KVO for `isReady` or `isFinished`; that work for you. Just worry about running the task you want to run!
+Pretty simple, right? CDOperation takes care of wrapping everything you do in an autorelease pool, so no need to worry about that. No need to worry about whether or not you use `-(void)start` or `-(void)main`, or worrying about making sure you have done proper KVO for `isReady` or `isFinished`; that work is done for you. Just worry about running the task you want to run!
 
 ### Adding Operations
 
