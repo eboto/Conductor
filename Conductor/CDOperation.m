@@ -125,8 +125,7 @@
     /**
      Respond to a cancel command by finishing up the operation
      */
-        
-    [self.delegate operationDidFinish:self];
+    [self finish];
 }
 
 - (void)finish
