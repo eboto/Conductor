@@ -14,8 +14,11 @@
 #import "CDQueueController+Test.h"
 
 #import "CDOperationQueue.h"
+
 #import "CDOperation.h"
 #import "CDCoreDataOperation.h"
+#import "CDThreadOperation.h"
+
 #import "CDProgressObserver.h"
 
 #endif

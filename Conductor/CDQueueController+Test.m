@@ -26,17 +26,6 @@
     // Wait until Apple thinks all operations are finished
     //
     [queue.queue waitUntilAllOperationsAreFinished];
-    
-    //
-    // Additionally wait for all operations to clear out
-    //
-//    NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:1.0];
-//    while (queue.isExecuting == YES) {
-//        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode
-//                                 beforeDate:loopUntil];
-//        
-//        NSLog(@"operations: %@", queue.operations);
-//    }
 }
 
 - (void)logAllOperations
