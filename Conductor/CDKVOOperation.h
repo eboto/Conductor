@@ -14,6 +14,6 @@ typedef enum {
     CDOperationStateFinished,
 } CDOperationState;
 
-@interface CDThreadOperation : CDOperation
+@interface CDKVOOperation : CDOperation
 
 @end

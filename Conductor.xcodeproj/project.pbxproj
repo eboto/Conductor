@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DB01C8641706070000D34217 /* CDThreadOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DB01C8621706070000D34217 /* CDThreadOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		DB01C8651706070000D34217 /* CDThreadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB01C8631706070000D34217 /* CDThreadOperation.m */; };
+		DB01C8641706070000D34217 /* CDKVOOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = DB01C8621706070000D34217 /* CDKVOOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DB01C8651706070000D34217 /* CDKVOOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB01C8631706070000D34217 /* CDKVOOperation.m */; };
 		DB39B5C415BF2F7C0046FD96 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB39B5C315BF2F7C0046FD96 /* UIKit.framework */; };
 		DB4F2D911551D6A200216AB9 /* CDLongRunningTestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D901551D6A200216AB9 /* CDLongRunningTestOperation.m */; };
 		DB4F2D941551E54400216AB9 /* CDOperationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D931551E54400216AB9 /* CDOperationTests.m */; };
@@ -82,8 +82,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		DB01C8621706070000D34217 /* CDThreadOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDThreadOperation.h; sourceTree = "<group>"; };
-		DB01C8631706070000D34217 /* CDThreadOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDThreadOperation.m; sourceTree = "<group>"; };
+		DB01C8621706070000D34217 /* CDKVOOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDKVOOperation.h; sourceTree = "<group>"; };
+		DB01C8631706070000D34217 /* CDKVOOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDKVOOperation.m; sourceTree = "<group>"; };
 		DB39B5C315BF2F7C0046FD96 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DB4F2D8F1551D6A200216AB9 /* CDLongRunningTestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDLongRunningTestOperation.h; sourceTree = "<group>"; };
 		DB4F2D901551D6A200216AB9 /* CDLongRunningTestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDLongRunningTestOperation.m; sourceTree = "<group>"; };
@@ -202,8 +202,8 @@
 				DBDB9728158EF35B004BB06F /* CDCoreDataOperation.m */,
 				DB83D1DC1451FB1900D94890 /* CDOperation.h */,
 				DB83D1DD1451FB1900D94890 /* CDOperation.m */,
-				DB01C8621706070000D34217 /* CDThreadOperation.h */,
-				DB01C8631706070000D34217 /* CDThreadOperation.m */,
+				DB01C8621706070000D34217 /* CDKVOOperation.h */,
+				DB01C8631706070000D34217 /* CDKVOOperation.m */,
 			);
 			name = Operation;
 			sourceTree = "<group>";
@@ -395,7 +395,7 @@
 				DBDA920F16FB9E2A00916FE4 /* Conductor.h in Headers */,
 				DBDA921216FB9EA400916FE4 /* CDQueueController+State.h in Headers */,
 				DBDA921616FB9FA300916FE4 /* CDQueueController+Test.h in Headers */,
-				DB01C8641706070000D34217 /* CDThreadOperation.h in Headers */,
+				DB01C8641706070000D34217 /* CDKVOOperation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,7 +535,7 @@
 				DBDB972A158EF35C004BB06F /* CDCoreDataOperation.m in Sources */,
 				DBDA921316FB9EA400916FE4 /* CDQueueController+State.m in Sources */,
 				DBDA921716FB9FA300916FE4 /* CDQueueController+Test.m in Sources */,
-				DB01C8651706070000D34217 /* CDThreadOperation.m in Sources */,
+				DB01C8651706070000D34217 /* CDKVOOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

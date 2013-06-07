@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 Andrew B. Smith. All rights reserved.
 //
 
-#import "CDThreadOperation.h"
+#import "CDKVOOperation.h"
 
 static inline NSString *StringForCDOperationState(CDOperationState state) {
     switch (state) {
@@ -25,11 +25,11 @@ static inline NSString *StringForCDOperationState(CDOperationState state) {
     }
 }
 
-@interface CDThreadOperation ()
+@interface CDKVOOperation ()
 @property (nonatomic, assign) CDOperationState state;
 @end
 
-@implementation CDThreadOperation
+@implementation CDKVOOperation
 
 - (void)start
 {

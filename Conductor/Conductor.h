@@ -17,7 +17,7 @@
 
 #import "CDOperation.h"
 #import "CDCoreDataOperation.h"
-#import "CDThreadOperation.h"
+#import "CDKVOOperation.h"
 
 #import "CDProgressObserver.h"
 
