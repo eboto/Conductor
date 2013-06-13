@@ -36,7 +36,7 @@
         self.backgroundContext = [self newThreadSafeManagedObjectContext];
         
         //
-        // Do your work here
+        // Do your work
         //
         [self work];
         

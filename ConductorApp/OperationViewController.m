@@ -31,23 +31,23 @@
     observer.progressBlock = ^(CGFloat progress) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSLog(@"Makin progress: %f", progress);            
-        })
+        });
     };
     
     observer.completionBlock = ^{
         dispatch_async(dispatch_get_main_queue(), ^{
             NSLog(@"I'm done");
-        })
+        });
     };
     
-    [[CDQueueController sharedInstance] addProgressObserver:observer
-                                               toQueueNamed:CONDUCTOR_APP_QUEUE];
-    
-    for (int i = 0; i < 100; i++) {
-        CDOneSecondOperation *operation = [CDOneSecondOperation new];
-        [[CDQueueController sharedInstance] addOperation:operation
-                                            toQueueNamed:CONDUCTOR_APP_QUEUE];
-    }
+//    [[CDQueueController sharedInstance] addProgressObserver:observer
+//                                               toQueueNamed:CONDUCTOR_APP_QUEUE];
+//    
+//    for (int i = 0; i < 100; i++) {
+//        CDOneSecondOperation *operation = [CDOneSecondOperation new];
+//        [[CDQueueController sharedInstance] addOperation:operation
+//                                            toQueueNamed:CONDUCTOR_APP_QUEUE];
+//    }
     
     // Left side
     self.leftSideOperations = [NSMutableArray new];
@@ -178,6 +178,7 @@
     
     for (CDOperation *operation in self.leftSideOperations) {
         [[CDQueueController sharedInstance] updatePriorityOfOperationWithIdentifier:operation.identifier
+                                                                       inQueueNamed:CONDUCTOR_APP_QUEUE
                                                                       toNewPriority:NSOperationQueuePriorityHigh];
     }
 }
@@ -186,16 +187,18 @@
 {
     for (CDOperation *operation in self.leftSideOperations) {
         [[CDQueueController sharedInstance] updatePriorityOfOperationWithIdentifier:operation.identifier
+                                                                       inQueueNamed:CONDUCTOR_APP_QUEUE
                                                                       toNewPriority:NSOperationQueuePriorityNormal];
     }
 }
 
 - (IBAction)increasePriorityOfRight
 {
-    [self resetPriorityOfRight];
+    [self resetPriorityOfLeft];
     
     for (CDOperation *operation in self.rightSideOperations) {
         [[CDQueueController sharedInstance] updatePriorityOfOperationWithIdentifier:operation.identifier
+                                                                       inQueueNamed:CONDUCTOR_APP_QUEUE
                                                                       toNewPriority:NSOperationQueuePriorityHigh];
     }
 }
@@ -204,6 +207,7 @@
 {
     for (CDOperation *operation in self.rightSideOperations) {
         [[CDQueueController sharedInstance] updatePriorityOfOperationWithIdentifier:operation.identifier
+                                                                       inQueueNamed:CONDUCTOR_APP_QUEUE
                                                                       toNewPriority:NSOperationQueuePriorityNormal];
     }
 }

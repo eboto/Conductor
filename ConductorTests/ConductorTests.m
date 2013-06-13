@@ -229,9 +229,13 @@
         queueProgress = progress;
     };
     
-    [conductor addProgressObserverToQueueNamed:CONDUCTOR_TEST_QUEUE
-                             withProgressBlock:progressBlock
-                             andCompletionBlock:completionBlock];
+    CDProgressObserver *observer = [CDProgressObserver new];
+    
+    observer.progressBlock   = progressBlock;
+    observer.completionBlock = completionBlock;
+    
+    [conductor addProgressObserver:observer
+                      toQueueNamed:CONDUCTOR_TEST_QUEUE];
     
     CDLongRunningTestOperation *op = [CDLongRunningTestOperation longRunningOperationWithDuration:1.0];
     [conductor addOperation:op toQueueNamed:CONDUCTOR_TEST_QUEUE];

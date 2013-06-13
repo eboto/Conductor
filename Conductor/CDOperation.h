@@ -50,11 +50,6 @@
 + (id)operationWithIdentifier:(id)identifier;
 
 /**
- * Factory for creating a new operation
- */
-+ (id)operation DEPRECATED_ATTRIBUTE;
-
-/**
  Do your main work here. This is where your subclass should do stuff, not in main.
  */
 - (void)work;

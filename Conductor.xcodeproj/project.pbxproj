@@ -18,6 +18,7 @@
 		DB4F2DA01553329900216AB9 /* CDTest.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4F2D9F1553329900216AB9 /* CDTest.m */; };
 		DB6BABC6154F69FC004842D2 /* CDProgressObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = DB6BABC4154F69FC004842D2 /* CDProgressObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB6BABC7154F69FC004842D2 /* CDProgressObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = DB6BABC5154F69FC004842D2 /* CDProgressObserver.m */; };
+		DB737206176972010020618B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DBD17294167948B80019FF3D /* CoreGraphics.framework */; };
 		DB776C42160E63D900217625 /* CDOperationQueueMaxTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DB776C41160E63D900217625 /* CDOperationQueueMaxTests.m */; };
 		DB83D19E1451F1B200D94890 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB83D19D1451F1B200D94890 /* Foundation.framework */; };
 		DB83D1A41451F1B200D94890 /* CDQueueController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB83D1A31451F1B200D94890 /* CDQueueController.m */; };
@@ -163,6 +164,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB737206176972010020618B /* CoreGraphics.framework in Frameworks */,
 				DB83D19E1451F1B200D94890 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -234,6 +236,24 @@
 			name = "Test Classes";
 			sourceTree = "<group>";
 		};
+		DB737204176969480020618B /* Queue */ = {
+			isa = PBXGroup;
+			children = (
+				DB83D1D81451F89E00D94890 /* CDOperationQueue.h */,
+				DB83D1D91451F89E00D94890 /* CDOperationQueue.m */,
+			);
+			name = Queue;
+			sourceTree = "<group>";
+		};
+		DB7372051769696C0020618B /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				DB6BABC4154F69FC004842D2 /* CDProgressObserver.h */,
+				DB6BABC5154F69FC004842D2 /* CDProgressObserver.m */,
+			);
+			name = Progress;
+			sourceTree = "<group>";
+		};
 		DB83D18D1451F19E00D94890 = {
 			isa = PBXGroup;
 			children = (
@@ -271,13 +291,11 @@
 		DB83D19F1451F1B200D94890 /* Conductor */ = {
 			isa = PBXGroup;
 			children = (
-				DB83D1D81451F89E00D94890 /* CDOperationQueue.h */,
-				DB83D1D91451F89E00D94890 /* CDOperationQueue.m */,
-				DB6BABC4154F69FC004842D2 /* CDProgressObserver.h */,
-				DB6BABC5154F69FC004842D2 /* CDProgressObserver.m */,
 				DBDA920E16FB9E2A00916FE4 /* Conductor.h */,
 				DB4F2D9C155320EF00216AB9 /* ConductorLogging.h */,
 				DB01C8661706071500D34217 /* Operation */,
+				DB7372051769696C0020618B /* Progress */,
+				DB737204176969480020618B /* Queue */,
 				DB01C8671706072800D34217 /* Queue Controller */,
 				DB83D1A01451F1B200D94890 /* Supporting Files */,
 			);

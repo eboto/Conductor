@@ -4,5 +4,6 @@
 
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
+    #import <CoreGraphics/CoreGraphics.h>
     #import "ConductorLogging.h"
 #endif

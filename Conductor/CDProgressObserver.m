@@ -11,10 +11,10 @@
 @implementation CDProgressObserver
 
 + (CDProgressObserver *)progressObserverWithStartingOperationCount:(NSInteger)operationCount
-                                                                 progressBlock:(CDProgressObserverProgressBlock)progressBlock 
-                                                            andCompletionBlock:(CDProgressObserverCompletionBlock)completionBlock
+                                                     progressBlock:(CDProgressObserverProgressBlock)progressBlock
+                                                andCompletionBlock:(CDProgressObserverCompletionBlock)completionBlock
 {    
-    CDProgressObserver *observer    = [[self alloc] init];
+    CDProgressObserver *observer    = [self new];
     observer.startingOperationCount = operationCount;
     observer.progressBlock          = progressBlock;
     observer.completionBlock        = completionBlock;
@@ -25,11 +25,13 @@
 {
     if (!self.progressBlock) return;
     
-    NSAssert(!(self.startingOperationCount <= 0), @"Starting operation count was 0 or less than 0!  Initialize the watcher with a operation count of larger than 0.");
+    NSAssert(!(self.startingOperationCount <= 0), @"Starting operation count was 0 or less than 0! Initialize the watcher with a operation count of larger than 0.");
+    
+    // Defensive
     if (self.startingOperationCount <= 0) return;
         
     // Calculate percentage progress
-    float progress = (float)(self.startingOperationCount - [operationCount intValue]) / (float)self.startingOperationCount;
+    CGFloat progress = (CGFloat)(self.startingOperationCount - [operationCount intValue]) / self.startingOperationCount;
     
     // If operation count is larger than starting operation count, mark progress
     // as 0.  This shouldn't happen, the starting operation count should be updated

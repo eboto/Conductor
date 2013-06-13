@@ -23,21 +23,21 @@ typedef void (^CDProgressObserverCompletionBlock)(void);
                                                      progressBlock:(CDProgressObserverProgressBlock)progressBlock
                                                 andCompletionBlock:(CDProgressObserverCompletionBlock)completionBlock;
 
-///**
-// Runs the observers progress block
-// */
-//- (void)runProgressBlockWithCurrentOperationCount:(NSNumber *)operationCount;
-//
-///**
-// Runs the observers completion block
-// */
-//- (void)runCompletionBlock;
-//
-///**
-// Adds to the starting operation count.  Say you start with 10 operations,
-// then add 5 more, use this to add to the count so that progress can be properly
-// adjusted and calculated.
-// */
-//- (void)addToStartingOperationCount:(NSNumber *)numberToAdd;
+/**
+ Runs the observers progress block
+ */
+- (void)runProgressBlockWithCurrentOperationCount:(NSNumber *)operationCount;
+
+/**
+ Runs the observers completion block
+ */
+- (void)runCompletionBlock;
+
+/**
+ Adds to the starting operation count.  Say you start with 10 operations,
+ then add 5 more, use this to add to the count so that progress can be properly
+ adjusted and calculated.
+ */
+- (void)addToStartingOperationCount:(NSNumber *)numberToAdd;
 
 @end

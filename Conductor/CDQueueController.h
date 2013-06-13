@@ -57,9 +57,10 @@
         toQueueNamed:(NSString *)queueName;
 
 /**
- *
+ Udates the operation with the identifier to the queue with the given name
  */
-- (BOOL)updatePriorityOfOperationWithIdentifier:(NSString *)identifier 
+- (BOOL)updatePriorityOfOperationWithIdentifier:(NSString *)identifier
+                                   inQueueNamed:(NSString *)queueName
                                   toNewPriority:(NSOperationQueuePriority)priority;
 
 /**
@@ -76,22 +77,22 @@
                       inQueueNamed:(NSString *)queueName;
 
 /**
- Adds progress watcher to queue
+ Adds the progress obsever to the queue
  */
-- (void)addProgressObserverToQueueNamed:(NSString *)queueName
-                      withProgressBlock:(CDProgressObserverProgressBlock)progressBlock
-                     andCompletionBlock:(CDProgressObserverCompletionBlock)completionBlock DEPRECATED_ATTRIBUTE;
-
 - (void)addProgressObserver:(CDProgressObserver *)observer toQueueNamed:(NSString *)queueName;
+
+/**
+ Removes the progress obsever to the queue
+ */
 - (void)removeProgresObserver:(CDProgressObserver *)observer fromQueueNamed:(NSString *)queueName;
 
 /**
  Gets messages when the max number of queued operations is reached, and when
- you can start submitting again.
+ you can start submitting again. This is useful if you want to limit the amount of operations you can
+ add to a queue and show feedback to the user.
  */
 - (void)addQueueOperationObserver:(id)observer
                      toQueueNamed:(NSString *)queueName;
-
 
 /**
  * List of all queue names

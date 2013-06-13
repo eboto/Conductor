@@ -97,7 +97,6 @@
 {        
     CDOperationQueue *queue = [self getQueueNamed:queueName];
     NSAssert(queue, @"Tried to add an operation to a queue that doesnt exist. Create the queue, then add it to Conductor.");
-    if (!queue) return;
     
     ConductorLogTrace(@"Adding operation to queue: %@", queue.name);
         
@@ -105,19 +104,13 @@
     [queue addOperation:operation];
 }
 
-- (BOOL)updatePriorityOfOperationWithIdentifier:(NSString *)identifier 
+- (BOOL)updatePriorityOfOperationWithIdentifier:(NSString *)identifier
+                                   inQueueNamed:(NSString *)queueName
                                   toNewPriority:(NSOperationQueuePriority)priority
-{    
-    __block BOOL didUpdate = NO;
-    
-    [self.queues enumerateKeysAndObjectsUsingBlock:^(id queueName, CDOperationQueue *queue, BOOL *stop) {
-        if ([queue updatePriorityOfOperationWithIdentifier:identifier toNewPriority:priority]) {
-            didUpdate = YES;
-            *stop = YES;
-        }
-    }];
-
-    return didUpdate;
+{
+    CDOperationQueue *queue = [self getQueueNamed:queueName];
+    return [queue updatePriorityOfOperationWithIdentifier:identifier
+                                            toNewPriority:priority];
 }
 
 - (BOOL)hasOperationWithIdentifier:(NSString *)identifier 
@@ -130,7 +123,6 @@
                             inQueueNamed:(NSString *)queueName
 {
     CDOperationQueue *queue = [self getQueueNamed:queueName];
-    if (!queue) return nil;
     return [queue getOperationWithIdentifier:identifier];
 }
 
@@ -142,15 +134,6 @@
 }
 
 #pragma mark - Queue Progress
-
-- (void)addProgressObserverToQueueNamed:(NSString *)queueName 
-                     withProgressBlock:(CDProgressObserverProgressBlock)progressBlock 
-                    andCompletionBlock:(CDProgressObserverCompletionBlock)completionBlock
-{        
-    CDOperationQueue *queue = [self getQueueNamed:queueName];
-    [queue addProgressObserverWithProgressBlock:progressBlock 
-                            andCompletionBlock:completionBlock];
-}
 
 - (void)addProgressObserver:(CDProgressObserver *)observer
                toQueueNamed:(NSString *)queueName
@@ -165,6 +148,8 @@
     CDOperationQueue *queue = [self getQueueNamed:queueName];
     [queue removeProgressObserver:observer];
 }
+
+#pragma mark - Operation Observer
 
 - (void)addQueueOperationObserver:(id)observer
                      toQueueNamed:(NSString *)queueName

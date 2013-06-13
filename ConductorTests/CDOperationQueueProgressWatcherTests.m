@@ -16,8 +16,8 @@
 
 - (void)testCreateWatcher {
     CDProgressObserver *watcher = [CDProgressObserver progressObserverWithStartingOperationCount:10
-                                                                                                            progressBlock:nil
-                                                                                                       andCompletionBlock:nil];
+                                                                                   progressBlock:nil
+                                                                              andCompletionBlock:nil];
     
     STAssertNotNil(watcher, @"Should create watcher");
     STAssertEquals(watcher.startingOperationCount, 10, @"Should have correct number of operations");
@@ -32,8 +32,8 @@
     };
     
     CDProgressObserver *watcher = [CDProgressObserver progressObserverWithStartingOperationCount:10
-                                                                                                            progressBlock:progressBlock
-                                                                                                       andCompletionBlock:nil];
+                                                                                   progressBlock:progressBlock
+                                                                              andCompletionBlock:nil];
     
     [watcher runProgressBlockWithCurrentOperationCount:@1];
         
@@ -49,8 +49,8 @@
     };
     
     CDProgressObserver *watcher = [CDProgressObserver progressObserverWithStartingOperationCount:10
-                                                                                                            progressBlock:nil
-                                                                                                       andCompletionBlock:completionBlock];
+                                                                                   progressBlock:nil
+                                                                              andCompletionBlock:completionBlock];
     
     [watcher runCompletionBlock];
     
@@ -67,7 +67,9 @@
     [testOperationQueue addOperation:op2];
     [testOperationQueue addOperation:op3];
     
-    [testOperationQueue addProgressObserverWithProgressBlock:nil andCompletionBlock:nil];
+    CDProgressObserver *observer = [CDProgressObserver new];
+    
+    [testOperationQueue addProgressObserver:observer];
     
     NSArray *watchers = [[testOperationQueue progressObservers] allObjects];
     CDProgressObserver *watcher = (CDProgressObserver *)watchers[0];
@@ -86,8 +88,10 @@
     [testOperationQueue addOperation:op2];
     [testOperationQueue addOperation:op3];
     
-    [testOperationQueue addProgressObserverWithProgressBlock:nil andCompletionBlock:nil];
+    CDProgressObserver *observer = [CDProgressObserver new];
     
+    [testOperationQueue addProgressObserver:observer];
+
     [testOperationQueue addOperation:op4];
     
     NSArray *watchers = [[testOperationQueue progressObservers] allObjects];
@@ -117,8 +121,12 @@
         completionBlockDidRun = YES;
     };
     
-    [testOperationQueue addProgressObserverWithProgressBlock:progressBlock 
-                                         andCompletionBlock:completionBlock];
+    CDProgressObserver *observer = [CDProgressObserver new];
+
+    observer.progressBlock = progressBlock;
+    observer.completionBlock = completionBlock;
+    
+    [testOperationQueue addProgressObserver:observer];
     
     NSDate *loopUntil = [NSDate dateWithTimeIntervalSinceNow:0.2];
     while (testOperationQueue.isExecuting) {

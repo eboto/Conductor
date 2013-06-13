@@ -32,10 +32,10 @@
 @protocol CDOperationQueueOperationsObserver;
 
 typedef enum {
-    CDOperationQueueCountMax    = 0,
     CDOperationQueueCountLow    = 2,
     CDOperationQueueCountMedium = 4,
     CDOperationQueueCountHigh   = 6,
+    CDOperationQueueCountMax    = INT_MAX,
 } CDOperationQueueCount;
 
 @interface CDOperationQueue : NSObject <CDOperationDelegate>
@@ -74,9 +74,14 @@ typedef enum {
  */
 @property (nonatomic, assign) NSUInteger maxQueuedOperationsCount;
 
+/**
+ Returns YES if the queue has the maximum amount of operations
+ */
 @property (nonatomic, readonly) BOOL maxQueueOperationCountReached;
 
-
+/**
+ Returns a new queue with the queueName
+ */
 + (id)queueWithName:(NSString *)queueName;
 
 /**
@@ -85,8 +90,7 @@ typedef enum {
 - (void)addOperation:(CDOperation *)operation;
 
 /**
- * Update the priority of a given operation, as long as it currently running or
- * already finished.
+ * Update the priority of a given operation if it hasn't already started running
  */
 - (BOOL)updatePriorityOfOperationWithIdentifier:(id)identifier 
                                   toNewPriority:(NSOperationQueuePriority)priority;
@@ -122,14 +126,10 @@ typedef enum {
  */
 - (CDOperation *)getOperationWithIdentifier:(id)identifier;
 
-/**
- 
- */
-- (void)addProgressObserverWithProgressBlock:(CDProgressObserverProgressBlock)progressBlock
-andCompletionBlock:(CDProgressObserverCompletionBlock)completionBlock DEPRECATED_ATTRIBUTE;
-
 - (void)addProgressObserver:(CDProgressObserver *)observer;
+
 - (void)removeProgressObserver:(CDProgressObserver *)observer;
+
 - (void)removeAllProgressObservers;
 
 @end

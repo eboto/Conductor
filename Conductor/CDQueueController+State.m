@@ -76,8 +76,7 @@
 - (void)cancelAllOperations
 {
     ConductorLogTrace(@"Cancel all operations");
-    
-    // Grabbing queue names prevents mutation while enumeration of queues dict
+
     NSArray *queuesNamesToCancel = [self allQueueNames];
     
     for (NSString *queueName in queuesNamesToCancel) {

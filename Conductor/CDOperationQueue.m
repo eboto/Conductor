@@ -35,7 +35,8 @@
 - (id)init
 {
     self = [super init];
-    if (self) {
+    if (self)
+    {
         _queue                    = [[NSOperationQueue alloc] init];
         _operations               = [[NSMutableDictionary alloc] init];
         _progressObservers        = [[NSMutableSet alloc] init];
@@ -61,13 +62,15 @@
 
 - (void)addOperation:(CDOperation *)operation 
 {
-    if (![operation isKindOfClass:[CDOperation class]]) {
+    if (![operation isKindOfClass:[CDOperation class]])
+    {
         NSAssert(nil, @"You must use a CDOperation sublcass with Conductor!");
         return;
     }
         
     // Check to see if operation already exists
-    if ([self getOperationWithIdentifier:operation.identifier] != nil) {
+    if ([self getOperationWithIdentifier:operation.identifier] != nil)
+    {
         ConductorLogTrace(@"Already has operation with identifier %@. Uniquifiying this one.", operation.identifier);
         operation.identifier = [[NSProcessInfo processInfo] globallyUniqueString];
     }
@@ -92,8 +95,10 @@
     // Add operation to queue and start
     [self.queue addOperation:operation];
     
-    if (self.maxQueueOperationCountReached) {
-        if ([self.operationsObserver respondsToSelector:@selector(maxQueuedOperationsReachedForQueue:)]) {
+    if (self.maxQueueOperationCountReached)
+    {
+        if ([self.operationsObserver respondsToSelector:@selector(maxQueuedOperationsReachedForQueue:)])
+        {
             [self.operationsObserver maxQueuedOperationsReachedForQueue:self];
         }
         return;
@@ -102,7 +107,8 @@
 
 - (void)removeOperation:(CDOperation *)operation
 {
-    @synchronized(self.operations) {
+    @synchronized(self.operations)
+    {
         ConductorLogTrace(@"Removing operation %@ from queue %@", operation.identifier, self.name);
        
         if (![self.operations objectForKey:operation.identifier]) return;
@@ -137,7 +143,6 @@
 - (void)cancelOperationWithIdentifier:(id)identifier
 {
     CDOperation *op = [self getOperationWithIdentifier:identifier];
-    if (!op) return;
     [op cancel];
 }
 
@@ -145,13 +150,16 @@
 {
     [self removeOperation:operation];
     
-    if (!self.maxQueueOperationCountReached) {
-        if ([self.operationsObserver respondsToSelector:@selector(canBeginSubmittingOperationsForQueue:)]) {
+    if (!self.maxQueueOperationCountReached)
+    {
+        if ([self.operationsObserver respondsToSelector:@selector(canBeginSubmittingOperationsForQueue:)])
+        {
             [self.operationsObserver canBeginSubmittingOperationsForQueue:self];
         }
     }
     
-    if (self.operationCount == 0) {
+    if (self.operationCount == 0)
+    {
         [self queueDidFinish];
     }
 }
@@ -187,9 +195,6 @@
 
 - (BOOL)maxQueueOperationCountReached
 {
-    if (self.maxQueuedOperationsCount == CDOperationQueueCountMax) {
-        return NO;
-    }
     return (self.operationCount >= self.maxQueuedOperationsCount);
 }
 
@@ -205,31 +210,20 @@
 {
     CDOperation *op = [self getOperationWithIdentifier:identifier];
     
-    if (op) {
-        [op setQueuePriority:priority];
-        return YES;
-    }
+    if (!op) return NO;
     
-    return NO;
+    [op setQueuePriority:priority];
+    
+    return YES;
 }
 
 #pragma mark - Progress
-
-- (void)addProgressObserverWithProgressBlock:(CDProgressObserverProgressBlock)progressBlock
-                         andCompletionBlock:(CDProgressObserverCompletionBlock)completionBlock
-{       
-    ConductorLogTrace(@"Adding progress watcher to queue %@", self.name);
-    
-    CDProgressObserver *watcher = [CDProgressObserver progressObserverWithStartingOperationCount:self.operationCount
-                                                                                                            progressBlock:progressBlock
-                                                                                                       andCompletionBlock:completionBlock];
-    [self addProgressObserver:watcher];
-}
 
 - (void)addProgressObserver:(CDProgressObserver *)observer
 {
     @synchronized (self.progressObservers)
     {
+        ConductorLogTrace(@"Adding progress watcher to queue %@", self.name);
         observer.startingOperationCount = self.operationCount;
         [self.progressObservers addObject:observer];
     }

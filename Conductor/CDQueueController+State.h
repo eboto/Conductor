@@ -11,7 +11,7 @@
 @interface CDQueueController (State)
 
 /**
- Queries all queues to see if any are running.
+ Returns YES if any of the queues are running.
  */
 - (BOOL)isExecuting;
 
@@ -22,7 +22,7 @@
 - (BOOL)isQueueExecutingNamed:(NSString *)queueName;
 
 /**
- Suspends all the operation queues.
+ Suspends all queues.
  */
 - (void)suspendAllQueues;
 

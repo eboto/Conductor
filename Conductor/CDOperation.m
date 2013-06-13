@@ -76,11 +76,6 @@
     return [[self alloc] initWithIdentifier:identifier];
 }
 
-+ (id)operation
-{
-    return [self new];
-}
-
 #pragma mark - API
 
 - (void)work
